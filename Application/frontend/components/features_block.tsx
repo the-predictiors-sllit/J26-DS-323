@@ -3,35 +3,32 @@
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
+import { Card } from "./ui/card";
 
 const projects5prop = [
   {
     title: "Health",
-    img: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/Modern Architectural Elegance at Twilight.png",
-    year: "2025",
+    img: "https://images.pexels.com/photos/33379364/pexels-photo-33379364.jpeg",
     type: "Architecture",
-    url: "#",
+    url: "/features/health",
   },
   {
     title: "Angle",
-    img: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/Modernist Architecture in Lush Forest.png",
-    year: "2025",
+    img: "https://images.pexels.com/photos/34641328/pexels-photo-34641328.jpeg",
     type: "Urban Design",
-    url: "#",
+    url: "/features/angle",
   },
   {
-    title: "Sheduling",
-    img: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw12.jpeg",
-    year: "2025",
+    title: "Scheduling",
+    img: "https://images.pexels.com/photos/9800029/pexels-photo-9800029.jpeg",
     type: "Interior",
-    url: "#",
+    url: "/features/scheduling",
   },
   {
     title: "Battery",
-    img: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/photos/tiny-home/erik-mclean-g3U7sqtdJ1w-unsplash.jpg",
-    year: "2025",
+    img: "https://images.pexels.com/photos/39057090/pexels-photo-39057090.jpeg",
     type: "Product Design",
-    url: "#",
+    url: "/features/battery",
   },
 ];
 
@@ -41,11 +38,12 @@ interface Projects5Props {
 
 const Features_block = ({ className }: Projects5Props) => {
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn("", className)}>
       <div className="container">
         <h1 className="text-7xl leading-tight uppercase">Features</h1>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+
+        <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-2">
           {projects5prop.map((project, index) => (
             <motion.div
               key={index}
@@ -59,7 +57,7 @@ const Features_block = ({ className }: Projects5Props) => {
                 <img
                   src={project.img}
                   alt={project.title}
-                  className="h-96 w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                  className="h-80 w-screen object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                 />
               </a>
               <div className="flex items-center justify-between px-5 py-4">
@@ -67,9 +65,7 @@ const Features_block = ({ className }: Projects5Props) => {
                   <h2 className="text-lg font-semibold">{project.title}</h2>
                   <p className="text-muted-foreground">{project.type}</p>
                 </div>
-                <div className="rounded-2xl border border-border px-5 py-2 text-sm font-semibold">
-                  {project.year}
-                </div>
+
               </div>
             </motion.div>
           ))}
