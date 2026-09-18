@@ -3,32 +3,31 @@
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
-import { Card } from "./ui/card";
 
 const projects5prop = [
   {
-    title: "Health",
+    title: "Panel Health",
     img: "https://images.pexels.com/photos/33379364/pexels-photo-33379364.jpeg",
-    type: "Architecture",
-    url: "/features/health",
+    type: "Detect and assess potential solar",
+    url: "/features/panelhealth",
   },
   {
-    title: "Angle",
+    title: "Solar Setup",
     img: "https://images.pexels.com/photos/34641328/pexels-photo-34641328.jpeg",
-    type: "Urban Design",
-    url: "/features/angle",
+    type: "Optimize panel placement, tilt, and shading",
+    url: "/features/solarsetup",
   },
   {
-    title: "Scheduling",
+    title: "Smart Scheduling",
     img: "https://images.pexels.com/photos/9800029/pexels-photo-9800029.jpeg",
-    type: "Interior",
-    url: "/features/scheduling",
+    type: "Schedule appliances around available solar energy",
+    url: "/features/smartscheduling",
   },
   {
-    title: "Battery",
+    title: "Energy Resilience",
     img: "https://images.pexels.com/photos/39057090/pexels-photo-39057090.jpeg",
-    type: "Product Design",
-    url: "/features/battery",
+    type: "Manage solar and battery energy during outages",
+    url: "/features/energyresilience",
   },
 ];
 

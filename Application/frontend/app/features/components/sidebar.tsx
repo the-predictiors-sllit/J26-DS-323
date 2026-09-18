@@ -3,11 +3,6 @@
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Sidebar,
@@ -26,43 +21,30 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { ActivityIcon, BarChart3Icon, InboxIcon, LayoutDashboardIcon, RocketIcon, SettingsIcon, ShieldCheckIcon } from 'lucide-react'
+import { RailItem } from "./sidebar_interfaces"
+import { AccountButton } from "./sidebar_acountButton"
+import { Home } from "lucide-react"
+import Link from "next/link"
 
-interface RailItem {
-  id: string
-  label: string
-  icon: ReactNode
-  badge?: number
-  isActive?: boolean
-}
 
-const NAV: RailItem[] = [
-  { id: "overview", label: "Overview", icon: <LayoutDashboardIcon aria-hidden="true" /> },
-  { id: "inbox", label: "Inbox", badge: 12, icon: <InboxIcon aria-hidden="true" /> },
-  { id: "deployments", label: "Deployments", isActive: true, icon: <RocketIcon aria-hidden="true" /> },
-  { id: "monitoring", label: "Monitoring", icon: <ActivityIcon aria-hidden="true" /> },
-  { id: "analytics", label: "Analytics", icon: <BarChart3Icon aria-hidden="true" /> },
-  { id: "audit", label: "Audit log", icon: <ShieldCheckIcon aria-hidden="true" /> },
-  { id: "settings", label: "Settings", icon: <SettingsIcon aria-hidden="true" /> },
-]
-
-function RailNav() {
+function RailNav({ NAV }: { NAV: RailItem[] }) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarGroupContent>
-        <SidebarMenu>
+        <SidebarMenu className="gap-2">
           {NAV.map((item) => (
             <SidebarMenuItem key={item.id}>
               <SidebarMenuButton
-                render={<a href="#" />}
+                render={<a href={item.link} />}
                 isActive={item.isActive}
                 tooltip={item.label}
+                className="border border-transparent hover:border-primary transform transition-all duration-200 active:scale-95"
               >
                 {item.icon}
                 <span>{item.label}</span>
+                {item.badge ? <SidebarMenuBadge>{item.badge}</SidebarMenuBadge> : null}
               </SidebarMenuButton>
-              {item.badge ? <SidebarMenuBadge>{item.badge}</SidebarMenuBadge> : null}
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -93,15 +75,15 @@ function BrandMark({ className }: { className?: string }) {
   )
 }
 
-function BrandButton() {
+function BrandButton({ functionName }: { functionName: string }) {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" tooltip="ReUI Labs" render={<a href="/home" />}>
           <BrandMark className="size-8 rounded-lg [&>svg]:size-4" />
-          <span className="grid min-w-0 flex-1 text-left leading-tight group-data-[collapsible=icon]:sr-only">
-            <span className="truncate text-sm font-medium">SOLAI</span>
-            <span className="text-sidebar-foreground/70 truncate text-xs">Funstion name</span>
+          <span className="grid min-w-0 flex-1 text-left leading-tight group-data-[collapsible=icon]:sr-only ">
+            <span className="truncate text-sm  text-primary font-black">SOLAI</span>
+            <span className="opacity-70 truncate text-xs">{functionName}</span>
           </span>
         </SidebarMenuButton>
       </SidebarMenuItem>
@@ -109,35 +91,18 @@ function BrandButton() {
   )
 }
 
-function AccountButton() {
-  return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <SidebarMenuButton size="lg" tooltip="Nadia Rahman" render={<a href="#" />}>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="" />
-            <AvatarFallback>NR</AvatarFallback>
-          </Avatar>
-          <span className="grid min-w-0 flex-1 text-left leading-tight group-data-[collapsible=icon]:sr-only">
-            <span className="truncate text-sm font-medium">Nadia Rahman</span>
-            <span className="text-sidebar-foreground/70 truncate text-xs">Owner</span>
-          </span>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  )
-}
 
-export function IndividualSidebar({ children }: { children: ReactNode }) {
+
+export function IndividualSidebar({ children, NAV, functionName }: { children: ReactNode; NAV: RailItem[]; functionName: string }) {
   return (
     <SidebarProvider className="relative h-dvh min-h-0 w-full overflow-hidden">
       <Sidebar collapsible="icon" className="absolute h-full">
         <SidebarHeader>
-          <BrandButton />
+          <BrandButton functionName={functionName} />
         </SidebarHeader>
 
         <SidebarContent role="navigation" aria-label="Primary">
-          <RailNav />
+          <RailNav NAV={NAV} />
         </SidebarContent>
 
         <SidebarFooter>
@@ -151,9 +116,12 @@ export function IndividualSidebar({ children }: { children: ReactNode }) {
         <header className="flex h-12 shrink-0 items-center gap-2 border-b px-3">
           <SidebarTrigger />
           <h2 className="truncate text-sm font-medium">Dashboard</h2>
-          <Button variant="outline" size="sm" className="ml-auto">
-            Action
-          </Button>
+          <Link href="/home" className="ml-auto">
+            <Button variant="outline" size="sm" className=" hover:border-primary hover:text-primary transform transition-all duration-500">
+              <Home />
+              Home
+            </Button>
+          </Link>
         </header>
 
         <div className="min-w-0 flex-1 overflow-auto p-4">

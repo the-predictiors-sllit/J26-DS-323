@@ -18,20 +18,20 @@ const navigationData: NavigationSection[] = [
     href: "/home",
   },
   {
-    title: "Health",
-    href: "/features/health",
+    title: "Panel Health",
+    href: "/features/panelhealth",
   },
   {
-    title: "Angle",
-    href: "/features/angle",
+    title: "Solar Setup",
+    href: "/features/solarsetup",
   },
   {
-    title: "Scheduling",
-    href: "/features/scheduling",
+    title: "Smart Scheduling",
+    href: "/features/smartscheduling",
   },
   {
-    title: "Battery",
-    href: "/features/battery",
+    title: "Energy Resilience",
+    href: "/features/energyresilience",
   },
 ];
 
@@ -89,7 +89,7 @@ const Navbar = () => {
                     <NavigationMenuItem key={navItem.title}>
                       <NavigationMenuLink
                         href={navItem.href}
-                        className="px-2 lg:px-4 py-2 text-sm font-medium rounded-full text-muted-foreground hover:text-primary hover:bg-background outline outline-transparent hover:outline-border hover:shadow-xs transition tracking-normal"
+                        className="px-2 active:font-bold lg:px-4 py-2 text-sm font-medium rounded-full text-muted-foreground hover:text-primary hover:bg-background outline outline-transparent hover:outline-border hover:shadow-xs transition tracking-normal"
                       >
                         {navItem.title}
                       </NavigationMenuLink>
@@ -113,7 +113,7 @@ const Navbar = () => {
                 >
                   {navigationData.map((item) => (
                     <DropdownMenuItem key={item.title}>
-                      <a href={item.href} className="w-full cursor-pointer text-sm font-medium">{item.title}</a>
+                      <a href={item.href} className="w-full cursor-pointer text-sm font-medium hover:text-primary">{item.title}</a>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>

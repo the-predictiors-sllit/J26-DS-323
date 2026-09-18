@@ -12,7 +12,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative flex items-end text-white bg-black h-full min-h-[95vh] overflow-hidden"
+      className="relative flex items-end text-white bg-black h-full min-h-screen overflow-hidden"
     >
       {/* Background Video */}
       <video
@@ -52,8 +52,7 @@ const HeroSection: React.FC = () => {
               />
             </div>
             <p className="sm:text-base text-sm sm:leading-6 leading-5 font-normal text-white sm:max-w-sm">
-              We create <span className="text-primary ">high-performing</span>{" "}
-              digital designs that elevate brands and enhance conversions.
+              AI-powered insights to improve <span className="text-primary ">solar performance, energy usage, and household energy management.</span>{" "}
             </p>
           </div>
           <motion.div
@@ -62,8 +61,8 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.3, ease: "easeInOut", delay: 0.2 }}
             className="flex sm:flex-row flex-col items-start lg:items-baseline gap-4"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-10 lg:leading-32 font-bold">
-              Solar Monitoring
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl leading-15 lg:leading-32 font-bold">
+              Smarter Solar for Every Home
             </h1>
             <div>
               <div className="bg-primary rounded-full p-1 pl-8">
