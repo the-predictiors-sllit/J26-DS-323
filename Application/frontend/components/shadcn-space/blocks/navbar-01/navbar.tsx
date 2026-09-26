@@ -3,9 +3,11 @@ import Logo from "@/assets/logo/logo";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
+import { ThemeToggler } from "@/components/velora/theme-toggler";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, TextAlignJustify } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 export type NavigationSection = {
   title: string;
@@ -47,6 +49,17 @@ const CollaborateButton = ({ className }: { className?: string }) => (
 );
 
 const Navbar = () => {
+  const { resolvedTheme, setTheme } = useTheme();
+
+  const isDark = resolvedTheme === "dark";
+
+  const handleThemeToggle = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
+
+
+
+  
   const [sticky, setSticky] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const handleScroll = useCallback(() => {
@@ -98,7 +111,13 @@ const Navbar = () => {
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
-            <CollaborateButton className="hidden lg:flex" />
+            <div className="hidden lg:flex">
+              <CollaborateButton />
+              <ThemeToggler
+                isDark={isDark}
+                onToggle={handleThemeToggle}
+              />
+            </div>
 
             <div className="lg:hidden">
               <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>

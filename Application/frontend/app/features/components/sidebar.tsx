@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
+import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -25,6 +26,7 @@ import { RailItem } from "./sidebar_interfaces"
 import { AccountButton } from "./sidebar_acountButton"
 import { Home } from "lucide-react"
 import Link from "next/link"
+import { ThemeToggler } from "@/components/velora/theme-toggler";
 
 
 function RailNav({ NAV }: { NAV: RailItem[] }) {
@@ -94,6 +96,14 @@ function BrandButton({ functionName }: { functionName: string }) {
 
 
 export function IndividualSidebar({ children, NAV, functionName }: { children: ReactNode; NAV: RailItem[]; functionName: string }) {
+  const { resolvedTheme, setTheme } = useTheme();
+
+  const isDark = resolvedTheme === "dark";
+
+  const handleThemeToggle = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
+
   return (
     <SidebarProvider className="relative h-dvh min-h-0 w-full overflow-hidden">
       <Sidebar collapsible="icon" className="absolute h-full">
@@ -122,6 +132,13 @@ export function IndividualSidebar({ children, NAV, functionName }: { children: R
               Home
             </Button>
           </Link>
+          <div>
+
+            <ThemeToggler
+              isDark={isDark}
+              onToggle={handleThemeToggle}
+            />
+          </div>
         </header>
 
         <div className="min-w-0 flex-1 overflow-auto p-4">
