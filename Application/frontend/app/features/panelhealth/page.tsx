@@ -16,6 +16,7 @@ export default function PanelHealthPage() {
   const [uploadedFile, setUploadedFile] = useState<string | null>(null)
   const [panelAge, setPanelAge] = useState("")
   const [ratedOutput, setRatedOutput] = useState("")
+  const [analysisRun, setAnalysisRun] = useState(false)
 
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -24,6 +25,7 @@ export default function PanelHealthPage() {
 
   const handleAnalyze = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setAnalysisRun(true)
   }
 
   const analyzedFile = uploadedFile ?? "IMG_0547.jpg"
@@ -168,7 +170,7 @@ export default function PanelHealthPage() {
               No critical degradation in the latest review
             </div>
             <button type="submit" className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90">
-              Analyze panel
+              {analysisRun ? "Analysis ready" : "Analyze panel"}
               <ChevronRight className="size-4" />
             </button>
           </div>
@@ -182,6 +184,7 @@ export default function PanelHealthPage() {
               <CheckCircle2 className="size-5 text-emerald-600" />
               <h2 className="font-semibold">Panel analysis result</h2>
             </div>
+            {analysisRun ? <span className="text-xs text-emerald-600">Updated just now</span> : null}
             <p className="mt-2 text-sm text-muted-foreground">
               Photo analyzed: <span className="font-medium text-foreground">{analyzedFile}</span>
             </p>
