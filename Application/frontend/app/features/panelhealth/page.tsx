@@ -125,7 +125,7 @@ export default function PanelHealthPage() {
                 <span className="mt-2 block max-w-xs truncate text-sm font-medium">{uploadedFile ?? "Upload a panel photo"}</span>
                 <span className="mt-1 block text-xs text-muted-foreground">JPG or PNG, up to 10 MB</span>
               </span>
-              <input type="file" accept="image/*" className="sr-only" onChange={handleUpload} />
+              <input type="file" accept="image/*" required className="sr-only" onChange={handleUpload} />
             </label>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               <label className="grid gap-1.5 text-sm font-medium">
@@ -135,6 +135,7 @@ export default function PanelHealthPage() {
                     type="number"
                     min="0"
                     max="100"
+                    required
                     value={panelAge}
                     onChange={(event) => setPanelAge(event.target.value)}
                     placeholder="e.g. 5"
@@ -150,6 +151,7 @@ export default function PanelHealthPage() {
                     type="number"
                     min="0"
                     step="0.01"
+                    required
                     value={ratedOutput}
                     onChange={(event) => setRatedOutput(event.target.value)}
                     placeholder="e.g. 450"
