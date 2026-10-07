@@ -1,0 +1,12 @@
+[project]
+name = "j26-ds-323"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "datasets>=5.1.0",
+    "huggingface-hub>=2.1.1",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "python-dotenv>=1.2.4",
+    "scikit-learn>=1.9.1",
+]
