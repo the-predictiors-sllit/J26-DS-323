@@ -1,0 +1,29 @@
+{
+  "data": "/content/solar_work/CNN",
+  "out": "/content/solar_runs/run_20261008_032747",
+  "epochs": 40,
+  "size": 512,
+  "batch": 2,
+  "patience": 8,
+  "workers": 2,
+  "evaluate": false,
+  "resume": false,
+  "splits": {
+    "train": 80,
+    "val": 21,
+    "test": 21
+  },
+  "seed": 42,
+  "device": "cuda",
+  "torch": "2.11.0+cu130",
+  "python": "3.13.15",
+  "labels": {
+    "sky": 0,
+    "obstacle": 1,
+    "ignored_outside_disk": 255
+  },
+  "augmentation": "training-only colour jitter; no rotation or cropping",
+  "initialization": "torchvision pretrained DeepLabV3 + new binary heads",
+  "selection": "highest validation mean of two class IoUs; no test-driven tuning",
+  "resolution_note": "metrics at chosen training resolution, not original boundary resolution"
+}

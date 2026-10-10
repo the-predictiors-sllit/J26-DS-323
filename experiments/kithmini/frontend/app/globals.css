@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* Use Tailwind's default palette, spacing and fonts. Shared component styles live
+   in components/ui; no custom theme overrides or duplicated button colours. */
+@layer base {
+  body {
+    @apply bg-slate-50 font-sans text-slate-900 antialiased;
+  }
+  button:not(:disabled),
+  a {
+    @apply cursor-pointer;
+  }
+}

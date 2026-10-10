@@ -1,0 +1,2 @@
+# Optional API contract checks, after backend and CPU PyTorch requirements.
+httpx>=0.27,<1

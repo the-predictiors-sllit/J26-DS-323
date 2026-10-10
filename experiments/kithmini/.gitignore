@@ -1,0 +1,42 @@
+# These rules apply inside experiments/kithmini/ only.
+# Keep model files locally; use a deliberate LFS/release workflow if sharing them.
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Source archives are kept locally, not in normal Git history.
+*.zip
+*.7z
+*.rar
+/archives/*
+!/archives/.gitkeep
+
+# Third-party reference image bytes: download from the cited dataset.
+# Keep the folder scaffold and documentation visible on GitHub.
+/data/reference/CNN/**/*
+!/data/reference/CNN/**/
+!/data/reference/CNN/**/.gitkeep
+
+# Rebuildable dependencies / caches
+node_modules/
+.next/
+out/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.tsbuildinfo
+
+# Local settings; keep sample settings trackable
+.env
+.env.*
+!.env.example
+!.env.sample
+.DS_Store
+Thumbs.db
+
+# Deliberately NOT ignored:
+# Python/TypeScript code, notebooks, package-lock.json, requirements,
+# JSON/CSV metrics, local_17 originals and masks, docs and screenshots.
