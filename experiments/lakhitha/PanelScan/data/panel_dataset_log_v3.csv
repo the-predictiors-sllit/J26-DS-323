@@ -1,0 +1,184 @@
+Photo_Filename,Site_ID,District_Zone,Install_Date,Age_Years,Rated_Capacity_W,Panel_Brand_Model,Visible_Issue_Notes,Severity_Score_0_100,Degradation_Category,Surface_Soiling_Flag_YN,Has_GroundTruth_Data_YN,Recent_Max_Output_W,Health_Percentage,Generation_Data_Source
+IMG_2880,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust,15,Healthy,N,Y,265.75,,Solar EDGE
+IMG_2882,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,"Light dust, bottom area",7,Healthy,Y,Y,283,,Solar EDGE
+IMG_2883,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust and bird dropping on bottom left,20,Healthy,Y,Y,256,,Solar EDGE
+IMG_2884,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust and bird dropping on middle right,22,Healthy,Y,Y,259,,Solar EDGE
+IMG_2885,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust,9,Healthy,N,Y,279.5,,Solar EDGE
+IMG_2886,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust and bird dropping on middle right,23,Healthy,Y,Y,253,,Solar EDGE
+IMG_2887,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust,17,Healthy,N,Y,264,,Solar EDGE
+IMG_2888,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust,10,Healthy,N,Y,271.5,,Solar EDGE
+IMG_2889,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust,8,Healthy,N,Y,282.5,,Solar EDGE
+IMG_2830,CRN 42173,Ambalangoda,2018-11,8,350,Trina Solar,Light dust and bird dropping on bottom right,15,Healthy,N,Y,264.75,,Solar EDGE
+IMG_2841,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,220,,Solar EDGE
+IMG_2840,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,196,,Solar EDGE
+IMG_2839,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,189.75,,Solar EDGE
+IMG_2838,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,193.25,,Solar EDGE
+IMG_2836,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,196.25,,Solar EDGE
+IMG_2832,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,213.75,,Solar EDGE
+IMG_2833,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,210.75,,Solar EDGE
+IMG_2830,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,215,,Solar EDGE
+IMG_2825,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,209.5,,Solar EDGE
+IMG_2824,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,217,,Solar EDGE
+IMG_2823,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,199.75,,Solar EDGE
+IMG_2821 or 18,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,219,,Solar EDGE
+IMG_2815,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,203.25,,Solar EDGE
+IMG_2814,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,,,,,Y,223.75,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_2978,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,232.25,,Solar EDGE
+IMG_2979,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,212,,Solar EDGE
+IMG_2980,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,236.75,,Solar EDGE
+IMG_2981,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,221.75,,Solar EDGE
+IMG_2982,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,238.75,,Solar EDGE
+IMG_2984,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,258,,Solar EDGE
+IMG_2985,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,237.5,,Solar EDGE
+IMG_2986,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,250.5,,Solar EDGE
+IMG_2987,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,240.5,,Solar EDGE
+IMG_2988,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,222.75,,Solar EDGE
+IMG_2990,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,226.25,,Solar EDGE
+IMG_2991,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,230.25,,Solar EDGE
+IMG_2992,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,245.75,,Solar EDGE
+IMG_2993,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,249.75,,Solar EDGE
+IMG_2994,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,,,,,Y,238.75,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_2897,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,204,,Solar EDGE
+IMG_2898,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,140,,Solar EDGE
+IMG_2900,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,178.25,,Solar EDGE
+IMG_2901,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,164.25,,Solar EDGE
+IMG_2902,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,165,,Solar EDGE
+IMG_2903,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,176.25,,Solar EDGE
+IMG_2904,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,190.25,,Solar EDGE
+IMG_2905,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,151,,Solar EDGE
+IMG_2906,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,110,,Solar EDGE
+IMG_2907,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,88.75,,Solar EDGE
+IMG_2908,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,85.25,,Solar EDGE
+IMG_2909,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,,,,,Y,90.75,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3106,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,263,,Solar EDGE
+IMG_3107,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,247.25,,Solar EDGE
+IMG_3108,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,254.25,,Solar EDGE
+IMG_3109,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,256.5,,Solar EDGE
+IMG_3111,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,257.5,,Solar EDGE
+IMG_3112,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,262.25,,Solar EDGE
+IMG_3113,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,256,,Solar EDGE
+IMG_3114,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,273.75,,Solar EDGE
+IMG_3115,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,251.75,,Solar EDGE
+IMG_3116,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,246.75,,Solar EDGE
+IMG_3117,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,244.25,,Solar EDGE
+IMG_3118,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,234,,Solar EDGE
+IMG_3119,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,243.5,,Solar EDGE
+IMG_3120,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,,,,,,251.25,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3122,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,142.25,,Solar EDGE
+IMG_3124,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,148.75,,Solar EDGE
+IMG_3125,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,141.5,,Solar EDGE
+IMG_3126,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,139.75,,Solar EDGE
+IMG_3127,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,142.25,,Solar EDGE
+IMG_3128,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,157.75,,Solar EDGE
+IMG_3129,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,148.25,,Solar EDGE
+IMG_3130,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,143.25,,Solar EDGE
+IMG_3131,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,142.25,,Solar EDGE
+IMG_3132,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,138.5,,Solar EDGE
+IMG_3133,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,140.75,,Solar EDGE
+IMG_3134,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,145.25,,Solar EDGE
+IMG_3135,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,143,,Solar EDGE
+IMG_3136,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,155,,Solar EDGE
+IMG_3137,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,151.5,,Solar EDGE
+IMG_3139,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,151.25,,Solar EDGE
+IMG_3140,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,160.75,,Solar EDGE
+IMG_3141,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,,,,,,161.75,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3031,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,276,,Solar EDGE
+IMG_3033,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,268.75,,Solar EDGE
+IMG_3033,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,270.5,,Solar EDGE
+IMG_3034,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,265.25,,Solar EDGE
+IMG_3035,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,271,,Solar EDGE
+IMG_3036,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,283,,Solar EDGE
+IMG_3037,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,262,,Solar EDGE
+IMG_3038,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,264.5,,Solar EDGE
+IMG_3039,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,274,,Solar EDGE
+IMG_3040,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,270.25,,Solar EDGE
+IMG_3041,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,268.5,,Solar EDGE
+IMG_3042,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,274,,Solar EDGE
+IMG_3043,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,279.5,,Solar EDGE
+IMG_3044,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,269.75,,Solar EDGE
+IMG_3045,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,266.75,,Solar EDGE
+IMG_3046,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,270.25,,Solar EDGE
+IMG_3047,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,272,,Solar EDGE
+IMG_3048,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,275,,Solar EDGE
+IMG_3049,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,269.5,,Solar EDGE
+IMG_3050,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,266.75,,Solar EDGE
+IMG_3051,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,271,,Solar EDGE
+IMG_3052,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,279,,Solar EDGE
+IMG_3053,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,260,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3057,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,268.75,,Solar EDGE
+IMG_3058,CRN  45073,Galle,2019-5,7,330,Trina Solar,,,,,,270,,Solar EDGE
+IMG_3059,CRN  45074,Galle,2019-5,7,330,Trina Solar,,,,,,261,,Solar EDGE
+IMG_3060,CRN  45075,Galle,2019-5,7,330,Trina Solar,,,,,,260,,Solar EDGE
+IMG_3061,CRN  45076,Galle,2019-5,7,330,Trina Solar,,,,,,257.5,,Solar EDGE
+IMG_3062,CRN  45077,Galle,2019-5,7,330,Trina Solar,,,,,,255.75,,Solar EDGE
+IMG_3063,CRN  45078,Galle,2019-5,7,330,Trina Solar,,,,,,256.25,,Solar EDGE
+IMG_3064,CRN  45079,Galle,2019-5,7,330,Trina Solar,,,,,,258,,Solar EDGE
+IMG_3065,CRN  45080,Galle,2019-5,7,330,Trina Solar,,,,,,262.5,,Solar EDGE
+IMG_3066,CRN  45081,Galle,2019-5,7,330,Trina Solar,curved scratch on top area,,,,,220.25,,Solar EDGE
+IMG_3067,CRN  45082,Galle,2019-5,7,330,Trina Solar,,,,,,270,,Solar EDGE
+IMG_3068,CRN  45083,Galle,2019-5,7,330,Trina Solar,,,,,,271.5,,Solar EDGE
+IMG_3069,CRN  45084,Galle,2019-5,7,330,Trina Solar,bird dropping on bottom middle area,,,,,255,,Solar EDGE
+IMG_3070,CRN  45085,Galle,2019-5,7,330,Trina Solar,,,,,,272,,Solar EDGE
+IMG_3071,CRN  45086,Galle,2019-5,7,330,Trina Solar,bird dropping on middle area,,,,,268.75,,Solar EDGE
+IMG_3072,CRN  45087,Galle,2019-5,7,330,Trina Solar,,,,,,273.75,,Solar EDGE
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+IMG_3075,CRN  45090,Galle,2019-5,7,330,Trina Solar,,,,,,261.25,,Solar EDGE
+IMG_3076,CRN  45091,Galle,2019-5,7,330,Trina Solar,,,,,,265,,Solar EDGE
+IMG_3077,CRN  45092,Galle,2019-5,7,330,Trina Solar,,,,,,259,,Solar EDGE
+IMG_3078,CRN  45093,Galle,2019-5,7,330,Trina Solar,,,,,,257,,Solar EDGE
+IMG_3079,CRN  45094,Galle,2019-5,7,330,Trina Solar,,,,,,260.5,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3081,CRN  45096,Galle,2019-5,7,330,Trina Solar,,,,,,265,,Solar EDGE
+IMG_3082,CRN  45097,Galle,2019-5,7,330,Trina Solar,,,,,,255,,Solar EDGE
+IMG_3083,CRN  45098,Galle,2019-5,7,330,Trina Solar,,,,,,256.25,,Solar EDGE
+IMG_3084,CRN  45099,Galle,2019-5,7,330,Trina Solar,,,,,,259.5,,Solar EDGE
+IMG_3085,CRN  45109,Galle,2019-5,7,330,Trina Solar,,,,,,257,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3089,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,587,,Solar EDGE
+IMG_3090,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,591,,Solar EDGE
+IMG_3091,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,594,,Solar EDGE
+IMG_3092,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,578,,Solar EDGE
+IMG_3093,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,584.75,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3146,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,563.5,,Solar EDGE
+IMG_3147,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,560.75,,Solar EDGE
+IMG_3148,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,563.5,,Solar EDGE
+IMG_3149,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,567,,Solar EDGE
+IMG_3150,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,564.75,,Solar EDGE
+IMG_3152,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,571.75,,Solar EDGE
+IMG_3153,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,570.25,,Solar EDGE
+IMG_3156,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3157,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3160,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3161,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3162,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3163,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3166,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+,,,,,,,,,,,,,,
+IMG_3169,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3170,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3171,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+IMG_3172,CRN 53652,Galle,2025-5,1,620,Jinko Solar,,,,,,,,Solar EDGE
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
