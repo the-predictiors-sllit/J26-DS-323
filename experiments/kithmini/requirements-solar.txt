@@ -1,0 +1,6 @@
+# Install into the existing Python 3.12 backend environment.
+pvlib==0.15.0
+pandas>=2.2,<3
+numpy>=1.26,<3
+threadpoolctl>=3,<4
+tzdata>=2024.1

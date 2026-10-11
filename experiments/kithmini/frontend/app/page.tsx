@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button, buttonStyles } from "../components/ui/button";
 import { Card } from "../components/ui/card";
+import { OrientationPanel } from "../components/orientation-panel";
 import {
   getHealth,
   segmentPhoto,
@@ -22,7 +23,7 @@ import {
 } from "../lib/api";
 
 export default function Home() {
-  const [tab, setTab] = useState<"analysis" | "evaluation">("analysis");
+  const [tab, setTab] = useState<"analysis" | "evaluation" | "orientation">("analysis");
   const [health, setHealth] = useState<Health | null>(null);
   const [checking, setChecking] = useState(true);
   const [file, setFile] = useState<File | null>(null);
@@ -128,6 +129,7 @@ export default function Home() {
               <Activity size={18} />
               Model evaluation
             </Button>
+            <Button variant={tab === "orientation" ? "primary" : "ghost"} aria-pressed={tab === "orientation"} onClick={() => setTab("orientation")}><Sun size={18} />Solar orientation</Button>
           </nav>
         </div>
       </header>
@@ -140,12 +142,12 @@ export default function Home() {
             <h1 className="text-3xl font-semibold tracking-tight">
               {tab === "analysis"
                 ? "Sky and obstacle segmentation"
-                : "Model evaluation"}
+                : tab === "orientation" ? "Fixed tilt and azimuth" : "Model evaluation"}
             </h1>
             <p className="mt-2 max-w-2xl text-slate-600">
               {tab === "analysis"
                 ? "Upload a site photograph, generate a binary mask and review the prediction."
-                : "Inspect measured results from the held-out reference test set."}
+                : tab === "orientation" ? "Map annual sun paths, estimate shading and compare candidate orientations." : "Inspect measured results from the held-out reference test set."}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -354,15 +356,14 @@ export default function Home() {
               bright walls. Clouds belong to sky. This mask does not verify
               North alignment or lens projection.
             </p>
-            <Card>
-              <h2 className="font-semibold">Solar orientation — planned</h2>
-              <p className="mt-2 text-sm text-slate-600">
-                Camera calibration, GPS, annual sun paths, optimal tilt and
-                azimuth, and energy comparison are not implemented in this
-                version.
-              </p>
+            <Card className="space-y-3">
+              <h2 className="font-semibold">Next: solar orientation</h2>
+              <p className="text-sm text-slate-600">Use this prediction with GPS and explicit camera geometry to calculate sun paths and fixed-orientation candidates.</p>
+              <Button disabled={!result || busy} onClick={() => setTab("orientation")}>Continue with this mask</Button>
             </Card>
           </>
+        ) : tab === "orientation" ? (
+          <OrientationPanel predictedMask={result?.mask} photoUrl={result ? url : undefined} />
         ) : (
           <>
             <Card className="space-y-5">

@@ -116,3 +116,9 @@ def segment(photo: UploadFile = File(...)):
         "status": "prediction_requires_review",
         "note": "No rotation/crop performed. Camera projection and North alignment are not verified.",
     }
+
+
+# Solar physics accepts masks independently of the CNN; install requirements-solar.txt.
+from solar.api import router as solar_router
+
+app.include_router(solar_router)

@@ -40,3 +40,11 @@ Thumbs.db
 # Deliberately NOT ignored:
 # Python/TypeScript code, notebooks, package-lock.json, requirements,
 # JSON/CSV metrics, local_17 originals and masks, docs and screenshots.
+
+# Downloaded API weather (regenerate; keep report provenance)
+/data/weather_cache/
+.pytest_cache/
+
+# Track frontend source files despite the shared lib/ ignore rule
+!/frontend/lib/
+!/frontend/lib/**

@@ -1,4 +1,4 @@
-# Kithmini — solar site segmentation
+# Kithmini — segmentation and solar orientation
 
 This folder is the pre-installation component of the group solar research project.
 It can live at `experiments/kithmini/`; it is not a separate Git repository.
@@ -12,9 +12,20 @@ Start here even if you did not create the original project.
   download the mask and load measured test results.
 - Offline manual mask editor for the 17 local photographs.
 
-**Not implemented:** camera calibration, GPS form, pvlib annual sun mapping,
-shading-aware irradiation, PSO tilt/azimuth optimization, baseline comparison or energy estimates.
-Do not present segmentation scores as angle or generation accuracy.
+- Annual sun-path preview, shading-aware PSO tilt/azimuth and independent grid comparison.
+- Automatic full-year historical weather (Open-Meteo ERA5), offline Clear-sky,
+  and optional custom weather CSV.
+- Baseline/monthly irradiation comparison, optional fixed-PR energy estimate,
+  and report JSON with weather provenance.
+
+Camera calibration, local mask accuracy and real generation accuracy still require
+validation. Segmentation scores do not validate angles or energy. See
+[implementation and assumptions](docs/SOLAR_IMPLEMENTATION.md).
+
+**Update ZIP:** merge into the existing component; it is not a standalone full project.
+Existing installations need `pip install -r requirements-solar.txt` in the backend venv,
+then restart backend and frontend. Default UI mode is Historical weather, year 2025,
+60-minute intervals. Clear-sky stays available without weather downloads.
 
 ## Before you start
 
@@ -32,7 +43,7 @@ from your laptop environment. Do not install the CPU training dependencies into 
 | best_model.pt | No | Use Kithmini's downloaded training backup or train in Colab; copy into `models/` |
 | last_model.pt | No | Only needed to resume that exact training run; keep with its run results |
 | Recorded run metrics/history | Yes | `results/deeplabv3/run_20261008_01/` |
-| Verified GPS / projection metadata | No | Needed for the future orientation stage, not segmentation |
+| Verified GPS / projection metadata | No | Required for physically meaningful orientation results, not segmentation |
 
 A teammate can open the UI and API without model weights, but mask generation
 requires `best_model.pt`. There is no public checkpoint download URL in this package.
