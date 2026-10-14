@@ -4,7 +4,7 @@ IMG_2882,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,"Light dust, bottom are
 IMG_2883,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust and bird dropping on bottom left,20,Healthy,N,Y,256,78.76923077,Solar EDGE
 IMG_2884,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust and bird dropping on middle right,22,Healthy,N,Y,259,79.69230769,Solar EDGE
 IMG_2885,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust,9,Healthy,N,Y,279.5,86,Solar EDGE
-IMG_2886,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust and bird dropping on middle right,23,Healthy,N,Y,253,77.84615385,Solar EDGE
+IMG_2886,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust and bird dropping on top area,23,Healthy,N,Y,253,77.84615385,Solar EDGE
 IMG_2887,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust,17,Healthy,N,Y,264,81.23076923,Solar EDGE
 IMG_2888,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust,10,Healthy,N,Y,271.5,83.53846154,Solar EDGE
 IMG_2889,CRN 42173,Ambalangoda,2018-11,8,325,Trina Solar,Light dust,8,Healthy,N,Y,282.5,86.92307692,Solar EDGE
@@ -20,54 +20,50 @@ IMG_2830,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,Bird dropping and Ligh
 IMG_2825,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,Bird dropping and Light dust at top,13,Healthy,N,Y,193.25,74.32692308,Solar EDGE
 IMG_2824,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,Light dust at top left,8,Healthy,N,Y,217,83.46153846,Solar EDGE
 IMG_2823,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,Bird dropping and Light dust at bottom,10,Healthy,N,Y,199.75,76.82692308,Solar EDGE
-IMG_2821 or 18,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,No,6,Healthy,N,Y,223.75,86.05769231,Solar EDGE
+IMG_2821,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,No,6,Healthy,N,Y,223.75,86.05769231,Solar EDGE
 IMG_2815,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,Light dust at top,6,Healthy,N,Y,219,84.23076923,Solar EDGE
 IMG_2814,CRN 14676,Ambalangoda,2016-02,10,260,Trina Solar,Light dust at top,6,Healthy,N,Y,220,84.61538462,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_2978,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,19,Healthy,N,Y,232.25,77.41666667,Solar EDGE
-IMG_2979,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,14,Healthy,N,Y,249.75,83.25,Solar EDGE
+IMG_2978,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,19,Healthy,Y,Y,232.25,77.41666667,Solar EDGE
+IMG_2979,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,14,Healthy,Y,Y,249.75,83.25,Solar EDGE
 IMG_2980,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust,18,Healthy,N,Y,236.75,78.91666667,Solar EDGE
-IMG_2981,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,18,Healthy,N,Y,245.75,81.91666667,Solar EDGE
-IMG_2982,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,17,Healthy,N,Y,238.75,79.58333333,Solar EDGE
-IMG_2984,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,8,Healthy,N,Y,258,86,Solar EDGE
-IMG_2985,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,18,Healthy,N,Y,237.5,79.16666667,Solar EDGE
-IMG_2986,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,9,Healthy,N,Y,250.5,83.5,Solar EDGE
-IMG_2987,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,15,Healthy,N,Y,240.5,80.16666667,Solar EDGE
-IMG_2988,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,20,Healthy,N,Y,222.75,74.25,Solar EDGE
-IMG_2990,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,20,Healthy,N,Y,226.25,75.41666667,Solar EDGE
-IMG_2991,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,19,Healthy,N,Y,230.25,76.75,Solar EDGE
-IMG_2992,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,"Light dust,bird dropping and rain acid layer stains",22,Healthy,N,Y,221.75,73.91666667,Solar EDGE
-IMG_2993,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,"Light dust, Bird dropping  at lower and rain acid layer stains",24,Healthy,N,Y,212,70.66666667,Solar EDGE
-IMG_2994,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,"Light dust,bird dropping and rain acid layer stains",17,Healthy,N,Y,238.75,79.58333333,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_2897,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and rain acid layer stains,15,Early Degradation,N,Y,204,81.6,Solar EDGE
-IMG_2898,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,81,Moderate Degradation,Y,Y,100,40,Solar EDGE
-IMG_2900,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,25,Early Degradation,Y,Y,178.25,71.3,Solar EDGE
-IMG_2901,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,29,Early Degradation,Y,Y,164.25,65.7,Solar EDGE
-IMG_2902,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,28,Early Degradation,Y,Y,165,66,Solar EDGE
-IMG_2903,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,26,Early Degradation,Y,Y,176.25,70.5,Solar EDGE
-IMG_2904,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,23,Early Degradation,Y,Y,190.25,76.1,Solar EDGE
-IMG_2905,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,28,Early Degradation,Y,Y,151,60.4,Solar EDGE
-IMG_2906,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,"Scratches, salt haze corrosion ",88,Severe Degradation,Y,Y,84,33.6,Solar EDGE
-IMG_2907,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Salt haze corrosion ,86,Severe Degradation,Y,Y,88.75,35.5,Solar EDGE
-IMG_2908,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Salt haze corrosion ,87,Severe Degradation,Y,Y,85.25,34.1,Solar EDGE
-IMG_2909,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Salt haze corrosion ,85,Severe Degradation,Y,Y,90.75,36.3,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_3106,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,17,Healthy,Y,Y,263,80.92307692,Solar EDGE
-IMG_3107,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,20,Healthy,Y,Y,247.25,76.07692308,Solar EDGE
-IMG_3108,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,19,Healthy,Y,Y,254.25,78.23076923,Solar EDGE
-IMG_3109,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,16,Healthy,N,Y,256.5,78.92307692,Solar EDGE
-IMG_3111,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,15,Healthy,N,Y,257.5,79.23076923,Solar EDGE
-IMG_3112,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,15,Healthy,Y,Y,262.25,80.69230769,Solar EDGE
-IMG_3113,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,18,Healthy,Y,Y,256,78.76923077,Solar EDGE
-IMG_3114,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,25,Healthy,Y,Y,273.75,84.23076923,Solar EDGE
-IMG_3115,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,28,Healthy,Y,Y,251.75,77.46153846,Solar EDGE
-IMG_3116,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,29,Healthy,Y,Y,246.75,75.92307692,Solar EDGE
-IMG_3117,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,28,Healthy,Y,Y,244.25,75.15384615,Solar EDGE
-IMG_3118,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,31,Healthy,Y,Y,234,72,Solar EDGE
-IMG_3119,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,28,Healthy,Y,Y,243.5,74.92307692,Solar EDGE
-IMG_3120,CRN 33780 ," Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,29,Healthy,Y,Y,251.25,77.30769231,Solar EDGE
-,,,,,,,,,,,,,,
+IMG_2981,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,18,Healthy,Y,Y,245.75,81.91666667,Solar EDGE
+IMG_2982,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,17,Healthy,Y,Y,238.75,79.58333333,Solar EDGE
+IMG_2984,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,8,Healthy,Y,Y,258,86,Solar EDGE
+IMG_2985,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,18,Healthy,Y,Y,237.5,79.16666667,Solar EDGE
+IMG_2986,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,9,Healthy,Y,Y,250.5,83.5,Solar EDGE
+IMG_2987,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,15,Healthy,Y,Y,240.5,80.16666667,Solar EDGE
+IMG_2988,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,20,Healthy,Y,Y,222.75,74.25,Solar EDGE
+IMG_2990,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,20,Healthy,Y,Y,226.25,75.41666667,Solar EDGE
+IMG_2991,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,Light dust and rain acid layer stains,19,Healthy,Y,Y,230.25,76.75,Solar EDGE
+IMG_2992,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,"Light dust,bird dropping and rain acid layer stains",22,Healthy,Y,Y,221.75,73.91666667,Solar EDGE
+IMG_2993,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,"Light dust, Bird dropping at lower and rain acid layer stains",24,Healthy,Y,Y,212,70.66666667,Solar EDGE
+IMG_2994,CRN 22327,Ambalangoda,2016-10,10,300,SolarLand,"Light dust,bird dropping and rain acid layer stains",17,Healthy,Y,Y,238.75,79.58333333,Solar EDGE
+IMG_2897,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and rain acid layer stains,15,Healthy,Y,Y,204,81.6,Solar EDGE
+IMG_2898,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and surface discoloration,81,Moderate Degradation,N,Y,100,40,Solar EDGE
+IMG_2900,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and slight discoloration,25,Early Degradation,N,Y,178.25,71.3,Solar EDGE
+IMG_2901,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and slight discoloration,29,Early Degradation,N,Y,164.25,65.7,Solar EDGE
+IMG_2902,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and slight discoloration,26,Early Degradation,N,Y,165,66,Solar EDGE
+IMG_2903,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and slight discoloration,24,Early Degradation,N,Y,176.25,70.5,Solar EDGE
+IMG_2904,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust,20,Healthy,N,Y,190.25,76.1,Solar EDGE
+IMG_2905,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Light dust and slight discoloration,28,Early Degradation,N,Y,151,60.4,Solar EDGE
+IMG_2906,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,"Scratches, salt haze corrosion",88,Severe Degradation,N,Y,84,33.6,Solar EDGE
+IMG_2907,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Salt haze corrosion,86,Severe Degradation,N,Y,88.75,35.5,Solar EDGE
+IMG_2908,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Salt haze corrosion,87,Severe Degradation,N,Y,85.25,34.1,Solar EDGE
+IMG_2909,CRN 8139,Ambalangoda,2014-05,12,250,Trina Solar,Salt haze corrosion,86,Severe Degradation,N,Y,90.75,36.3,Solar EDGE
+IMG_3106,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,17,Healthy,N,Y,263,80.92307692,Solar EDGE
+IMG_3107,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,20,Healthy,N,Y,247.25,76.07692308,Solar EDGE
+IMG_3108,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,19,Healthy,N,Y,254.25,78.23076923,Solar EDGE
+IMG_3109,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,16,Healthy,N,Y,256.5,78.92307692,Solar EDGE
+IMG_3111,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,15,Healthy,N,Y,257.5,79.23076923,Solar EDGE
+IMG_3112,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,15,Healthy,N,Y,262.25,80.69230769,Solar EDGE
+IMG_3113,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Light dust,18,Healthy,N,Y,256,78.76923077,Solar EDGE
+IMG_3114,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,28,Healthy,Y,Y,243.75,75,Solar EDGE
+IMG_3115,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,30,Healthy,Y,Y,239.75,73.76923077,Solar EDGE
+IMG_3116,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,29,Healthy,Y,Y,240.75,74.07692308,Solar EDGE
+IMG_3117,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,29,Healthy,Y,Y,244.25,75.15384615,Solar EDGE
+IMG_3118,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,31,Healthy,Y,Y,234,72,Solar EDGE
+IMG_3119,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,28,Healthy,Y,Y,243.5,74.92307692,Solar EDGE
+IMG_3120,CRN 33780,"Bandaranayake Place,Galle",2017-12,9,325,Trina Solar,Moderate dust,29,Healthy,Y,Y,251.25,77.30769231,Solar EDGE
 IMG_3122,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,Heavy dust,62,Early Degradation,Y,Y,142.25,41.83823529,Solar EDGE
 IMG_3124,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,Heavy dust,63,Early Degradation,Y,Y,148.75,43.75,Solar EDGE
 IMG_3125,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,Heavy dust,62,Early Degradation,Y,Y,141.5,41.61764706,Solar EDGE
@@ -86,83 +82,75 @@ IMG_3137,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,Heavy dust,68,Ea
 IMG_3139,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,Heavy dust,67,Early Degradation,Y,Y,151.25,44.48529412,Solar EDGE
 IMG_3140,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,Heavy dust,68,Early Degradation,Y,Y,160.75,47.27941176,Solar EDGE
 IMG_3141,CRN 13552,"Labuduwa, Galle",2015-10,11,340,Trina Solar,Heavy dust,66,Early Degradation,Y,Y,161.75,47.57352941,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_3031,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,13,Healthy,N,Y,276,83.63636364,Solar EDGE
-IMG_3033,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,268.75,81.43939394,Solar EDGE
-IMG_3033,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270.5,81.96969697,Solar EDGE
-IMG_3034,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,17,Healthy,N,Y,265.25,80.37878788,Solar EDGE
-IMG_3035,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,14,Healthy,N,Y,271,82.12121212,Solar EDGE
-IMG_3036,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,12,Healthy,N,Y,283,85.75757576,Solar EDGE
-IMG_3037,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust and bird droppings,18,Healthy,Y,Y,262,79.39393939,Solar EDGE
-IMG_3038,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,16,Healthy,N,Y,264.5,80.15151515,Solar EDGE
-IMG_3039,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,14,Healthy,N,Y,274,83.03030303,Solar EDGE
-IMG_3040,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270.25,81.89393939,Solar EDGE
-IMG_3041,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,16,Healthy,N,Y,268.5,81.36363636,Solar EDGE
-IMG_3042,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,13,Healthy,N,Y,274,83.03030303,Solar EDGE
-IMG_3043,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,12,Healthy,N,Y,279.5,84.6969697,Solar EDGE
-IMG_3044,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust and bird droppings,17,Healthy,Y,Y,269.75,81.74242424,Solar EDGE
-IMG_3045,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,14,Healthy,N,Y,266.75,80.83333333,Solar EDGE
-IMG_3046,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust and bird droppings,17,Healthy,Y,Y,270.25,81.89393939,Solar EDGE
-IMG_3047,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,14,Healthy,N,Y,272,82.42424242,Solar EDGE
-IMG_3048,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,13,Healthy,N,Y,275,83.33333333,Solar EDGE
-IMG_3049,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,269.5,81.66666667,Solar EDGE
-IMG_3050,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,16,Healthy,N,Y,266.75,80.83333333,Solar EDGE
-IMG_3051,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,271,82.12121212,Solar EDGE
-IMG_3052,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,14,Healthy,N,Y,279,84.54545455,Solar EDGE
-IMG_3053,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust and bird droppings,18,Healthy,Y,Y,260,78.78787879,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_3057,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,16,Healthy,N,Y,268.75,81.43939394,Solar EDGE
-IMG_3058,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270,81.81818182,Solar EDGE
-IMG_3059,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,17,Healthy,N,Y,261,79.09090909,Solar EDGE
-IMG_3060,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,19,Healthy,N,Y,260,78.78787879,Solar EDGE
-IMG_3061,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,17,Healthy,N,Y,257.5,78.03030303,Solar EDGE
-IMG_3062,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,17,Healthy,N,Y,255.75,77.5,Solar EDGE
-IMG_3063,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,18,Healthy,N,Y,256.25,77.65151515,Solar EDGE
-IMG_3064,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust and bird droppings,20,Healthy,Y,Y,258,78.18181818,Solar EDGE
-IMG_3065,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,262.5,79.54545455,Solar EDGE
-IMG_3066,CRN  45073,Galle,2019-5,7,330,Trina Solar,curved scratch on top area,40,Early Degradation,Y,Y,220.25,66.74242424,Solar EDGE
-IMG_3067,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270,81.81818182,Solar EDGE
-IMG_3068,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,14,Healthy,N,Y,271.5,82.27272727,Solar EDGE
-IMG_3069,CRN  45073,Galle,2019-5,7,330,Trina Solar,bird dropping on bottom middle area,30,Healthy,Y,Y,255,77.27272727,Solar EDGE
-IMG_3070,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,272,82.42424242,Solar EDGE
-IMG_3071,CRN  45073,Galle,2019-5,7,330,Trina Solar,bird dropping on middle area,18,Healthy,Y,Y,268.75,81.43939394,Solar EDGE
-IMG_3072,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,15,Healthy,N,Y,273.75,82.95454545,Solar EDGE
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-IMG_3075,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,18,Healthy,N,Y,261.25,79.16666667,Solar EDGE
-IMG_3076,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,18,Healthy,N,Y,265,80.3030303,Solar EDGE
-IMG_3077,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust and bird droppings,19,Healthy,Y,Y,259,78.48484848,Solar EDGE
-IMG_3078,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,16,Healthy,N,Y,257,77.87878788,Solar EDGE
-IMG_3079,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust,17,Healthy,N,Y,260.5,78.93939394,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_3081,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust on bottom,16,Healthy,Y,Y,265,80.3030303,Solar EDGE
-IMG_3082,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust on bottom,17,Healthy,Y,Y,255,77.27272727,Solar EDGE
-IMG_3083,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust on bottom,17,Healthy,Y,Y,256.25,77.65151515,Solar EDGE
-IMG_3084,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust on bottom,16,Healthy,Y,Y,259.5,78.63636364,Solar EDGE
-IMG_3085,CRN  45073,Galle,2019-5,7,330,Trina Solar,Light dust on bottom,16,Healthy,Y,Y,257,77.87878788,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_3089,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,7,Healthy,N,Y,587,94.67741935,Solar EDGE
-IMG_3090,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,7,Healthy,N,Y,591,95.32258065,Solar EDGE
-IMG_3091,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,7,Healthy,N,Y,594,95.80645161,Solar EDGE
-IMG_3092,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust and bird droppings,14,Healthy,Y,Y,579.75,93.50806452,Solar EDGE
-IMG_3093,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,8,Healthy,N,Y,584.75,94.31451613,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_3146,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,17,Healthy,N,Y,563.5,90.88709677,Solar EDGE
-IMG_3147,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,18,Healthy,N,Y,562.75,90.76612903,Solar EDGE
-IMG_3148,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,19,Healthy,N,Y,563.5,90.88709677,Solar EDGE
-IMG_3149,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,16,Healthy,N,Y,567,91.4516129,Solar EDGE
-IMG_3150,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,16,Healthy,N,Y,564.75,91.08870968,Solar EDGE
-IMG_3152,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,15,Healthy,N,Y,571.75,92.21774194,Solar EDGE
-IMG_3153,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,16,Healthy,N,Y,570.25,91.97580645,Solar EDGE
-IMG_3156,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,17,Healthy,N,Y,569.25,91.81451613,Solar EDGE
-IMG_3157,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,15,Healthy,N,Y,575.5,92.82258065,Solar EDGE
-IMG_3160,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,574.75,92.7016129,Solar EDGE
-IMG_3161,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,13,Healthy,N,Y,581,93.70967742,Solar EDGE
-IMG_3162,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,572.25,92.2983871,Solar EDGE
-IMG_3163,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,579.5,93.46774194,Solar EDGE
-IMG_3166,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,579.75,93.50806452,Solar EDGE
-,,,,,,,,,,,,,,
-IMG_3169,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,12,Healthy,N,Y,578.25,93.26612903,Solar EDGE
-IMG_3170,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,12,Healthy,N,Y,580.75,93.66935484,Solar EDGE
-IMG_3171,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,11,Healthy,N,Y,578.75,93.34677419,Solar EDGE
-IMG_3172,CRN 53652,Galle,2025-5,1,620,Jinko Solar,Light dust,12,Healthy,N,Y,579,93.38709677,Solar EDGE
+IMG_3031,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,13,Healthy,N,Y,276,83.63636364,Solar EDGE
+IMG_3032,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,268.75,81.43939394,Solar EDGE
+IMG_3033,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270.5,81.96969697,Solar EDGE
+IMG_3034,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,17,Healthy,N,Y,265.25,80.37878788,Solar EDGE
+IMG_3035,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,14,Healthy,N,Y,271,82.12121212,Solar EDGE
+IMG_3036,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,12,Healthy,N,Y,283,85.75757576,Solar EDGE
+IMG_3037,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and heavy bird droppings,18,Healthy,Y,Y,262,79.39393939,Solar EDGE
+IMG_3038,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,16,Healthy,N,Y,264.5,80.15151515,Solar EDGE
+IMG_3039,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,14,Healthy,N,Y,274,83.03030303,Solar EDGE
+IMG_3040,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270.25,81.89393939,Solar EDGE
+IMG_3041,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,16,Healthy,N,Y,268.5,81.36363636,Solar EDGE
+IMG_3042,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,13,Healthy,N,Y,274,83.03030303,Solar EDGE
+IMG_3043,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,12,Healthy,N,Y,279.5,84.6969697,Solar EDGE
+IMG_3044,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and heavy bird droppings,17,Healthy,Y,Y,269.75,81.74242424,Solar EDGE
+IMG_3045,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,14,Healthy,N,Y,266.75,80.83333333,Solar EDGE
+IMG_3046,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and bird droppings,17,Healthy,N,Y,270.25,81.89393939,Solar EDGE
+IMG_3047,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,14,Healthy,N,Y,272,82.42424242,Solar EDGE
+IMG_3048,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,13,Healthy,N,Y,275,83.33333333,Solar EDGE
+IMG_3049,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,269.5,81.66666667,Solar EDGE
+IMG_3050,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,16,Healthy,N,Y,266.75,80.83333333,Solar EDGE
+IMG_3051,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,271,82.12121212,Solar EDGE
+IMG_3052,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,14,Healthy,N,Y,279,84.54545455,Solar EDGE
+IMG_3053,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and bird droppings,18,Healthy,N,Y,260,78.78787879,Solar EDGE
+IMG_3057,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,16,Healthy,N,Y,268.75,81.43939394,Solar EDGE
+IMG_3058,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270,81.81818182,Solar EDGE
+IMG_3059,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,17,Healthy,N,Y,261,79.09090909,Solar EDGE
+IMG_3060,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,19,Healthy,N,Y,260,78.78787879,Solar EDGE
+IMG_3061,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,17,Healthy,N,Y,257.5,78.03030303,Solar EDGE
+IMG_3062,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,17,Healthy,N,Y,255.75,77.5,Solar EDGE
+IMG_3063,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,18,Healthy,N,Y,256.25,77.65151515,Solar EDGE
+IMG_3064,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and bird droppings,20,Healthy,N,Y,258,78.18181818,Solar EDGE
+IMG_3065,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,262.5,79.54545455,Solar EDGE
+IMG_3066,CRN 45073,Galle,2019-05,7,330,Trina Solar,curved scratch on top area,40,Early Degradation,N,Y,220.25,66.74242424,Solar EDGE
+IMG_3067,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,270,81.81818182,Solar EDGE
+IMG_3068,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,14,Healthy,N,Y,271.5,82.27272727,Solar EDGE
+IMG_3069,CRN 45073,Galle,2019-05,7,330,Trina Solar,Heavy bird dropping on bottom middle area,30,Healthy,Y,Y,255,77.27272727,Solar EDGE
+IMG_3070,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,272,82.42424242,Solar EDGE
+IMG_3071,CRN 45073,Galle,2019-05,7,330,Trina Solar,heavy bird dropping on middle area,18,Healthy,Y,Y,268.75,81.43939394,Solar EDGE
+IMG_3072,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust,15,Healthy,N,Y,273.75,82.95454545,Solar EDGE
+IMG_3075,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,18,Healthy,Y,Y,261.25,79.16666667,Solar EDGE
+IMG_3076,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,18,Healthy,Y,Y,265,80.3030303,Solar EDGE
+IMG_3077,CRN 45073,Galle,2019-05,7,330,Trina Solar,"Light dust, algae layer on bottom and bird droppings",19,Healthy,Y,Y,259,78.48484848,Solar EDGE
+IMG_3078,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,16,Healthy,Y,Y,257,77.87878788,Solar EDGE
+IMG_3079,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,17,Healthy,Y,Y,260.5,78.93939394,Solar EDGE
+IMG_3081,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,16,Healthy,Y,Y,265,80.3030303,Solar EDGE
+IMG_3082,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,17,Healthy,Y,Y,255,77.27272727,Solar EDGE
+IMG_3083,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,17,Healthy,Y,Y,256.25,77.65151515,Solar EDGE
+IMG_3084,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,16,Healthy,Y,Y,259.5,78.63636364,Solar EDGE
+IMG_3085,CRN 45073,Galle,2019-05,7,330,Trina Solar,Light dust and algae layer on bottom,16,Healthy,Y,Y,257,77.87878788,Solar EDGE
+IMG_3089,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,7,Healthy,N,Y,587,94.67741935,Solar EDGE
+IMG_3090,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,7,Healthy,N,Y,591,95.32258065,Solar EDGE
+IMG_3091,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,7,Healthy,N,Y,594,95.80645161,Solar EDGE
+IMG_3092,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust and bird droppings,14,Healthy,N,Y,579.75,93.50806452,Solar EDGE
+IMG_3093,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,8,Healthy,N,Y,584.75,94.31451613,Solar EDGE
+IMG_3146,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,17,Healthy,N,Y,563.5,90.88709677,Solar EDGE
+IMG_3147,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,18,Healthy,N,Y,562.75,90.76612903,Solar EDGE
+IMG_3148,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,19,Healthy,N,Y,563.5,90.88709677,Solar EDGE
+IMG_3149,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,16,Healthy,N,Y,567,91.4516129,Solar EDGE
+IMG_3150,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,16,Healthy,N,Y,564.75,91.08870968,Solar EDGE
+IMG_3152,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,15,Healthy,N,Y,571.75,92.21774194,Solar EDGE
+IMG_3153,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,16,Healthy,N,Y,570.25,91.97580645,Solar EDGE
+IMG_3156,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,17,Healthy,N,Y,569.25,91.81451613,Solar EDGE
+IMG_3157,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,15,Healthy,N,Y,575.5,92.82258065,Solar EDGE
+IMG_3160,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,574.75,92.7016129,Solar EDGE
+IMG_3161,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,13,Healthy,N,Y,581,93.70967742,Solar EDGE
+IMG_3162,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,572.25,92.2983871,Solar EDGE
+IMG_3163,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,579.5,93.46774194,Solar EDGE
+IMG_3166,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,14,Healthy,N,Y,579.75,93.50806452,Solar EDGE
+IMG_3169,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,12,Healthy,N,Y,578.25,93.26612903,Solar EDGE
+IMG_3170,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,12,Healthy,N,Y,580.75,93.66935484,Solar EDGE
+IMG_3171,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,11,Healthy,N,Y,578.75,93.34677419,Solar EDGE
+IMG_3172,CRN 53652,Galle,2025-05,1,620,Jinko Solar,Light dust,12,Healthy,N,Y,579,93.38709677,Solar EDGE
