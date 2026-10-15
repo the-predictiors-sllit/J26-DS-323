@@ -1,0 +1,1 @@
+"""Solar setup feature."""
