@@ -1,1 +1,10 @@
-fastapi[standard] == 0.143.0
+fastapi[standard]>=0.143.0
+numpy>=2.5.4
+pandas>=3.0.6
+pillow>=12.3.0
+pvlib>=0.16.1
+python-multipart>=0.0.32
+threadpoolctl>=3.7.0
+torch>=2.14.1
+torchvision>=0.29.1
+tzdata>=2026.5
