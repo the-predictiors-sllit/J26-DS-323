@@ -1,0 +1,7 @@
+# Optional historical draft generator only; not needed by the API or manual editor.
+numpy>=1.26,<3
+Pillow>=10,<13
+scipy>=1.11,<2
+scikit-learn>=1.4,<2
+threadpoolctl>=3,<4
+opencv-python-headless>=4.8,<5
