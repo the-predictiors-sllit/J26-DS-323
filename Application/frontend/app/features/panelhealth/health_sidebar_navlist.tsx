@@ -9,6 +9,6 @@ export const NAV: RailItem[] = [
   { id: "deployments", label: "Deployments", isActive: true, icon: <RocketIcon aria-hidden="true" />, link: "#" },
   { id: "monitoring", label: "Monitoring", icon: <ActivityIcon aria-hidden="true" />, link: "#" },
   { id: "analytics", label: "Analytics", icon: <BarChart3Icon aria-hidden="true" />, link: "#" },
-  { id: "audit", label: "Audit log", icon: <ShieldCheckIcon aria-hidden="true" />, link: "#" },
+  { id: "test", label: "test", icon: <ShieldCheckIcon aria-hidden="true" />, link: "/features/panelhealth/lucky" },
   { id: "settings", label: "Settings", icon: <SettingsIcon aria-hidden="true" />, link: "#" },
 ]
