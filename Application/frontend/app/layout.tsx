@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Figtree } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "next-themes";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -45,7 +46,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           enableSystem
           enableColorScheme
         >
-          {children}
+          <TooltipProvider>
+
+            {children}
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
