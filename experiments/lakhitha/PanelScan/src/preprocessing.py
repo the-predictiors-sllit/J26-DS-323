@@ -7,7 +7,7 @@ PANEL_ASPECT times taller than wide, so neighbouring panels and the roof disappe
 import cv2
 import numpy as np
 
-PANEL_ASPECT = 1.6   # height / width of a cropped panel image. Set it to the median of your own straightened
+PANEL_ASPECT = 1.8   # height / width of a cropped panel image. Set it to the median of your own straightened
                      # panels (python src/check_precropped.py prints it); training and the app both follow it.
 MAX_WARP_WIDTH = 2000   # the cut-out is first made at about the photo's own resolution, but never wider than this
 

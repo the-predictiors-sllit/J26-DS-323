@@ -8,3 +8,4 @@ results/predictions_*.csv
 # Local Python environment
 .venv/
 results/*.jpg
+data/cropped_backup/
