@@ -1,0 +1,5 @@
+serial,model,battery_id,reading_time_local,soc_pct,voltage_v,current_a,state,power_kw,charge_voltage_limit_v,discharge_voltage_limit_v,charge_current_limit_a,discharge_current_limit_a,max_cell_v,min_cell_v,max_cell_temp_c,min_cell_temp_c,charge_limit_kw_at_53v,discharge_limit_kw_at_51v
+4060050264180100,IntelliHome-5kWh-OD,325499,15/08/2026 09:06:12,83,53.9,5.1,charging,0.275,56.8,46.4,50,100,3.385,3.381,31.9,31.2,2.65,5.1
+4060050264140045,IntelliHome-5kWh-OD,32697A,15/08/2026 09:09:33,24,52.8,23.4,charging,1.236,56.8,46.4,50,100,3.303,3.299,29.1,28.7,2.65,5.1
+4060050264180125,IntelliHome-5kWh-OD,2024FB,15/08/2026 09:09:34,78,52.7,0.7,discharging,0.037,56.8,46.4,50,100,3.302,3.296,33.6,32.3,2.65,5.1
+4060050264080119,IntelliHome-5kWh-OD,30953E,15/08/2026 09:06:52,95,53.6,1.2,discharging,0.064,56.8,46.4,42,100,3.352,3.349,28.5,28.1,2.23,5.1
