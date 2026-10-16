@@ -26,8 +26,11 @@ def inspect(path):
     with Image.open(path) as im:                 # opens the header only, not the pixels
         w, h = im.size
         fmt = im.format
+        turned = im.getexif().get(0x0112, 1) in (5, 6, 7, 8)   # the phone's "this photo is rotated" tag
+    if turned:                                   # OpenCV (used in training) rotates such photos, so measure them rotated
+        w, h = h, w
     return {"path": str(path), "width": w, "height": h, "megabytes": os.path.getsize(path) / 1e6,
-            "aspect": h / w, "format": fmt}
+            "aspect": h / w, "format": fmt, "turned": turned}
 
 
 def main():
@@ -58,6 +61,7 @@ def main():
     print(f"  size   MB  min / median / max : {q('megabytes')}")
     print(f"  height/width  min / median / max : {q('aspect')}")
     print(f"  file types: {d.format.value_counts().to_dict()}")
+    print(f"  photos with a rotation tag (sizes above already count them rotated, as training does): {int(d.turned.sum())}")
     median_aspect = float(d.aspect.median())
     print(f"\nPANEL_ASPECT in src/preprocessing.py is the shape every panel is resized to. "
           f"Your median is {median_aspect:.2f}; set PANEL_ASPECT = {round(median_aspect, 2)} if it differs from the current value.")
@@ -65,6 +69,7 @@ def main():
     problems = []
     for r in d.itertuples():
         notes = []
+        size_notes = []
         if r.aspect < 1.0:
             notes.append("wider than tall: saved sideways?")
         if r.width < 600:
@@ -72,15 +77,20 @@ def main():
         if r.format not in ("JPEG",):
             notes.append(f"{r.format} file: fine, but large")
         if r.megabytes > 8:
-            notes.append(f"{r.megabytes:.1f} MB: re-saving as JPEG quality 92-95 would shrink it a lot")
+            size_notes.append(f"{r.megabytes:.1f} MB")
         site_median = d[d.site == r.site].aspect.median()
         n_site = (d.site == r.site).sum()
         if n_site >= 3 and abs(r.aspect / site_median - 1) > args.tolerance:
             notes.append(f"shape {r.aspect:.2f} vs {site_median:.2f} for the rest of site {r.site}")
         if notes:
             problems.append((r.name, r.site, "; ".join(notes)))
+        elif size_notes:
+            problems.append((r.name, r.site, f"{size_notes[0]} (large file; fine for training, it is shrunk when loaded)"))
 
     shape_issues = [p for p in problems if "shape" in p[2] or "sideways" in p[2]]
+    if shape_issues:
+        print("\nTo SEE the odd ones as thumbnails (instead of opening each huge file):")
+        print("    python src\\contact_sheet.py --csv data\\panel_dataset_clean.csv")
     print(f"\n{len(shape_issues)} photo(s) with an unusual shape (worth a look):")
     for name, site, note in shape_issues:
         print(f"  {name}  ({site}): {note}")
