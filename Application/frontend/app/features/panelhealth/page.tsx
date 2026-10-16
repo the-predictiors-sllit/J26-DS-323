@@ -24,14 +24,12 @@ export default function PanelHealthPage() {
   const [cropUrl, setCropUrl] = useState<string | null>(null)
   const [ratedOutput, setRatedOutput] = useState("")
   const [installMonth, setInstallMonth] = useState("")
-  const [maxMonth, setMaxMonth] = useState<string | undefined>(undefined)
   const [report, setReport] = useState<PanelReport | null>(null)
   const [reportAge, setReportAge] = useState(0)
   const [busy, setBusy] = useState<"crop" | "analyze" | null>(null)
   const [error, setError] = useState<string | null>(null)
   const resultRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => setMaxMonth(new Date().toISOString().slice(0, 7)), [])
   useEffect(() => {
     if (report) resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
   }, [report])
@@ -214,7 +212,6 @@ export default function PanelHealthPage() {
                   <input
                     type="month"
                     required
-                    max={maxMonth}
                     value={installMonth}
                     onChange={(event) => setInstallMonth(event.target.value)}
                     className="h-10 min-w-0 flex-1 bg-transparent px-3 text-sm outline-none"
