@@ -181,7 +181,7 @@ export default function SolarSetup() {
             <div className="grid items-start gap-6 lg:grid-cols-5">
               <Card className="space-y-4 lg:col-span-2">
                 <h2 className="text-lg font-semibold">Site photograph</h2>
-                <Input
+                <input
                   ref={photoInput}
                   className="hidden"
                   type="file"
@@ -358,7 +358,7 @@ export default function SolarSetup() {
                 Load the actual <code>test_metrics.json</code> produced after
                 evaluation. No example scores are displayed.
               </p>
-              <Input
+              <input
                 ref={reportInput}
                 className="hidden"
                 type="file"
