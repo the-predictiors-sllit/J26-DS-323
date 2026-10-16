@@ -1,1 +1,8 @@
 fastapi[standard] == 0.143.0
+torch
+torchvision
+opencv-python-headless
+albumentations
+numpy
+pandas
+grad-cam
