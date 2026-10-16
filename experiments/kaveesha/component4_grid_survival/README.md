@@ -25,3 +25,10 @@ so that planned outages hurt less. Hardware-free: runs on simulation, public wea
 | src/plan.py | get_plan (the one function the API wraps) |
 
 See docs/assumptions_log.md for every assumption.
+
+## Frontend support (new)
+- `POST /plan/auto` takes simple inputs (battery kWh, panel kWp, daily use, tariffs, preference, weather outlook, outage notices) and returns the 24 hour plan plus a comparison with two ordinary battery rules. Logic lives in `src/planner.py`.
+- `GET /evaluation` returns the one-year results for the Compare and History pages.
+- `python src/make_pv_profiles.py` rebuilds `data/processed/pv_profiles_per_kwp.csv` from the raw weather file (only needed if the weather changes).
+- Test: `python tests_api.py`
+- The pages live in `Application/frontend/app/features/energyresilience`. They call the API at `http://localhost:8000` (change with `NEXT_PUBLIC_API_URL`).

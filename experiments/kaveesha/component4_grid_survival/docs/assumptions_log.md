@@ -12,3 +12,12 @@
 | 8 | MPC uses the true PV and load as its forecast (perfect forecast) | Upper bound. forecast_noise option tests errors | mpc.py |
 | 9 | Preference profiles are unserved penalties of 5, 60 and 1000 LKR per kWh | Controls the savings versus resilience trade off | config profiles |
 | 10 | Real logs cover May to August 2026 only | No dry season data | all |
+
+## Added for the app (Component 4 frontend)
+- Typical solar per kWp by month is the average hour of 2019 to 2025 NASA POWER weather run through the pvlib model (data/processed/pv_profiles_per_kwp.csv). A sunny hour uses the 90th percentile hour.
+- Weather words scale a clear day's solar: sunny 100%, cloudy 50%, rainy 15%. These factors are ASSUMPTIONS, not measured.
+- User weather and outage inputs are written as "starts in N hours, lasts D hours" and are treated as known when the plan is made.
+- Home use for the next 24 hours is the average weekday or weekend profile from the real household logs, scaled to the daily kWh the user enters.
+- When the user picks a different battery size, charge and discharge power limits scale with it (same C-rate as the 5 kWh reference battery). ASSUMPTION.
+- The day comparison runs three controllers (normal rule, rule with the preference's reserve, MPC) over the same 24 hours with the same physics.
+- Year results shown in the app are read from results/evaluation_summary.csv and results/rule_reserve_baselines.csv. Outage years are synthetic scenarios.
