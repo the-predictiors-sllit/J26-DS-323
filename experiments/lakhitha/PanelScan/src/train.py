@@ -12,6 +12,10 @@ Photos you straightened by hand (use --images data/cropped when running prepare_
     python src/train.py --precropped --tag A_precropped
 Or crop every photo to the panel with corner clicks (needs data/panel_corners.csv):
     python src/train.py --corners data/panel_corners.csv --tag A_crop
+Fewer passes, frozen features, stronger augmentation (quick checks against over-fitting; each with its own --tag):
+    python src/train.py --precropped --epochs 5 --tag A_ep5
+    python src/train.py --precropped --freeze-backbone --tag A_frozen
+    python src/train.py --precropped --strong-aug --tag A_strongaug
 Larger photos / no CLAHE / age+capacity as extra inputs (give each run its own --tag):
     python src/train.py --precropped --img-size 384 --tag A_size384
     python src/train.py --precropped --no-clahe --tag A_noclahe
@@ -53,6 +57,10 @@ def add_common_args(ap):
                     help="the photos in the CSV are already cut out and straightened by hand: just resize them")
     ap.add_argument("--corners", default=None,
                     help="CSV of panel corners (from annotate_corners.py): crop every photo to the panel")
+    ap.add_argument("--freeze-backbone", action="store_true",
+                    help="train only the small heads on the frozen pretrained features: fast, and less able to memorise sites")
+    ap.add_argument("--strong-aug", action="store_true",
+                    help="stronger augmentation (zoom, shift, colour, blur): makes site-specific colour and texture less usable")
     ap.add_argument("--seed", type=int, default=42)
 
 
@@ -97,22 +105,27 @@ def predict(model, loader, device):
 
 def build_and_train(train_df, cache, args, device):
     """Train a fresh model on the photos in train_df for a fixed number of epochs and return it."""
-    train_ds = PanelDataset(train_df, cache, train=True)
+    train_ds = PanelDataset(train_df, cache, train=True, strong_aug=args.strong_aug)
     train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True,
                               drop_last=len(train_ds) > args.batch_size)
 
     model = PanelModel(args.backbone, use_meta=args.use_meta, pretrained=not args.no_pretrained).to(device)
     head_params = (list(model.shared.parameters()) + list(model.reg_head.parameters())
                    + list(model.soil_head.parameters()))
-    optimizer = torch.optim.AdamW(
-        [{"params": model.backbone.parameters(), "lr": args.lr},
-         {"params": head_params, "lr": args.lr * 3}],
-        weight_decay=1e-4,
-    )
+    if args.freeze_backbone:
+        for param in model.backbone.parameters():
+            param.requires_grad = False
+        groups = [{"params": head_params, "lr": args.lr * 10}]     # only the small heads learn
+    else:
+        groups = [{"params": model.backbone.parameters(), "lr": args.lr},
+                  {"params": head_params, "lr": args.lr * 3}]
+    optimizer = torch.optim.AdamW(groups, weight_decay=1e-4)
     mse, bce = nn.MSELoss(), nn.BCEWithLogitsLoss()
 
     for epoch in range(1, args.epochs + 1):
         model.train()
+        if args.freeze_backbone:
+            model.backbone.eval()       # keep the pretrained batch-norm statistics unchanged
         total = 0.0
         for img, meta, reg_t, soil_t in train_loader:
             img, meta = img.to(device), meta.to(device)
@@ -147,7 +160,7 @@ def main():
     crop = "corners" if args.corners else "hand-straightened photos" if args.precropped else "none"
     print(f"device: {device} | photos: {len(df)} | sites: {df.Site_ID.nunique()} | backbone: {args.backbone} | "
           f"image size: {args.img_size} | CLAHE: {not args.no_clahe} | panel crop: {crop} | "
-          f"extra inputs (age, capacity): {args.use_meta}")
+          f"extra inputs (age, capacity): {args.use_meta} | frozen backbone: {args.freeze_backbone} | strong augmentation: {args.strong_aug}")
 
     cache = prepare_cache(df, args)
 

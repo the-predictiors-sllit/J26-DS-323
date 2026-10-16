@@ -57,6 +57,8 @@ def main():
         "n_photos": int(len(df)),
         "n_sites": int(df.Site_ID.nunique()),
         "epochs": int(args.epochs),
+        "freeze_backbone": bool(args.freeze_backbone),
+        "strong_aug": bool(args.strong_aug),
         "created": datetime.datetime.now().isoformat(timespec="seconds"),
     }
     out = Path(args.out)
