@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+/*import type { ReactNode } from "react"
 import { ActivityIcon, BarChart3Icon, InboxIcon, LayoutDashboardIcon, RocketIcon, SettingsIcon, ShieldCheckIcon } from 'lucide-react'
 import { RailItem } from "../components/sidebar_interfaces"
 
@@ -11,4 +11,12 @@ export const NAV: RailItem[] = [
   { id: "analytics", label: "Analytics", icon: <BarChart3Icon aria-hidden="true" />, link: "#" },
   { id: "audit", label: "Audit log", icon: <ShieldCheckIcon aria-hidden="true" />, link: "#" },
   { id: "settings", label: "Settings", icon: <SettingsIcon aria-hidden="true" />, link: "#" },
-]
+]*/
+
+import { ScanLine, Sun, Activity } from 'lucide-react';
+import type { RailItem } from '../components/sidebar_interfaces';
+export const NAV: RailItem[] = [
+  { id: 'analysis', label: 'Site analysis', icon: <ScanLine aria-hidden />, link: '#analysis' },
+  { id: 'orientation', label: 'Solar orientation', icon: <Sun aria-hidden />, link: '#orientation' },
+  { id: 'evaluation', label: 'Model evaluation', icon: <Activity aria-hidden />, link: '#evaluation' },
+];
