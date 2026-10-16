@@ -1,0 +1,8 @@
+torch
+torchvision
+opencv-python-headless
+albumentations
+numpy
+pandas
+scipy
+grad-cam          # Grad-CAM heat maps. The pip name is "grad-cam"; in Python you import it as pytorch_grad_cam
