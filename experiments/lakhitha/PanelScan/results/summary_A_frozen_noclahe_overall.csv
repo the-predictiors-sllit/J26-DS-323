@@ -1,0 +1,6 @@
+metric,model,baseline (training average)
+"Health score error, MAE (points of 100)",21.2071,17.2161
+"Health score error, RMSE (points of 100)",28.8874,23.1084
+"Output percent error, MAE (points of 100)",16.3526,12.8118
+"Output error in watts, MAE",66.9934,49.5703
+Soiling flag accuracy (0-1),0.3806,0.6516
