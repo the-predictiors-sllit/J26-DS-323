@@ -40,3 +40,22 @@ uv run fastapi dev
 
 Each feature also has a placeholder endpoint at its prefix, for example
 `GET /api/v1/solarsetup`.
+
+## Panel health endpoints
+
+| Method and path | What it does |
+|---|---|
+| `GET /api/v1/panelhealth/model-status` | Is a trained model saved where the service looks for it? |
+| `POST /api/v1/panelhealth/crop` | Photo + four corners in, the straightened panel (JPEG) out. |
+| `POST /api/v1/panelhealth/predict` | Photo + four corners + rated capacity (W) + age (years) in; health score, category, advice, watt range and a Grad-CAM heat map out. |
+
+The model code is in `app/features/panelhealth/ml/`. That folder is **copied** from
+`experiments/lakhitha/PanelScan/src` by `sync_to_backend.py`; do not edit it here. The trained model
+(`models/panelscan.pt`) is not committed. Until it exists, `/predict` answers `503` with instructions and
+`/crop` keeps working.
+
+Dependencies for this feature are added from the folder that holds `pyproject.toml` (`Backend/app`):
+
+```powershell
+uv add torch torchvision opencv-python-headless albumentations numpy pandas grad-cam
+```

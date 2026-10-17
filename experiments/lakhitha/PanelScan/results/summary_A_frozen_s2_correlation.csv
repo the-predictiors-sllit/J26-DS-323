@@ -1,0 +1,3 @@
+metric,value
+"Pearson r: predicted score vs measured output %, all sites pooled",-0.5009
+"Pearson r: same, site averages removed (panel-to-panel within a site)",0.1498
