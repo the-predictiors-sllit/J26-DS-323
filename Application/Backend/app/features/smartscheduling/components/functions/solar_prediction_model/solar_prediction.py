@@ -5,23 +5,41 @@ import joblib
 import numpy as np
 import pandas as pd
 from pvlib.solarposition import get_solarposition
+from functools import lru_cache
 
 
 RESULT_FOLDER = (
     Path(__file__).resolve().parent / "model" / "15min"
 )
 
-saved_model = joblib.load(
-    RESULT_FOLDER / "best_tuned_model.joblib"
-)
+# saved_model = joblib.load(
+#     RESULT_FOLDER / "best_tuned_model.joblib"
+# )
 
-with (RESULT_FOLDER / "training_metadata.json").open(
-    "r",
-    encoding="utf-8",
-) as file:
-    model_metadata = json.load(file)
+# with (RESULT_FOLDER / "training_metadata.json").open(
+#     "r",
+#     encoding="utf-8",
+# ) as file:
+#     model_metadata = json.load(file)
 
-FEATURE_COLUMNS = model_metadata["features"]
+# FEATURE_COLUMNS = model_metadata["features"]
+
+@lru_cache(maxsize=1)
+def load_prediction_model():
+    model_path = RESULT_FOLDER / "best_tuned_model.joblib"
+    metadata_path = RESULT_FOLDER / "training_metadata.json"
+
+    if not model_path.is_file() or not metadata_path.is_file():
+        raise FileNotFoundError(
+            "Solar prediction model files are not installed."
+        )
+
+    with metadata_path.open("r", encoding="utf-8") as file:
+        metadata = json.load(file)
+
+    model = joblib.load(model_path)
+
+    return model, metadata["features"]
 
 LOCAL_TIMEZONE = "Asia/Colombo"
 
@@ -99,6 +117,7 @@ def predict_solar_power(feature_values):
 
     Return one prediction row per input.
     """
+    saved_model, FEATURE_COLUMNS = load_prediction_model()
     rows = (
         [feature_values]
         if isinstance(feature_values, dict)

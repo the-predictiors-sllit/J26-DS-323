@@ -63,11 +63,29 @@ def run_prediction(rows: list[PredictionRequest]):
 
     try:
         predictions = predict_solar_power(variables)
+
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Solar prediction is unavailable because the model "
+                "files are not installed on this backend."
+            ),
+        ) from exc
+
     except ValueError as exc:
         raise HTTPException(
             status_code=422,
             detail=str(exc),
         ) from exc
+
+    # try:
+    #     predictions = predict_solar_power(variables)
+    # except ValueError as exc:
+    #     raise HTTPException(
+    #         status_code=422,
+    #         detail=str(exc),
+    #     ) from exc
 
     return {
         "predictions": predictions.to_dict(orient="records")
