@@ -1,0 +1,20 @@
+{
+  "battery": {
+    "capacity_kwh": 5.0,
+    "min_soc_pct": 20,
+    "max_soc_pct": 100,
+    "max_charge_kw": 2.7,
+    "max_discharge_kw": 3.0,
+    "round_trip_efficiency": 0.95,
+    "source": "IntelliHome-5kWh-OD app screenshots; BatteryStats log (charge ~2.6 kW observed)"
+  },
+  "pv": {
+    "system_kw": 5.0,
+    "source": "customer_details typical size; pvlib sim to be validated against weligama_hourly.csv"
+  },
+  "assumptions": [
+    "Round-trip efficiency 0.95 is an ASSUMPTION (no measured data)",
+    "Tariff is a user input, not from data",
+    "Log timestamps converted UTC -> UTC+5:30 for Weligama; Hybrid file already local"
+  ]
+}

@@ -1,0 +1,138 @@
+[
+  {
+    "file": "IMG_20260813_155026_885.jpeg",
+    "mask": "IMG_20260813_155026_885.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260813_162948_500.jpeg",
+    "mask": "IMG_20260813_162948_500.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": false,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260813_165818_724.jpeg",
+    "mask": "IMG_20260813_165818_724.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": false,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260814_153927_299.jpeg",
+    "mask": "IMG_20260814_153927_299.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260814_163356_740.jpeg",
+    "mask": "IMG_20260814_163356_740.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260814_164841_565.jpeg",
+    "mask": "IMG_20260814_164841_565.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260814_174727_492.jpeg",
+    "mask": "IMG_20260814_174727_492.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260814_175734_824.jpeg",
+    "mask": "IMG_20260814_175734_824.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": false,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260814_182427_663.jpeg",
+    "mask": "IMG_20260814_182427_663.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_160025_278.jpeg",
+    "mask": "IMG_20260817_160025_278.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_163836_655.jpeg",
+    "mask": "IMG_20260817_163836_655.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": false,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_170302_430.jpeg",
+    "mask": "IMG_20260817_170302_430.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": false,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_170407_940.jpeg",
+    "mask": "IMG_20260817_170407_940.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": false,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_172505_968.jpeg",
+    "mask": "IMG_20260817_172505_968.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_174948_241.jpeg",
+    "mask": "IMG_20260817_174948_241.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_175324_085.jpeg",
+    "mask": "IMG_20260817_175324_085.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": true,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  },
+  {
+    "file": "IMG_20260817_180441_351.jpeg",
+    "mask": "IMG_20260817_180441_351.png",
+    "status": "DRAFT_REQUIRES_FULL_HUMAN_REVIEW",
+    "manual_sky_interior_patch": false,
+    "grabcut_refinement": true,
+    "reviewed_ground_truth": false
+  }
+]

@@ -1,2 +1,6 @@
 .chartdata/
 .temp/
+.bigdata/
+.old/
+step by step/data/
+*.joblib
