@@ -3,3 +3,4 @@
 .bigdata/
 .old/
 step by step/data/
+*.joblib
