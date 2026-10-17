@@ -12,13 +12,15 @@ from pathlib import Path
 
 import torch
 
-try:  # used as part of the Backend package (app.features.panelhealth.ml)
+# Inside the Backend this file is part of a package (app.features.panelhealth.ml) and uses relative imports;
+# run from experiments/.../src it is a plain script and uses absolute ones.
+if __package__:
     from .advice import build_report
     from .consistency import mismatched_files
     from .dataset import AGE_SCALE, CAPACITY_SCALE, get_transforms
     from .model import PanelModel
     from .preprocessing import PANEL_ASPECT, prepare_image
-except ImportError:  # run as a script from experiments/.../src
+else:
     from advice import build_report
     from consistency import mismatched_files
     from dataset import AGE_SCALE, CAPACITY_SCALE, get_transforms
@@ -74,6 +76,10 @@ class Predictor:
 
     def explain(self, photo_rgb, corners, rated_capacity_w, age_years):
         """The panel with a Grad-CAM heat map on it (RGB, uint8)."""
-        from gradcam_utils import heatmap_overlay   # imported here so predict() works without the grad-cam package
+        # imported here so predict() works without the grad-cam package
+        if __package__:
+            from .gradcam_utils import heatmap_overlay
+        else:
+            from gradcam_utils import heatmap_overlay
         panel, tensor, meta = self._prepare(photo_rgb, corners, rated_capacity_w, age_years)
         return heatmap_overlay(self.model, tensor, panel, meta if self.cfg["use_meta"] else None)
