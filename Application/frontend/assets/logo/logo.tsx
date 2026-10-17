@@ -1,9 +1,12 @@
 import type { SVGAttributes } from "react";
+import Image from "next/image";
 
 const Logo = (props: SVGAttributes<SVGElement>) => {
   return (
     <div className="flex items-center gap-2.5">
-      <svg
+
+      <Image src={"/SOLAI-logo-long.png"} alt="logo" width={100} height={50} className="w-full h-auto"/>
+      {/* <svg
         width="147"
         height="40"
         viewBox="0 0 147 40"
@@ -28,7 +31,7 @@ const Logo = (props: SVGAttributes<SVGElement>) => {
           fill="#030712"
           className="dark:fill-[#FFFFFF]"
         />
-      </svg>
+      </svg> */}
     </div>
   );
 };

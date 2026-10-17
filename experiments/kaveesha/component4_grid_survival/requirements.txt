@@ -1,0 +1,11 @@
+pandas
+numpy
+scipy
+pvlib
+matplotlib
+requests
+# added later for the PPO comparison and the API
+# gymnasium
+# stable-baselines3
+fastapi
+uvicorn

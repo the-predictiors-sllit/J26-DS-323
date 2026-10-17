@@ -1,0 +1,11 @@
+# Private photos of other people's property: never commit them (they are also large)
+data/raw/
+data/cropped/
+data/panel_dataset_clean.csv
+# Trained model and bulky results
+checkpoints/*.pt
+results/predictions_*.csv
+# Local Python environment
+.venv/
+results/*.jpg
+data/cropped_backup/
