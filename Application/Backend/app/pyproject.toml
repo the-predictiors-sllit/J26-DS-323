@@ -3,5 +3,12 @@ name = "app"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
+    "albumentations>=2.0.8",
     "fastapi[standard]>=0.143.0",
+    "grad-cam>=1.5.7",
+    "numpy>=2.5.4",
+    "opencv-python-headless>=5.0.0.93",
+    "pandas>=3.0.6",
+    "torch>=2.14.1",
+    "torchvision>=0.29.1",
 ]
