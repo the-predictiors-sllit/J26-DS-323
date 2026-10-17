@@ -8,26 +8,13 @@ from pvlib.solarposition import get_solarposition
 from functools import lru_cache
 
 
-RESULT_FOLDER = (
-    Path(__file__).resolve().parent / "model" / "15min"
-)
-
-# saved_model = joblib.load(
-#     RESULT_FOLDER / "best_tuned_model.joblib"
-# )
-
-# with (RESULT_FOLDER / "training_metadata.json").open(
-#     "r",
-#     encoding="utf-8",
-# ) as file:
-#     model_metadata = json.load(file)
-
-# FEATURE_COLUMNS = model_metadata["features"]
-
-@lru_cache(maxsize=1)
-def load_prediction_model():
-    model_path = RESULT_FOLDER / "best_tuned_model.joblib"
-    metadata_path = RESULT_FOLDER / "training_metadata.json"
+@lru_cache(maxsize=2)
+def load_prediction_model(interval_minutes=15):
+    if interval_minutes not in (5, 15):
+        raise ValueError("interval_minutes must be 5 or 15.")
+    result_folder = Path(__file__).resolve().parent / "model" / f"{interval_minutes}min"
+    model_path = result_folder / "best_tuned_model.joblib"
+    metadata_path = result_folder / "training_metadata.json"
 
     if not model_path.is_file() or not metadata_path.is_file():
         raise FileNotFoundError(
@@ -108,7 +95,7 @@ def prepare_features(row: dict) -> dict:
     return features
 
 
-def predict_solar_power(feature_values):
+def predict_solar_power(feature_values, *, interval_minutes=15):
     """
     Accept one input dictionary or a list of input dictionaries.
 
@@ -117,7 +104,7 @@ def predict_solar_power(feature_values):
 
     Return one prediction row per input.
     """
-    saved_model, FEATURE_COLUMNS = load_prediction_model()
+    saved_model, FEATURE_COLUMNS = load_prediction_model(interval_minutes)
     rows = (
         [feature_values]
         if isinstance(feature_values, dict)
