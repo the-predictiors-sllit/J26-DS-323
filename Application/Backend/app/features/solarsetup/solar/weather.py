@@ -90,7 +90,7 @@ def load_weather(s: SolarSettings, csv_bytes: bytes | None = None):
         frame.index = midpoint
         source = "User-supplied full-year CSV, interval means; provenance must be recorded by user"
     daylight = position["apparent_zenith"].to_numpy() < 90
-    arr = frame.to_numpy(dtype=float)
+    arr = frame.to_numpy(dtype=float, copy=True)
     if not np.isfinite(arr).all():
         raise ValueError("Weather model returned non-finite irradiance.")
     if np.any(arr[~daylight] > 20):
