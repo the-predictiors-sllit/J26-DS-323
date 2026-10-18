@@ -14,6 +14,7 @@ import binascii
 import io
 import secrets
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import List, Optional, Tuple
 
 # Sri Lanka has no daylight saving, so a fixed offset is always right
@@ -41,6 +42,7 @@ LIMITS = [
 
 MAX_TEXT = 700          # longest text accepted for any one field
 MAX_IMAGE_PIXELS = 4000 * 4000
+LOGO_PATH = Path(__file__).resolve().parents[4] / "frontend" / "public" / "SOLAI-logo-short.png"
 
 
 class ReportError(ValueError):
@@ -181,14 +183,16 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     # ------------------------------------------------------------------ header band
     pdf.set_fill_color(*INK)
     pdf.rect(0, 0, pdf.w, 26, style="F")
-    pdf.set_xy(X0, 7)
+    if LOGO_PATH.is_file():
+        pdf.image(str(LOGO_PATH), x=X0, y=5.5, w=13, h=13)
+    pdf.set_xy(X0 + 17, 7)
     pdf.set_font("Helvetica", "B", 20)
     pdf.set_text_color(255, 255, 255)
-    pdf.cell(110, 9, "Solar Panel Health Report")
-    pdf.set_xy(X0, 16.5)
+    pdf.cell(93, 9, "Solar Panel Health Report")
+    pdf.set_xy(X0 + 17, 16.5)
     pdf.set_font("Helvetica", "", 9)
     pdf.set_text_color(203, 213, 225)
-    pdf.cell(110, 5, "PanelScan photo-based estimate  |  Experimental")
+    pdf.cell(93, 5, "PanelScan photo-based estimate")
     pdf.set_xy(pdf.w - pdf.r_margin - 62, 6.5)
     pdf.set_font("Helvetica", "", 8)
     pdf.set_text_color(148, 163, 184)
