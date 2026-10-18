@@ -1,0 +1,54 @@
+/* Scoped theme overrides; other SVAR instances and the rest of the app are untouched. */
+.solar-gantt > .wx-willow-theme {
+  height: 100%;
+  --wx-font-family: inherit;
+  --wx-font-size: 13px;
+  --wx-color-font: var(--foreground);
+  --wx-color-font-alt: var(--muted-foreground);
+  --wx-color-primary: var(--primary);
+  --wx-color-primary-font: var(--primary-foreground);
+  --wx-color-secondary: var(--secondary);
+  --wx-color-secondary-font: var(--secondary-foreground);
+  --wx-background: var(--card);
+  --wx-background-alt: var(--muted);
+  --wx-background-hover: var(--accent);
+  --wx-border-color: var(--border);
+  --wx-border: 1px solid var(--border);
+  --wx-gantt-border: 1px solid var(--border);
+  --wx-gantt-task-color: transparent;
+  --wx-gantt-task-font-color: var(--foreground);
+  --wx-gantt-task-border: 0;
+  --wx-gantt-task-border-color: transparent;
+  --wx-gantt-task-fill-color: transparent;
+  --wx-gantt-bar-border-radius: 12px;
+  --wx-gantt-bar-shadow: none;
+  --wx-grid-header-font-color: var(--muted-foreground);
+  --wx-grid-body-font-color: var(--foreground);
+  --wx-timescale-font-color: var(--muted-foreground);
+  --wx-gantt-holiday-background: var(--card);
+  --wx-gantt-select-color: color-mix(in oklab, var(--primary) 7%, var(--card));
+}
+.solar-run-bar {
+  display: flex;
+  position: relative;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--run-color) 50%, var(--border));
+  border-radius: 11px;
+  background: color-mix(in oklab, var(--run-color) 18%, var(--card));
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+  transition: background 150ms, box-shadow 150ms;
+}
+.solar-run-bar:hover {
+  background: color-mix(in oklab, var(--run-color) 28%, var(--card));
+  box-shadow: 0 4px 12px color-mix(in oklab, var(--run-color) 18%, transparent);
+}
+.solar-run-bar:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
+.solar-run-accent { align-self: stretch; width: 5px; flex-shrink: 0; background: var(--run-color); }
+.solar-run-content { display: grid; min-width: 0; gap: 3px; padding: 3px 10px; }
+.solar-run-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 600; }
+.solar-run-meta { white-space: nowrap; font-size: 10px; color: var(--muted-foreground); }
