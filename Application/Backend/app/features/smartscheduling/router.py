@@ -10,7 +10,10 @@ from .components.functions.openmeteo import (
 )
 from .components.functions.solar_prediction_model import predict_solar_power
 
+from .scheduler import router as scheduler_router
+
 router = APIRouter(tags=["smartscheduling"])
+router.include_router(scheduler_router)
 LOCAL_TZ = ZoneInfo("Asia/Colombo")
 MAX_ROWS = 1000
 
