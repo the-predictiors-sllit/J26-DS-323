@@ -1,11 +1,11 @@
 from typing import Any, Dict
 
-from fastapi import APIRouter, File, Form, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import Response
 
 from . import service
-from .schemas import PredictionResponse
+from .schemas import PredictionResponse, ReportRequest
 
 router = APIRouter(tags=["panelhealth"])
 
@@ -22,8 +22,8 @@ def health_check() -> dict[str, str]:
 
 @router.get("/model-status")
 def model_status() -> dict[str, bool]:
-    """Is a trained model saved where the service looks for it?"""
-    return {"model_available": service.model_available()}
+    """Is a trained model saved where the service looks for it, and are the image packages installed?"""
+    return {"model_available": service.model_available(), "packages_installed": service.packages_installed()}
 
 
 @router.post("/crop")
@@ -45,3 +45,13 @@ async def predict(
     """Health score, category, advice and watt range for one photo."""
     data = await file.read()
     return await run_in_threadpool(service.predict_report, data, corners, rated_capacity_w, age_years, explain)
+
+
+@router.post("/report")
+async def report(req: ReportRequest, request: Request) -> Response:
+    """The analysis as a PDF. The page sends the result it already has; nothing is stored on the server."""
+    if int(request.headers.get("content-length") or 0) > 12 * 1024 * 1024:
+        raise HTTPException(413, "That request is too large.")
+    pdf, filename = await run_in_threadpool(service.make_report, req)
+    return Response(content=pdf, media_type="application/pdf",
+                    headers={"Content-Disposition": f'attachment; filename="{filename}"', "Cache-Control": "no-store"})

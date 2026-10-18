@@ -1,7 +1,7 @@
 """schemas.py - the shape of the panel health answer (shows up in the API docs at /docs)."""
 from typing import List, Literal, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class PredictionResponse(BaseModel):
@@ -18,3 +18,11 @@ class PredictionResponse(BaseModel):
     note: str
     heatmap_png_base64: Optional[str] = None              # Grad-CAM overlay, when asked for and available
     heatmap_error: Optional[str] = None
+
+
+class ReportRequest(BaseModel):
+    """What the page sends to POST /report: the finished result plus the details that are not in it. Nothing is stored."""
+    report: PredictionResponse
+    age_years: float = Field(ge=0, le=40)
+    photo_name: str = Field(default="", max_length=120)
+    crop_jpeg_base64: Optional[str] = Field(default=None, max_length=7_000_000)     # the straightened panel, about 5 MB at most

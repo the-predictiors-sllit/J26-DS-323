@@ -1,10 +1,16 @@
-import { CheckCircle2, CircleAlert, RotateCcw, ShieldCheck } from "lucide-react"
-import type { PanelReport, Tier } from "../lib/api"
+"use client"
+
+import { useState } from "react"
+import { CheckCircle2, CircleAlert, Download, RefreshCw, RotateCcw, ShieldCheck } from "lucide-react"
+import { downloadReport } from "../helpers/api"
+import type { PanelReport, Tier } from "../helpers/api"
 
 type Props = {
   report: PanelReport
   photoName: string
   ageYears: number
+  /** The straightened panel shown before the analysis (a blob: URL); it goes into the PDF when it is still available. */
+  cropUrl?: string | null
   onReset: () => void
 }
 
@@ -47,7 +53,40 @@ const TIER_STYLE: Record<Tier, { pill: string; bar: string; box: string; icon: s
   },
 }
 
-export default function AnalysisResult({ report, photoName, ageYears, onReset }: Props) {
+async function loadCrop(url: string | null | undefined): Promise<Blob | null> {
+  if (!url) return null
+  try {
+    return await (await fetch(url)).blob()
+  } catch {
+    return null // the report is still useful without the picture
+  }
+}
+
+export default function AnalysisResult({ report, photoName, ageYears, cropUrl, onReset }: Props) {
+  const [preparing, setPreparing] = useState(false)
+  const [reportError, setReportError] = useState<string | null>(null)
+
+  async function handleDownload() {
+    setPreparing(true)
+    setReportError(null)
+    try {
+      const crop = await loadCrop(cropUrl)
+      const { blob, filename } = await downloadReport({ report, ageYears, photoName, crop })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.href = url
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    } catch (err) {
+      setReportError(err instanceof Error ? err.message : "The report could not be created. Please try again.")
+    } finally {
+      setPreparing(false)
+    }
+  }
+
   const tier = report.degradation_category
   const style = TIER_STYLE[tier]
   const score = Math.max(0, Math.min(100, report.health_score))
@@ -151,15 +190,34 @@ export default function AnalysisResult({ report, photoName, ageYears, onReset }:
         </div>
       </div>
 
-      <div className="mt-5 flex justify-end border-t pt-4">
-        <button
-          type="button"
-          onClick={onReset}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-md border bg-background px-4 text-sm font-medium shadow-sm transition hover:border-primary hover:text-primary"
-        >
-          <RotateCcw className="size-4" />
-          Check another panel
-        </button>
+      <div className="mt-5 flex flex-col gap-3 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-h-5 text-sm">
+          {reportError ? (
+            <p role="alert" className="flex items-start gap-2 text-red-600">
+              <CircleAlert className="mt-0.5 size-4 shrink-0" />
+              {reportError}
+            </p>
+          ) : null}
+        </div>
+        <div className="flex flex-wrap justify-end gap-2">
+          <button
+            type="button"
+            onClick={handleDownload}
+            disabled={preparing}
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90 disabled:pointer-events-none disabled:opacity-50"
+          >
+            {preparing ? <RefreshCw className="size-4 animate-spin" /> : <Download className="size-4" />}
+            {preparing ? "Preparing report..." : "Download report (PDF)"}
+          </button>
+          <button
+            type="button"
+            onClick={onReset}
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-md border bg-background px-4 text-sm font-medium shadow-sm transition hover:border-primary hover:text-primary"
+          >
+            <RotateCcw className="size-4" />
+            Check another panel
+          </button>
+        </div>
       </div>
     </section>
   )

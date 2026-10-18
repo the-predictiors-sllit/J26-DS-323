@@ -15,7 +15,7 @@ import {
   quadProblems,
   toFlat,
   undo,
-} from "../lib/panelCorners"
+} from "../helpers/panelCorners"
 
 type Props = {
   imageUrl: string

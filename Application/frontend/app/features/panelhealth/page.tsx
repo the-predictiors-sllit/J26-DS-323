@@ -4,10 +4,10 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import { ChevronRight, CircleAlert, CloudSun, Crop, RefreshCw, Upload } from "lucide-react"
 import AnalysisResult from "./components/AnalysisResult"
 import PanelCornerPicker from "./components/PanelCornerPicker"
-import { analyzePanel, previewCrop } from "./lib/api"
-import type { PanelReport } from "./lib/api"
-import { prepareUpload } from "./lib/prepareUpload"
-import type { PreparedImage } from "./lib/prepareUpload"
+import { analyzePanel, previewCrop } from "./helpers/api"
+import type { PanelReport } from "./helpers/api"
+import { prepareUpload } from "./helpers/prepareUpload"
+import type { PreparedImage } from "./helpers/prepareUpload"
 
 /** Installation month ("2022-06") to the panel's age in years, or null if it is not a sensible date. */
 function ageFromMonth(month: string): number | null {
@@ -256,7 +256,7 @@ export default function PanelHealthPage() {
       </section>
 
       <div ref={resultRef} className="scroll-mt-6">
-        {report ? <AnalysisResult report={report} photoName={photoName} ageYears={reportAge} onReset={clearPhoto} /> : null}
+        {report ? <AnalysisResult report={report} photoName={photoName} ageYears={reportAge} cropUrl={cropUrl} onReset={clearPhoto} /> : null}
       </div>
     </main>
   )
