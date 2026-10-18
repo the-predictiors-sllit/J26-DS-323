@@ -12,6 +12,10 @@ export interface Settings {
   month: number;
   startHour: number;
   isWeekend: boolean;
+  place: string;
+  lat: number;
+  lon: number;
+  useForecast: boolean;
 }
 
 export interface WeatherEvt {
@@ -66,6 +70,26 @@ export interface AutoPlan {
     mpc: CompareRow;
   };
   notes: string[];
+  weather_source: "open-meteo" | "typical";
+  forecast_hours?: ForecastHour[];
+}
+
+export interface ForecastHour {
+  hour_of_day: number;
+  label: Condition;
+  cloud_pct: number;
+  rain_mm: number;
+  temp_c: number;
+  ghi_wm2: number;
+  pv_kwh_per_kwp: number;
+}
+
+export interface Forecast {
+  source: string;
+  start: string;
+  month: number;
+  is_weekend: boolean;
+  hours: ForecastHour[];
 }
 
 export interface EvalRow {

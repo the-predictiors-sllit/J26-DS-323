@@ -11,9 +11,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from data_loader import load_config
 from plan import get_plan
+import copy
+import weather as wx
 from planner import plan_for_user, WEATHER_FACTOR
 
-app = FastAPI(title="Grid-Survival Optimizer", version="0.2",
+app = FastAPI(title="Grid-Survival Optimizer", version="0.3",
               description="Hourly battery plan for a solar home that anticipates scheduled power cuts.")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 CFG = load_config()
@@ -74,6 +76,23 @@ class AutoPlanRequest(BaseModel):
     is_weekend: bool = False
     weather: List[WeatherEvent] = []
     outages: List[Event] = []
+    use_forecast: bool = Field(False, description="Use the live Open-Meteo forecast instead of a typical day")
+    lat: float = Field(5.974, ge=-90, le=90)
+    lon: float = Field(80.43, ge=-180, le=180)
+
+
+def _pv_cfg_one_kwp(lat, lon):
+    c = copy.deepcopy(CFG["pv"]); c["lat"], c["lon"] = lat, lon
+    return c
+
+
+@app.get("/weather/forecast")
+def weather_forecast(lat: float = 5.974, lon: float = 80.43, start_hour: int = 8):
+    """Live 24-hour weather and solar forecast from Open-Meteo for the chosen place."""
+    try:
+        return wx.get_forecast(lat, lon, start_hour, _pv_cfg_one_kwp(lat, lon))
+    except wx.ForecastError as e:
+        raise HTTPException(status_code=502, detail=f"Live forecast unavailable: {e}")
 
 
 @app.post("/plan/auto")
@@ -83,9 +102,22 @@ def plan_auto(req: AutoPlanRequest):
         for w in req.weather:
             if w.condition not in WEATHER_FACTOR:
                 raise ValueError(f"weather condition must be one of {list(WEATHER_FACTOR)}")
-        return plan_for_user(req.profile, req.buy_lkr_per_kwh, req.sell_lkr_per_kwh, req.soc_pct, req.battery_kwh,
-                             req.pv_kwp, req.daily_kwh, req.month, req.start_hour, req.is_weekend,
-                             [w.model_dump() for w in req.weather], [o.model_dump() for o in req.outages], CFG)
+        month, weekend, pv_per_kwp, source = req.month, req.is_weekend, None, None
+        if req.use_forecast:
+            try:
+                f = wx.get_forecast(req.lat, req.lon, req.start_hour, _pv_cfg_one_kwp(req.lat, req.lon))
+                month, weekend = f["month"], f["is_weekend"]
+                pv_per_kwp = [h["pv_kwh_per_kwp"] for h in f["hours"]]
+                source = "Solar forecast: live Open-Meteo forecast for your location."
+            except wx.ForecastError as e:
+                source = f"Live forecast unavailable ({e}). A typical day for this month was used instead."
+        res = plan_for_user(req.profile, req.buy_lkr_per_kwh, req.sell_lkr_per_kwh, req.soc_pct, req.battery_kwh,
+                            req.pv_kwp, req.daily_kwh, month, req.start_hour, weekend,
+                            [w.model_dump() for w in req.weather], [o.model_dump() for o in req.outages], CFG,
+                            pv_per_kwp=pv_per_kwp, solar_source=source)
+        if req.use_forecast and pv_per_kwp is not None:
+            res["forecast_hours"] = f["hours"]
+        return res
     except (ValueError, KeyError) as e:
         raise HTTPException(status_code=422, detail=str(e))
     except RuntimeError as e:
