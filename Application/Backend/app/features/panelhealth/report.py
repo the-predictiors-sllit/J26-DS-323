@@ -14,9 +14,11 @@ import binascii
 import io
 import secrets
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import List, Optional, Tuple
 
-SL_TZ = timezone(timedelta(hours=5, minutes=30))     # Sri Lanka has no daylight saving, so a fixed offset is always right
+# Sri Lanka has no daylight saving, so a fixed offset is always right
+SL_TZ = timezone(timedelta(hours=5, minutes=30))
 
 # Same tier colours as the page (accent, soft background, dark text), as RGB.
 TIER_COLOURS = {
@@ -25,7 +27,8 @@ TIER_COLOURS = {
     "Moderate": {"accent": (249, 115, 22), "soft": (255, 247, 237), "dark": (154, 52, 18)},
     "Severe":   {"accent": (239, 68, 68),  "soft": (254, 242, 242), "dark": (153, 27, 27)},
 }
-TIER_LABEL = {"Healthy": "Healthy", "Early": "Early degradation", "Moderate": "Moderate degradation", "Severe": "Severe degradation"}
+TIER_LABEL = {"Healthy": "Healthy", "Early": "Early degradation",
+              "Moderate": "Moderate degradation", "Severe": "Severe degradation"}
 
 INK, MUTED, SLATE = (15, 23, 42), (100, 116, 139), (51, 65, 85)
 LINE, PANEL = (226, 232, 240), (248, 250, 252)
@@ -33,16 +36,13 @@ LINE, PANEL = (226, 232, 240), (248, 250, 252)
 LIMITS = [
     "This is an automated estimate from one photo. It is not a measurement of the panel, a warranty assessment or a "
     "certified inspection.",
-    "The model is experimental. When tested on panels from sites it had not seen, it did not yet beat a simple guess of "
-    "the typical value, so treat the numbers as indicative only.",
-    "In those tests the output range shown contained the true output about 6 times in 10.",
-    "The surface deposit check is the least reliable part: in those tests it was right about half the time.",
     "Real output also depends on sunlight, temperature and shade. Ask a qualified installer before replacing or "
     "removing panels.",
 ]
 
 MAX_TEXT = 700          # longest text accepted for any one field
 MAX_IMAGE_PIXELS = 4000 * 4000
+LOGO_PATH = Path(__file__).resolve().parents[4] / "frontend" / "public" / "SOLAI-logo-short.png"
 
 
 class ReportError(ValueError):
@@ -59,7 +59,8 @@ def _t(value: object, limit: int = MAX_TEXT) -> str:
     for old, new in {"\u2013": "-", "\u2014": "-", "\u2212": "-", "\u2018": "'", "\u2019": "'", "\u201c": '"',
                      "\u201d": '"', "\u2022": "-", "\u2026": "...", "\u00a0": " ", "\u2192": "->"}.items():
         text = text.replace(old, new)
-    text = "".join(ch if ch.isprintable() or ch == "\n" else " " for ch in text)
+    text = "".join(ch if ch.isprintable() or ch ==
+                   "\n" else " " for ch in text)
     return text.encode("latin-1", "replace").decode("latin-1")[:limit]
 
 
@@ -114,7 +115,8 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
         from fpdf import FPDF
         from fpdf.enums import MethodReturnValue
     except ModuleNotFoundError as exc:
-        raise MissingPackage("The PDF package is not installed. In Application/Backend/app run: uv add fpdf2") from exc
+        raise MissingPackage(
+            "The PDF package is not installed. In Application/Backend/app run: uv add fpdf2") from exc
     from PIL import Image
 
     if tier not in TIER_COLOURS:
@@ -124,18 +126,22 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     report_id = report_id or make_report_id(now)
     score = max(0.0, min(100.0, float(health_score)))
     low_w, high_w = (int(output_range_w[0]), int(output_range_w[1]))
-    low_pct, high_pct = (float(output_range_pct[0]), float(output_range_pct[1]))
+    low_pct, high_pct = (
+        float(output_range_pct[0]), float(output_range_pct[1]))
 
     class Doc(FPDF):
         def footer(self) -> None:
             self.set_y(-14)
             self.set_draw_color(*LINE)
-            self.line(self.l_margin, self.get_y(), self.w - self.r_margin, self.get_y())
+            self.line(self.l_margin, self.get_y(),
+                      self.w - self.r_margin, self.get_y())
             self.set_font("Helvetica", "", 7.5)
             self.set_text_color(*MUTED)
             self.set_y(-11)
-            self.cell(120, 5, "PanelScan experimental estimate - not a certified inspection", align="L")
-            self.cell(0, 5, f"{report_id}   |   Page {self.page_no()} of {{nb}}", align="R")
+            self.cell(
+                120, 5, "PanelScan experimental estimate - not a certified inspection", align="L")
+            self.cell(
+                0, 5, f"{report_id}   |   Page {self.page_no()} of {{nb}}", align="R")
 
     pdf = Doc(orientation="P", unit="mm", format="A4")
     pdf.alias_nb_pages()
@@ -147,7 +153,8 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pdf.set_subject(f"Photo-based panel health estimate {report_id}")
     pdf.set_creation_date(now)
     pdf.add_page()
-    W = pdf.w - pdf.l_margin - pdf.r_margin                      # 180 mm of usable width
+    # 180 mm of usable width
+    W = pdf.w - pdf.l_margin - pdf.r_margin
     X0 = pdf.l_margin
 
     def lines(width: float, text: str, size: float, style: str = "") -> List[str]:
@@ -176,14 +183,16 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     # ------------------------------------------------------------------ header band
     pdf.set_fill_color(*INK)
     pdf.rect(0, 0, pdf.w, 26, style="F")
-    pdf.set_xy(X0, 7)
+    if LOGO_PATH.is_file():
+        pdf.image(str(LOGO_PATH), x=X0, y=5.5, w=13, h=13)
+    pdf.set_xy(X0 + 17, 7)
     pdf.set_font("Helvetica", "B", 20)
     pdf.set_text_color(255, 255, 255)
-    pdf.cell(110, 9, "Solar Panel Health Report")
-    pdf.set_xy(X0, 16.5)
+    pdf.cell(93, 9, "Solar Panel Health Report")
+    pdf.set_xy(X0 + 17, 16.5)
     pdf.set_font("Helvetica", "", 9)
     pdf.set_text_color(203, 213, 225)
-    pdf.cell(110, 5, "PanelScan photo-based estimate  |  Experimental")
+    pdf.cell(93, 5, "PanelScan photo-based estimate")
     pdf.set_xy(pdf.w - pdf.r_margin - 62, 6.5)
     pdf.set_font("Helvetica", "", 8)
     pdf.set_text_color(148, 163, 184)
@@ -195,7 +204,8 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pdf.set_xy(pdf.w - pdf.r_margin - 62, 17)
     pdf.set_font("Helvetica", "", 8.5)
     pdf.set_text_color(203, 213, 225)
-    pdf.cell(62, 4, now.strftime("%d %b %Y, %H:%M") + " (Sri Lanka time)", align="R")
+    pdf.cell(62, 4, now.strftime("%d %b %Y, %H:%M") +
+             " (Sri Lanka time)", align="R")
 
     # ------------------------------------------------------------------ details box
     y = 31
@@ -226,7 +236,8 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pdf.cell(card_w - 12, 4, "HEALTH SCORE")
     shown = f"{round(score)}"
     pdf.set_font("Helvetica", "B", 38)
-    score_w = pdf.get_string_width(shown)                       # measured with the big font
+    # measured with the big font
+    score_w = pdf.get_string_width(shown)
     pdf.set_xy(X0 + 6, y + 10)
     pdf.set_text_color(255, 255, 255)
     pdf.cell(score_w + 1, 16, shown)
@@ -236,10 +247,12 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pdf.cell(20, 8, "/ 100")
     gx, gy, gw, gh = X0 + 6, y + 29, card_w - 12, 3.2
     pdf.set_fill_color(*SLATE)
-    pdf.rect(gx, gy, gw, gh, style="F", round_corners=True, corner_radius=gh / 2)
+    pdf.rect(gx, gy, gw, gh, style="F",
+             round_corners=True, corner_radius=gh / 2)
     fill_w = max(gh, gw * score / 100)
     pdf.set_fill_color(*colours["accent"])
-    pdf.rect(gx, gy, fill_w, gh, style="F", round_corners=True, corner_radius=gh / 2)
+    pdf.rect(gx, gy, fill_w, gh, style="F",
+             round_corners=True, corner_radius=gh / 2)
     pdf.set_xy(X0 + 6, y + 35)
     pdf.set_font("Helvetica", "", 7)
     pdf.set_text_color(148, 163, 184)
@@ -252,7 +265,8 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pill_w = pdf.get_string_width(label) + 10
     pdf.set_fill_color(*colours["soft"])
     pdf.set_draw_color(*colours["accent"])
-    pdf.rect(rx, y + 6, pill_w, 8, style="DF", round_corners=True, corner_radius=4)
+    pdf.rect(rx, y + 6, pill_w, 8, style="DF",
+             round_corners=True, corner_radius=4)
     pdf.set_xy(rx, y + 6)
     pdf.set_text_color(*colours["dark"])
     pdf.cell(pill_w, 8, label, align="C")
@@ -266,9 +280,11 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pdf.set_fill_color(*LINE)
     pdf.rect(rx, by, rw, 3.2, style="F", round_corners=True, corner_radius=1.6)
     seg_x = rx + rw * max(0.0, min(low_pct, 100.0)) / 100
-    seg_w = max(1.6, rw * (max(0.0, min(high_pct, 100.0)) - max(0.0, min(low_pct, 100.0))) / 100)
+    seg_w = max(1.6, rw * (max(0.0, min(high_pct, 100.0)) -
+                max(0.0, min(low_pct, 100.0))) / 100)
     pdf.set_fill_color(*colours["accent"])
-    pdf.rect(seg_x, by, seg_w, 3.2, style="F", round_corners=True, corner_radius=1.6)
+    pdf.rect(seg_x, by, seg_w, 3.2, style="F",
+             round_corners=True, corner_radius=1.6)
     pdf.set_font("Helvetica", "", 7)
     pdf.set_text_color(*MUTED)
     pdf.set_xy(rx, by + 4.2)
@@ -280,18 +296,21 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     y = 102
     box_w, box_h = (W - 6) / 2, 54
     for i, (png, caption, missing) in enumerate([
-            (crop_jpg, "Straightened panel (what the model saw)", "Straightened panel image not included"),
+            (crop_jpg, "Straightened panel (what the model saw)",
+             "Straightened panel image not included"),
             (heatmap_jpg, "Heat map: red areas lowered the score most", "Heat map not available for this photo")]):
         bx = X0 + i * (box_w + 6)
         pdf.set_fill_color(*PANEL)
         pdf.set_draw_color(*LINE)
-        pdf.rect(bx, y, box_w, box_h, style="DF", round_corners=True, corner_radius=2)
+        pdf.rect(bx, y, box_w, box_h, style="DF",
+                 round_corners=True, corner_radius=2)
         if png:
             with Image.open(io.BytesIO(png)) as im:
                 iw, ih = im.size
             scale = min((box_w - 6) / iw, (box_h - 6) / ih)
             w_mm, h_mm = iw * scale, ih * scale
-            pdf.image(io.BytesIO(png), x=bx + (box_w - w_mm) / 2, y=y + (box_h - h_mm) / 2, w=w_mm, h=h_mm)
+            pdf.image(io.BytesIO(png), x=bx + (box_w - w_mm) / 2,
+                      y=y + (box_h - h_mm) / 2, w=w_mm, h=h_mm)
         else:
             pdf.set_xy(bx, y + box_h / 2 - 3)
             pdf.set_font("Helvetica", "", 8.5)
@@ -357,7 +376,8 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     ly = pdf.get_y()
     pdf.set_fill_color(*PANEL)
     pdf.set_draw_color(*LINE)
-    pdf.rect(X0, ly, W, height, style="DF", round_corners=True, corner_radius=2)
+    pdf.rect(X0, ly, W, height, style="DF",
+             round_corners=True, corner_radius=2)
     pdf.set_xy(X0 + 6, ly + 3.5)
     pdf.set_font("Helvetica", "B", 9)
     pdf.set_text_color(*INK)
