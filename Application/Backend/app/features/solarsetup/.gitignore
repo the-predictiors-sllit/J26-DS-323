@@ -2,6 +2,7 @@ __pycache__/
 .pytest_cache/
 *.pyc
 *.pt
+!/models/best_model.pt
 *.pth
 *.ckpt
 /data/weather_cache/
