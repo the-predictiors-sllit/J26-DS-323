@@ -1,12 +1,18 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, CloudSun, Download, LoaderCircle, MapPin, Plus, Sun, Zap } from "lucide-react";
+import Form from "next/form";
+import { PredictionChart } from "./prediction-chart";
+import { ArrowRight, ChevronLeft, ChevronRight, CloudSun, Download, MapPin, Plus, Sun, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Spinner } from "@/components/ui/spinner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { predictSolar } from "./actions";
 import { addDays, FIELDS, MODELS, schedule, timeLabel, timeOptions, type Model, type Prediction, type PredictionState, type Submission, type Values } from "./config";
 
@@ -54,64 +60,117 @@ export function SolarPredictionForm({ initialDate }: { initialDate: string }) {
 
   function fields(group: string, cols = "sm:grid-cols-3") {
     const site = group === "site";
-    return <div className={`grid gap-4 ${cols}`}>{FIELDS.filter((field) => field.group === group).map((field) => (
-      <div key={field.name} className="space-y-2"><Label htmlFor={field.name} className="text-xs text-muted-foreground">{field.label}</Label><div className="relative">
-        <Input id={field.name} type="number" step="any" required={!rangeManual || site} min={field.min} max={field.max} value={(site ? values : activeWeather)[field.name]}
+    return <FieldGroup className={`grid gap-4 ${cols}`}>{FIELDS.filter((field) => field.group === group).map((field) => (
+      <Field key={field.name} className="space-y-2"><FieldLabel htmlFor={field.name} className="text-xs text-muted-foreground">{field.label}</FieldLabel><InputGroup className="h-11 rounded-xl bg-background">
+        <InputGroupInput id={field.name} type="number" step="any" required={!rangeManual || site} min={field.min} max={field.max} value={(site ? values : activeWeather)[field.name]}
           onChange={(event) => site ? setValues((previous) => ({ ...previous, [field.name]: event.target.value })) : setWeather(field.name, event.target.value)}
-          className="h-11 rounded-xl bg-background pr-16 tabular-nums" />
-        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-muted-foreground">{field.unit}</span>
-      </div></div>
-    ))}</div>;
+          className="h-11 tabular-nums" />
+        <InputGroupAddon align="inline-end"><InputGroupText className="text-xs">{field.unit}</InputGroupText></InputGroupAddon>
+      </InputGroup></Field>
+    ))}</FieldGroup>;
   }
 
   function selectTime(id: string, label: string, value: string, onChange: (value: string) => void) {
-    return <div className="space-y-2"><Label htmlFor={id}>{label}</Label><NativeSelect id={id} value={value} onChange={(event) => onChange(event.target.value)} className="w-full [&_select]:h-11 [&_select]:rounded-xl">{timeOptions(model).map((time) => <NativeSelectOption key={time} value={time}>{time}</NativeSelectOption>)}</NativeSelect></div>;
+    return <Field className="space-y-2"><FieldLabel htmlFor={id}>{label}</FieldLabel><Select value={value} onValueChange={(nextValue) => { if (nextValue !== null) onChange(nextValue); }} disabled={pending}>
+      <SelectTrigger id={id} className="h-11 w-full rounded-xl data-[size=default]:h-11">
+        <SelectValue>{value}</SelectValue>
+      </SelectTrigger>
+      <SelectContent align="start" alignItemWithTrigger={false} className="max-h-80">
+        {timeOptions(model).map((time) => <SelectItem key={time} value={time}>{time}</SelectItem>)}
+      </SelectContent>
+    </Select></Field>;
   }
 
   return <main className="mx-auto max-w-7xl space-y-7 px-1 py-5 text-foreground sm:px-4">
     <header className="flex flex-wrap items-end justify-between gap-4"><div className="space-y-3"><p className="text-xs font-medium tracking-widest text-muted-foreground">SMART SCHEDULING / SOLAR LAB</p><h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Your solar, a little clearer.</h1><p className="max-w-xl text-sm leading-6 text-muted-foreground">Explore a moment or plan across days. Bring your weather data, or let Open-Meteo supply it.</p></div><span className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 text-xs text-muted-foreground"><MapPin className="size-3.5 text-primary" /> Sri Lanka · UTC +05:30</span></header>
 
-    <form action={action}>
+    <Form action={action}>
       <input type="hidden" name="submission" value={submission} />
-      <fieldset disabled={pending} className="grid min-w-0 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_330px]"><legend className="sr-only">Prediction settings</legend>
+      <FieldSet disabled={pending} className="grid min-w-0 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_330px]"><FieldLegend className="sr-only">Prediction settings</FieldLegend>
         <div className="min-w-0 space-y-5">
           <Card><CardHeader><CardTitle className="flex items-center gap-2"><CloudSun className="size-4 text-primary" /> Choose your weather source</CardTitle><CardDescription>Manual inputs or weather fetched for your location.</CardDescription></CardHeader><CardContent className="space-y-4">
-            <div className="grid gap-3 sm:grid-cols-3" role="radiogroup" aria-label="Weather source">{([["manual", "Manual", "Enter your own conditions"], ["forecast", "Open-Meteo forecast", "Today + next 15 dates"], ["historical", "Open-Meteo historical", "Past modeled weather"]] as const).map(([key, title, description]) => <label key={key} className={`cursor-pointer rounded-xl border p-4 focus-within:ring-2 focus-within:ring-ring ${source === key ? "border-primary bg-primary/5" : "hover:bg-muted/40"}`}><input type="radio" name="source-choice" value={key} checked={source === key} onChange={() => setSource(key)} className="sr-only" /><div className="flex items-start justify-between gap-2 text-sm font-semibold">{title}{source === key && <Check className="size-4 shrink-0 text-primary" />}</div><p className="mt-2 text-xs leading-5 text-muted-foreground">{description}</p></label>)}</div>
+            <RadioGroup
+              name="source-choice"
+              value={source}
+              onValueChange={(value) => setSource(value as Submission["source"])}
+              disabled={pending}
+              aria-label="Weather source"
+              className="grid gap-3 sm:grid-cols-3"
+            >
+              {([
+                ["manual", "Manual", "Enter your own conditions"],
+                ["forecast", "Open-Meteo forecast", "Today + next 15 dates"],
+                ["historical", "Open-Meteo historical", "Past modeled weather"],
+              ] as const).map(([key, title, description]) => (
+                <FieldLabel
+                  key={key}
+                  htmlFor={`weather-source-${key}`}
+                  className={`flex w-full cursor-pointer items-start justify-between gap-3 rounded-xl border p-4 focus-within:ring-2 focus-within:ring-ring ${source === key ? "border-primary bg-primary/5" : "hover:bg-muted/40"}`}
+                >
+                  <span className="space-y-2">
+                    <span className="block text-sm font-semibold">{title}</span>
+                    <span className="block text-xs font-normal leading-5 text-muted-foreground">{description}</span>
+                  </span>
+                  <RadioGroupItem id={`weather-source-${key}`} value={key} className="mt-0.5" />
+                </FieldLabel>
+              ))}
+            </RadioGroup>
             {source !== "manual" && <p className="rounded-xl bg-muted/50 p-3 text-xs leading-5 text-muted-foreground">Weather comes from <a href="https://open-meteo.com/" target="_blank" rel="noreferrer" className="underline underline-offset-2">Open-Meteo</a>. Hourly weather is matched to each prediction slot using the same backward alignment as training. Recent historical data may not yet be available.</p>}
           </CardContent></Card>
 
           <Card><CardHeader><CardTitle>Choose your window</CardTitle><CardDescription>06:00–19:00 inclusive, in Sri Lankan time.</CardDescription></CardHeader><CardContent className="space-y-5">
-            <div className="grid gap-4 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="model">Prediction model</Label><NativeSelect id="model" value={model} onChange={(event) => changeModel(event.target.value as Model)} className="w-full [&_select]:h-11 [&_select]:rounded-xl">{(Object.keys(MODELS) as Model[]).map((key) => <NativeSelectOption key={key} value={key}>{MODELS[key].label}</NativeSelectOption>)}</NativeSelect></div><div className="space-y-2"><Label htmlFor="period">Prediction window</Label><NativeSelect id="period" value={period} onChange={(event) => setPeriod(event.target.value as Submission["period"])} className="w-full [&_select]:h-11 [&_select]:rounded-xl"><NativeSelectOption value="single">Single moment</NativeSelectOption><NativeSelectOption value="range">Date / time range</NativeSelectOption></NativeSelect></div></div>
-            <div className="grid gap-4 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="start-date">{period === "single" ? "Date" : "Start date"}</Label><Input id="start-date" type="date" value={startDate} required min={minDate} max={maxDate} onChange={(event) => setStartDate(event.target.value)} className="h-11 rounded-xl" /></div>{selectTime("start-time", period === "single" ? "Time" : "Daily start time", startTime, setStartTime)}</div>
-            {period === "range" && <><div className="grid gap-4 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="end-date">End date</Label><Input id="end-date" type="date" value={endDate} required min={startDate > (minDate ?? "") ? startDate : minDate} max={maxDate} onChange={(event) => setEndDate(event.target.value)} className="h-11 rounded-xl" /></div>{selectTime("end-time", "Daily end time", endTime, setEndTime)}</div><p className="text-xs leading-5 text-muted-foreground">The same time window is included on every selected date. For a time range, keep both dates the same. For a full day, choose 06:00–19:00.</p></>}
+            <FieldGroup className="grid gap-4 sm:grid-cols-2"><Field className="space-y-2"><FieldLabel htmlFor="model">Prediction model</FieldLabel><Select value={model} onValueChange={(nextValue) => { if (nextValue !== null) changeModel(nextValue as Model); }} disabled={pending}>
+      <SelectTrigger id="model" className="h-11 w-full rounded-xl data-[size=default]:h-11">
+        <SelectValue>{MODELS[model].label}</SelectValue>
+      </SelectTrigger>
+      <SelectContent align="start" alignItemWithTrigger={false} className="max-h-80">
+        {(Object.keys(MODELS) as Model[]).map((key) => <SelectItem key={key} value={key}>{MODELS[key].label}</SelectItem>)}
+      </SelectContent>
+    </Select></Field><Field className="space-y-2"><FieldLabel htmlFor="period">Prediction window</FieldLabel><Select value={period} onValueChange={(nextValue) => { if (nextValue !== null) setPeriod(nextValue as Submission["period"]); }} disabled={pending}>
+      <SelectTrigger id="period" className="h-11 w-full rounded-xl data-[size=default]:h-11">
+        <SelectValue>{period === "single" ? "Single moment" : "Date / time range"}</SelectValue>
+      </SelectTrigger>
+      <SelectContent align="start" alignItemWithTrigger={false} className="max-h-80">
+        <SelectItem value="single">Single moment</SelectItem><SelectItem value="range">Date / time range</SelectItem>
+      </SelectContent>
+    </Select></Field></FieldGroup>
+            <FieldGroup className="grid gap-4 sm:grid-cols-2"><Field className="space-y-2"><FieldLabel htmlFor="start-date">{period === "single" ? "Date" : "Start date"}</FieldLabel><Input id="start-date" type="date" value={startDate} required min={minDate} max={maxDate} onChange={(event) => setStartDate(event.target.value)} className="h-11 rounded-xl" /></Field>{selectTime("start-time", period === "single" ? "Time" : "Daily start time", startTime, setStartTime)}</FieldGroup>
+            {period === "range" && <><FieldGroup className="grid gap-4 sm:grid-cols-2"><Field className="space-y-2"><FieldLabel htmlFor="end-date">End date</FieldLabel><Input id="end-date" type="date" value={endDate} required min={startDate > (minDate ?? "") ? startDate : minDate} max={maxDate} onChange={(event) => setEndDate(event.target.value)} className="h-11 rounded-xl" /></Field>{selectTime("end-time", "Daily end time", endTime, setEndTime)}</FieldGroup><FieldDescription className="text-xs leading-5 text-muted-foreground">The same time window is included on every selected date. For a time range, keep both dates the same. For a full day, choose 06:00–19:00.</FieldDescription></>}
             <div className="flex items-center justify-between gap-3 rounded-xl bg-secondary/60 px-4 py-3 text-xs"><span>{times.length ? `${times.length} prediction ${times.length === 1 ? "slot" : "slots"}` : "Check your range"}</span><span className="text-muted-foreground">Every {model} minutes · max 1,000 slots</span></div>
-            {scheduleError && <p role="alert" className="text-xs text-destructive">{scheduleError}</p>}
+            {scheduleError && <FieldError className="text-xs">{scheduleError}</FieldError>}
           </CardContent></Card>
 
           <Card><CardHeader><CardTitle>Your installation</CardTitle><CardDescription>One location and capacity for this prediction window.</CardDescription></CardHeader><CardContent>{fields("site")}</CardContent></Card>
 
           {source === "manual" && <Card><CardHeader><CardTitle>Weather conditions</CardTitle><CardDescription>{rangeManual ? "Enter conditions independently for each selected slot." : "Use weather values for the selected moment. Initial values are examples."}</CardDescription></CardHeader><CardContent className="space-y-6">
-            {rangeManual && <div className="space-y-3 rounded-xl border bg-muted/30 p-4"><div className="flex items-center justify-between gap-2"><Label htmlFor="weather-slot">Editing time slot</Label><span className="text-xs text-muted-foreground">{completed} / {times.length} filled</span></div><NativeSelect id="weather-slot" value={slot} onChange={(event) => setSelectedSlot(event.target.value)} className="w-full [&_select]:rounded-xl">{times.map((time) => <NativeSelectOption key={time} value={time}>{stampLabel(time)}</NativeSelectOption>)}</NativeSelect><p className="text-xs leading-5 text-muted-foreground">Each slot starts empty. Weather is not copied to other times automatically.</p><Button type="button" variant="outline" size="sm" disabled={!slot} onClick={() => setManualRows((previous) => ({ ...previous, [slot]: { ...EXAMPLE } }))}><Plus className="size-3" /> Fill this slot with example values</Button></div>}
+            {rangeManual && <div className="space-y-3 rounded-xl border bg-muted/30 p-4"><div className="flex items-center justify-between gap-2"><FieldLabel htmlFor="weather-slot">Editing time slot</FieldLabel><span className="text-xs text-muted-foreground">{completed} / {times.length} filled</span></div><Select value={slot} onValueChange={(nextValue) => { if (nextValue !== null) setSelectedSlot(nextValue); }} disabled={pending}>
+      <SelectTrigger id="weather-slot" className="h-11 w-full rounded-xl data-[size=default]:h-11">
+        <SelectValue>{slot ? stampLabel(slot) : "Select a time slot"}</SelectValue>
+      </SelectTrigger>
+      <SelectContent align="start" alignItemWithTrigger={false} className="max-h-80">
+        {times.map((time) => <SelectItem key={time} value={time}>{stampLabel(time)}</SelectItem>)}
+      </SelectContent>
+    </Select><FieldDescription className="text-xs leading-5 text-muted-foreground">Each slot starts empty. Weather is not copied to other times automatically.</FieldDescription><Button type="button" variant="outline" size="sm" disabled={!slot} onClick={() => setManualRows((previous) => ({ ...previous, [slot]: { ...EXAMPLE } }))}><Plus className="size-3" /> Fill this slot with example values</Button></div>}
             {fields("weather")}
             <div className="space-y-4 border-t pt-5"><h3 className="text-xs font-semibold">Solar irradiance</h3>{fields("irradiance")}</div>
             <div className="space-y-4 border-t pt-5"><h3 className="text-xs font-semibold">Cloud cover</h3>{fields("clouds", "sm:grid-cols-2")}</div>
             <div className="space-y-4 border-t pt-5"><h3 className="text-xs font-semibold">Preceding-hour precipitation</h3>{fields("rain", "sm:grid-cols-2")}</div>
-            <p className="text-xs leading-5 text-muted-foreground">Sun position and cyclical time features are calculated by the backend for each timestamp.</p>
+            <FieldDescription className="text-xs leading-5 text-muted-foreground">Sun position and cyclical time features are calculated by the backend for each timestamp.</FieldDescription>
           </CardContent></Card>}
         </div>
 
         <aside className="space-y-4 xl:sticky xl:top-5"><Card className="border border-primary/15"><CardHeader className="border-b bg-primary/5 pb-5"><CardTitle className="flex items-center gap-2"><Zap className="size-4 text-primary" /> Ready when you are</CardTitle><CardDescription>{model}-minute model · {source === "manual" ? "Manual weather" : `Open-Meteo ${source}`}</CardDescription></CardHeader><CardContent className="space-y-5">
           <div className="flex justify-center py-3" aria-hidden="true"><Sun className="size-14 text-primary/60" strokeWidth={1} /></div>
           <dl className="space-y-3 text-xs"><div className="flex justify-between"><dt className="text-muted-foreground">Prediction slots</dt><dd className="font-medium">{times.length}</dd></div><div className="flex justify-between"><dt className="text-muted-foreground">Capacity</dt><dd>{values.pv_capacity_kwp || "—"} kWp</dd></div><div className="flex justify-between"><dt className="text-muted-foreground">Time zone</dt><dd>Asia/Colombo</dd></div>{rangeManual && <div className="flex justify-between"><dt className="text-muted-foreground">Weather rows filled</dt><dd>{completed} / {times.length}</dd></div>}</dl>
-          <p className="text-xs leading-5 text-muted-foreground">Results show power at each selected time, with a table and CSV export. Power in kW is not an energy total in kWh.</p>
-          {current && state.error && <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-xs leading-5 text-destructive">{state.error}</p>}
+          <FieldDescription className="text-xs leading-5 text-muted-foreground">Results show power at each selected time, with a table and CSV export. Power in kW is not an energy total in kWh.</FieldDescription>
+          {current && state.error && <FieldError className="rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-xs leading-5">{state.error}</FieldError>}
           <Button
             type="submit"
             disabled={pending || !times.length}
             className="h-12 w-full gap-3 rounded-xl text-primary-foreground"
           >
             {pending ? (
-              <LoaderCircle className="size-4 shrink-0 animate-spin" />
+              <Spinner className="size-4 shrink-0" aria-hidden="true" />
             ) : (
               <Zap className="size-4 shrink-0" />
             )}
@@ -130,8 +189,8 @@ export function SolarPredictionForm({ initialDate }: { initialDate: string }) {
           </Button>
           {state.predictions && !current && <p className="text-xs text-muted-foreground">Inputs changed. Run again to update the results.</p>}
         </CardContent></Card></aside>
-      </fieldset>
-    </form>
+      </FieldSet>
+    </Form>
     <div aria-live="polite" aria-busy={pending}>{predictions && <Results key={state.requestKey} rows={predictions} model={model} source={source} />}</div>
   </main>;
 }
@@ -149,6 +208,8 @@ function Results({ rows, model, source }: { rows: Prediction[]; model: Model; so
   }
   return <section className="space-y-5" aria-label="Prediction results"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-2xl font-semibold tracking-tight">Your solar outlook</h2><p className="mt-1 text-xs text-muted-foreground">{rows.length} results · {model}-minute model · {source} weather · Sri Lankan time</p></div><Button type="button" variant="outline" onClick={download}><Download className="size-4" /> Export CSV</Button></div>
     <div className="grid gap-4 sm:grid-cols-3">{[[rows.length === 1 ? "Predicted power" : "Peak predicted power", `${fmt(peak.predicted_power_kw)} kW`, stampLabel(peak.timestamp)], ["Mean sampled power", `${fmt(average)} kW`, "Arithmetic mean across selected slots"], ["Installed capacity", `${fmt(rows[0].pv_capacity_kwp)} kWp`, "Nameplate capacity of the installation"]].map(([label, value, description]) => <Card key={label}><CardContent><p className="text-xs text-muted-foreground">{label}</p><p className="mt-2 text-3xl font-semibold tracking-tight tabular-nums">{value}</p><p className="mt-2 text-xs text-muted-foreground">{description}</p></CardContent></Card>)}</div>
-    <Card><CardHeader><CardTitle>Prediction timeline</CardTitle><CardDescription>One row per selected timestamp. All values come from the selected model.</CardDescription></CardHeader><CardContent><div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="border-b text-xs text-muted-foreground"><tr>{["Date & time (+05:30)", "Power (kW)", "Power (W)", "Normalized (W/kWp)"].map((label) => <th key={label} scope="col" className="whitespace-nowrap px-3 py-3 font-medium">{label}</th>)}</tr></thead><tbody>{rows.slice(page * 20, page * 20 + 20).map((row) => <tr key={row.timestamp} className="border-b last:border-0 hover:bg-muted/30"><td className="whitespace-nowrap px-3 py-3 text-muted-foreground">{stampLabel(row.timestamp)}</td><td className="px-3 py-3 font-medium tabular-nums">{fmt(row.predicted_power_kw)}</td><td className="px-3 py-3 tabular-nums">{fmt(row.predicted_W, 1)}</td><td className="px-3 py-3 tabular-nums">{fmt(row.predicted_W_per_kWp, 1)}</td></tr>)}</tbody></table></div><div className="mt-4 flex items-center justify-between text-xs text-muted-foreground"><span>Page {page + 1} of {pages}</span><div className="flex gap-2"><Button type="button" variant="outline" size="icon-sm" aria-label="Previous results page" disabled={page === 0} onClick={() => setPage(page - 1)}><ChevronLeft className="size-4" /></Button><Button type="button" variant="outline" size="icon-sm" aria-label="Next results page" disabled={page >= pages - 1} onClick={() => setPage(page + 1)}><ChevronRight className="size-4" /></Button></div></div></CardContent></Card>
+    <PredictionChart rows={rows} />
+    <Card><CardHeader><CardTitle>Prediction timeline</CardTitle><CardDescription>One row per selected timestamp. All values come from the selected model.</CardDescription></CardHeader><CardContent><div className="overflow-x-auto"><Table className="w-full text-left text-sm"><TableHeader className="border-b text-xs text-muted-foreground"><TableRow>{["Date & time (+05:30)", "Power (kW)", "Power (W)", "Normalized (W/kWp)"].map((label) => <TableHead key={label} scope="col" className="whitespace-nowrap px-3 py-3 font-medium">{label}</TableHead>)}</TableRow></TableHeader><TableBody>{rows.slice(page * 20, page * 20 + 20).map((row) => <TableRow key={row.timestamp} className="border-b last:border-0 hover:bg-muted/30"><TableCell className="whitespace-nowrap px-3 py-3 text-muted-foreground">{stampLabel(row.timestamp)}</TableCell><TableCell className="px-3 py-3 font-medium tabular-nums">{fmt(row.predicted_power_kw)}</TableCell><TableCell className="px-3 py-3 tabular-nums">{fmt(row.predicted_W, 1)}</TableCell><TableCell className="px-3 py-3 tabular-nums">{fmt(row.predicted_W_per_kWp, 1)}</TableCell></TableRow>)}</TableBody></Table></div><div className="mt-4 flex items-center justify-between text-xs text-muted-foreground"><span>Page {page + 1} of {pages}</span><div className="flex gap-2"><Button type="button" variant="outline" size="icon-sm" aria-label="Previous results page" disabled={page === 0} onClick={() => setPage(page - 1)}><ChevronLeft className="size-4" /></Button><Button type="button" variant="outline" size="icon-sm" aria-label="Next results page" disabled={page >= pages - 1} onClick={() => setPage(page + 1)}><ChevronRight className="size-4" /></Button></div></div></CardContent></Card>
   </section>;
 }
+
