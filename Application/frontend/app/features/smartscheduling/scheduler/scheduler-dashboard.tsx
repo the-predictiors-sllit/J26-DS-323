@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useTransition } from "react";
+import { LocationPicker } from "./location-picker";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -182,6 +183,20 @@ export function SchedulerDashboard() {
                   {numeric("latitude", "Latitude", -90, 90)}
                   {numeric("longitude", "Longitude", -180, 180)}
                 </FieldGroup>
+                <LocationPicker
+  latitude={store.settings.latitude}
+  longitude={store.settings.longitude}
+  disabled={busy || !store.ready}
+  onChange={({ latitude, longitude }) => {
+    store.update({
+      settings: {
+        ...store.settings,
+        latitude,
+        longitude,
+      },
+    });
+  }}
+/>
                 {numeric(
                   "pv_capacity_kwp",
                   "Installed capacity (kWp)",
