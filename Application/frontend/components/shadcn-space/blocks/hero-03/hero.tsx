@@ -52,7 +52,7 @@ const HeroSection: React.FC = () => {
               />
             </div>
             <p className="sm:text-base text-sm sm:leading-6 leading-5 font-normal text-white sm:max-w-sm">
-              AI-powered insights to improve <span className="text-primary ">solar performance, energy usage, and household energy management.</span>{" "}
+              AI-powered insights to improve <span className=" ">solar performance, energy usage, and household energy management.</span>{" "}
             </p>
           </div>
           <motion.div
