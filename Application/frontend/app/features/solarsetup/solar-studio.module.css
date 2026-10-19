@@ -1,0 +1,1184 @@
+
+        .studio {
+          --studio-panel: var(--card);
+          --studio-inset: color-mix(
+            in srgb,
+            var(--muted) 65%,
+            var(--background)
+          );
+          --studio-line: var(--border);
+          --studio-accent: var(--primary);
+          --studio-shadow: color-mix(
+            in srgb,
+            var(--foreground) 7%,
+            transparent
+          );
+
+          padding: 12px 4px;
+        }
+
+        :global(.dark) .studio {
+          --studio-panel: color-mix(
+            in srgb,
+            var(--card) 88%,
+            var(--foreground)
+          );
+          --studio-inset: color-mix(
+            in srgb,
+            var(--background) 75%,
+            var(--muted)
+          );
+          --studio-accent: color-mix(
+            in srgb,
+            var(--primary) 72%,
+            #ffd28c
+          );
+          --studio-shadow: rgba(0, 0, 0, 0.2);
+        }
+
+        .studio :global(.studio-header) {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 20px;
+          margin-bottom: 24px;
+        }
+
+        .studio :global(.eyebrow) {
+          color: var(--studio-accent);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+        }
+
+        .studio :global(.page-title) {
+          margin-top: 10px;
+          font-size: clamp(26px, 2.8vw, 40px);
+          font-weight: 650;
+          letter-spacing: -0.045em;
+          line-height: 1.15;
+        }
+
+        .studio :global(.page-title span) {
+          color: var(--studio-accent);
+        }
+
+        .studio :global(.page-description) {
+          max-width: 610px;
+          margin-top: 12px;
+          font-size: 14px;
+          line-height: 1.8;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.health-control) {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 3px 3px 3px 13px;
+          border: 1px solid var(--studio-line);
+          border-radius: 999px;
+          background: var(--studio-panel);
+        }
+
+        .studio :global(.health-label) {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 12px;
+          white-space: nowrap;
+        }
+
+        .studio :global(.health-dot) {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--muted-foreground);
+        }
+
+        .studio :global(.health-dot.ready) {
+          background: var(--studio-accent);
+        }
+
+        .studio :global(.upload-layout) {
+          display: grid;
+          grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.4fr);
+          align-items: center;
+          gap: clamp(24px, 4vw, 56px);
+          min-height: 460px;
+        }
+
+        .studio :global(.upload-column) {
+          position: relative;
+          z-index: 1;
+          padding: 16px 0;
+        }
+
+        .studio :global(.upload-card) {
+          padding: 22px;
+          border: 1px solid var(--studio-line);
+          border-radius: 20px;
+          background: var(--studio-panel);
+          box-shadow: 0 14px 38px var(--studio-shadow);
+        }
+
+        .studio :global(.upload-card-heading) {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 20px;
+        }
+
+        .studio :global(.small-icon) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          color: var(--studio-accent);
+          background: color-mix(
+            in srgb,
+            var(--studio-accent) 10%,
+            transparent
+          );
+        }
+
+        .studio :global(.upload-card-heading h2) {
+          font-size: 17px;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+        }
+
+        .studio :global(.upload-card-heading p) {
+          margin-top: 4px;
+          font-size: 12px;
+          line-height: 1.5;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.drop-area) {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 230px;
+          padding: 24px;
+          border: 1px dashed var(--studio-line);
+          border-radius: 14px;
+          background: var(--studio-inset);
+          text-align: center;
+          transition:
+            border-color 200ms ease,
+            box-shadow 200ms ease;
+        }
+
+        .studio :global(.drop-area.is-dragging) {
+          border-color: var(--studio-accent);
+          box-shadow: 0 0 0 4px
+            color-mix(
+              in srgb,
+              var(--studio-accent) 12%,
+              transparent
+            );
+        }
+
+        .studio :global(.upload-symbol) {
+          display: grid;
+          place-items: center;
+          width: 62px;
+          height: 62px;
+          border-radius: 20px;
+          color: var(--studio-accent);
+          background: var(--studio-panel);
+          box-shadow: 0 5px 16px var(--studio-shadow);
+        }
+
+        .studio :global(.drop-title) {
+          margin-top: 16px;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .studio :global(.file-hint),
+        .studio :global(.file-name) {
+          margin-top: 8px;
+          color: var(--muted-foreground);
+          font-size: 11px;
+          line-height: 1.6;
+        }
+
+        .studio :global(.file-name) {
+          max-width: 100%;
+          overflow-wrap: anywhere;
+          margin-bottom: 12px;
+        }
+
+        .studio :global(.upload-preview) {
+          width: 100%;
+          height: 190px;
+          object-fit: contain;
+          border-radius: 8px;
+        }
+
+        .studio :global(.generate-action) {
+          margin-top: 15px;
+        }
+
+        .studio :global(.availability-note) {
+          margin-top: 14px;
+          font-size: 12px;
+          line-height: 1.7;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.photo-guidelines) {
+          margin-top: 12px;
+          padding: 14px 18px;
+          border: 1px solid var(--studio-line);
+          border-radius: 12px;
+          background: var(--studio-inset);
+          font-size: 12px;
+        }
+
+        .studio :global(.photo-guidelines summary) {
+          cursor: pointer;
+          font-weight: 500;
+        }
+
+        .studio :global(.photo-guidelines ul) {
+          margin-top: 12px;
+          padding-left: 18px;
+          list-style: disc;
+          color: var(--muted-foreground);
+          line-height: 1.8;
+        }
+
+        .studio :global(.photo-guidelines li + li) {
+          margin-top: 6px;
+        }
+
+        .studio :global(.scene-column) {
+          min-width: 0;
+        }
+
+        .studio :global(.solar-scene) {
+          position: relative;
+          isolation: isolate;
+          width: 100%;
+          max-width: 600px;
+          aspect-ratio: 1;
+          margin: -25px auto -25px;
+        }
+
+        .studio :global(.scene-halo) {
+          position: absolute;
+          z-index: -1;
+          inset: 20% 5% 2%;
+          border-radius: 50%;
+          background: radial-gradient(
+            ellipse,
+            color-mix(
+              in srgb,
+              var(--studio-accent) 12%,
+              transparent
+            ),
+            transparent 68%
+          );
+        }
+
+        .studio :global(.house-image) {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          user-select: none;
+        }
+
+        .studio :global(.sun-path) {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          color: #f5ad32;
+          pointer-events: none;
+        }
+
+        .studio :global(.moving-sun),
+        .studio :global(.static-sun),
+        .studio :global(.paused-sun) {
+          filter: drop-shadow(0 0 8px rgba(255, 175, 48, 0.55));
+        }
+
+        .studio :global(.static-sun) {
+          display: none;
+        }
+
+        .studio :global(.scene-caption) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          color: var(--muted-foreground);
+          font-size: 10px;
+        }
+
+        .studio :global(.motion-toggle) {
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          cursor: pointer;
+        }
+
+        .studio :global(.motion-toggle:focus-visible) {
+          outline: 2px solid var(--ring);
+          outline-offset: 4px;
+        }
+
+        .studio :global(.error-message) {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          margin-bottom: 20px;
+          padding: 14px 16px;
+          border-radius: 12px;
+          background: color-mix(
+            in srgb,
+            var(--destructive) 10%,
+            transparent
+          );
+          color: var(--destructive);
+          font-size: 13px;
+        }
+
+        .studio :global(.processing) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 40px;
+          min-height: 440px;
+          padding: 32px 16px;
+        }
+
+        .studio :global(.scan-frame) {
+          position: relative;
+          width: min(300px, 100%);
+          aspect-ratio: 1;
+          overflow: hidden;
+          border-radius: 20px;
+          background: var(--studio-inset);
+        }
+
+        .studio :global(.scan-photo) {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .studio :global(.scan-shade) {
+          position: absolute;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.18);
+        }
+
+        .studio :global(.scan-line) {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: #ffb449;
+          box-shadow:
+            0 0 20px #ffac38,
+            0 -12px 30px rgba(255, 172, 56, 0.35);
+          animation: scan-travel 2.5s ease-in-out infinite alternate;
+        }
+
+        .studio :global(.scan-corner) {
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          border-color: #ffba60;
+          border-style: solid;
+        }
+
+        .studio :global(.top-left) {
+          top: 12px;
+          left: 12px;
+          border-width: 2px 0 0 2px;
+        }
+
+        .studio :global(.top-right) {
+          top: 12px;
+          right: 12px;
+          border-width: 2px 2px 0 0;
+        }
+
+        .studio :global(.bottom-left) {
+          bottom: 12px;
+          left: 12px;
+          border-width: 0 0 2px 2px;
+        }
+
+        .studio :global(.bottom-right) {
+          bottom: 12px;
+          right: 12px;
+          border-width: 0 2px 2px 0;
+        }
+
+        .studio :global(.processing-copy) {
+          max-width: 380px;
+        }
+
+        .studio :global(.processing-copy h2) {
+          margin-top: 12px;
+          font-size: 28px;
+          line-height: 1.2;
+          font-weight: 600;
+          letter-spacing: -0.03em;
+        }
+
+        .studio :global(.processing-copy > p:not(.eyebrow)) {
+          margin-top: 14px;
+          font-size: 14px;
+          line-height: 1.8;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.processing-status) {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: 22px;
+          font-size: 13px;
+          color: var(--studio-accent);
+        }
+
+        .studio :global(.result-heading) {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-bottom: 18px;
+        }
+
+        .studio :global(.complete-badge) {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          padding: 7px 11px;
+          border-radius: 999px;
+          background: color-mix(
+            in srgb,
+            var(--studio-accent) 10%,
+            transparent
+          );
+          font-size: 11px;
+          font-weight: 500;
+        }
+
+        .studio :global(.complete-badge > span) {
+          color: var(--studio-accent);
+        }
+
+        .studio :global(.result-heading > p) {
+          font-size: 12px;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.result-gallery) {
+          display: grid;
+          align-items: center;
+          gap: 16px;
+          transition: grid-template-columns 420ms
+            cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .studio :global(.selected-original) {
+          grid-template-columns:
+            minmax(0, 1.7fr)
+            minmax(0, 1fr)
+            minmax(0, 1fr);
+        }
+
+        .studio :global(.selected-overlay) {
+          grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1.7fr)
+            minmax(0, 1fr);
+        }
+
+        .studio :global(.selected-mask) {
+          grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1fr)
+            minmax(0, 1.7fr);
+        }
+
+        .studio :global(.preview-card) {
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+          padding: 12px;
+          border: 1px solid var(--studio-line);
+          border-radius: 16px;
+          background: var(--studio-panel);
+          text-align: left;
+          cursor: pointer;
+          box-shadow: 0 4px 16px var(--studio-shadow);
+          transition:
+            border-color 250ms ease,
+            box-shadow 250ms ease;
+          animation: preview-arrive 450ms ease-out both;
+        }
+
+        .studio :global(.preview-0) {
+          animation-delay: 40ms;
+        }
+
+        .studio :global(.preview-1) {
+          animation-delay: 110ms;
+        }
+
+        .studio :global(.preview-2) {
+          animation-delay: 180ms;
+        }
+
+        .studio :global(.preview-card.is-selected) {
+          border-color: var(--studio-accent);
+          box-shadow:
+            0 10px 26px var(--studio-shadow),
+            0 0 0 3px
+              color-mix(
+                in srgb,
+                var(--studio-accent) 8%,
+                transparent
+              );
+        }
+
+        .studio :global(.preview-card:hover) {
+          border-color: var(--studio-accent);
+        }
+
+        .studio :global(.preview-card:focus-visible) {
+          outline: 2px solid var(--ring);
+          outline-offset: 4px;
+        }
+
+        .studio :global(.preview-heading) {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          min-height: 30px;
+          margin-bottom: 8px;
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        .studio :global(.preview-indicator) {
+          color: var(--studio-accent);
+          font-size: 12px;
+        }
+
+        .studio :global(.preview-image-area) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 265px;
+          border-radius: 9px;
+          overflow: hidden;
+          background: var(--studio-inset);
+          transition: height 420ms
+            cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .studio :global(.is-selected .preview-image-area) {
+          height: 350px;
+        }
+
+        .studio :global(.result-image) {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
+        .studio :global(.preview-caption) {
+          display: block;
+          min-height: 36px;
+          margin-top: 12px;
+          font-size: 11px;
+          line-height: 1.6;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.gallery-toolbar) {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 22px;
+        }
+
+        .studio :global(.gallery-tools) {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .studio :global(.export-size) {
+          font-size: 11px;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.continue-row) {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+          margin-top: 22px;
+          padding-top: 20px;
+          border-top: 1px solid var(--studio-line);
+        }
+
+        .studio :global(.continue-row > p) {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          max-width: 560px;
+          font-size: 11px;
+          line-height: 1.8;
+          color: var(--muted-foreground);
+        }
+
+        .studio :global(.studio-footer) {
+          margin-top: 30px;
+          padding-top: 16px;
+          border-top: 1px solid var(--studio-line);
+          font-size: 11px;
+          color: var(--muted-foreground);
+        }
+
+        @keyframes stage-arrive {
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes preview-arrive {
+          from {
+            opacity: 0;
+            transform: translateY(14px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes scan-travel {
+          from {
+            top: 5%;
+          }
+          to {
+            top: 94%;
+          }
+        }
+
+        .studio :global(.stage) {
+          animation: stage-arrive 350ms ease-out both;
+        }
+
+        @media (max-width: 1000px) {
+          .studio :global(.upload-layout) {
+            grid-template-columns:
+              minmax(270px, 1fr)
+              minmax(0, 1.1fr);
+            gap: 20px;
+          }
+
+          .studio :global(.preview-image-area) {
+            height: 210px;
+          }
+
+          .studio :global(.is-selected .preview-image-area) {
+            height: 285px;
+          }
+        }
+
+        @media (max-width: 700px) {
+          .studio {
+            padding: 8px 0;
+          }
+
+          .studio :global(.upload-layout) {
+            grid-template-columns: 1fr;
+            gap: 4px;
+          }
+
+          .studio :global(.upload-column) {
+            padding: 0;
+          }
+
+          .studio :global(.solar-scene) {
+            max-width: 340px;
+            margin: -12px auto -15px;
+          }
+
+          .studio :global(.scene-caption) {
+            margin-bottom: 12px;
+          }
+
+          .studio :global(.result-gallery) {
+            grid-template-columns: 1fr;
+            gap: 14px;
+          }
+
+          .studio :global(.preview-image-area) {
+            height: 220px;
+          }
+
+          .studio :global(.is-selected .preview-image-area) {
+            height: 300px;
+          }
+
+          .studio :global(.continue-row) {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 18px;
+          }
+
+          .studio :global(.processing) {
+            gap: 24px;
+            padding: 20px 0;
+          }
+
+          .studio :global(.processing-copy) {
+            text-align: center;
+          }
+
+          .studio :global(.processing-status) {
+            justify-content: center;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .studio :global(.stage),
+          .studio :global(.preview-card),
+          .studio :global(.scan-line) {
+            animation: none;
+          }
+
+          .studio :global(.scan-line) {
+            top: 50%;
+          }
+
+          .studio :global(.result-gallery),
+          .studio :global(.preview-image-area),
+          .studio :global(.preview-card),
+          .studio :global(.drop-area) {
+            transition: none;
+          }
+
+          .studio :global(.moving-sun),
+          .studio :global(.motion-toggle) {
+            display: none;
+          }
+
+          .studio :global(.static-sun) {
+            display: inline;
+          }
+        }
+        /* Compact the illustration and remove excess vertical space. */
+          .studio :global(.upload-layout) {
+            min-height: 0;
+            align-items: center;
+          }
+
+          .studio :global(.upload-column) {
+            padding: 0;
+          }
+
+          .studio :global(.solar-scene) {
+            max-width: 500px;
+            margin: -38px auto -28px;
+          }
+
+          .studio :global(.scene-caption) {
+            position: relative;
+            margin-top: 0;
+          }
+
+          /*
+          * Keep the gallery dimensions stable.
+          * Only the image inside a card grows when selected.
+          */
+          .studio :global(.result-gallery),
+          .studio :global(.result-gallery.selected-original),
+          .studio :global(.result-gallery.selected-overlay),
+          .studio :global(.result-gallery.selected-mask) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: stretch;
+            gap: 18px;
+            transition: none;
+          }
+
+          .studio :global(.preview-card) {
+            width: 100%;
+            min-width: 0;
+            align-items: stretch;
+            padding: 14px;
+            transform: none;
+            transition:
+              border-color 220ms ease,
+              box-shadow 220ms ease;
+          }
+
+          .studio :global(.preview-heading),
+          .studio :global(.preview-caption) {
+            width: 100%;
+            align-self: stretch;
+          }
+
+          .studio :global(.preview-heading) {
+            min-height: 32px;
+          }
+
+          .studio :global(.preview-image-area),
+          .studio :global(.is-selected .preview-image-area) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: stretch;
+            width: 100%;
+            min-width: 0;
+            height: 310px;
+            padding: 10px;
+            overflow: hidden;
+            transition: none;
+          }
+
+          .studio :global(.result-image) {
+            display: block;
+            flex: 0 1 auto;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            min-width: 0;
+            margin: auto;
+            object-fit: contain;
+            object-position: center center;
+            transform: scale(0.9);
+            transform-origin: center;
+            transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+          }
+
+          .studio :global(.is-selected .result-image) {
+            transform: scale(1);
+          }
+
+          .studio :global(.preview-caption) {
+            min-height: 40px;
+            margin-top: 12px;
+          }
+
+          .studio :global(.preview-card.is-selected) {
+            border-color: var(--studio-accent);
+            box-shadow:
+              0 8px 22px var(--studio-shadow),
+              0 0 0 2px
+                color-mix(in srgb, var(--studio-accent) 12%, transparent);
+          }
+
+          @media (max-width: 1000px) {
+            .studio :global(.preview-image-area),
+            .studio :global(.is-selected .preview-image-area) {
+              height: 240px;
+            }
+          }
+
+          @media (max-width: 700px) {
+            .studio :global(.solar-scene) {
+              max-width: 340px;
+              margin: -20px auto -22px;
+            }
+
+            .studio :global(.result-gallery),
+            .studio :global(.result-gallery.selected-original),
+            .studio :global(.result-gallery.selected-overlay),
+            .studio :global(.result-gallery.selected-mask) {
+              grid-template-columns: 1fr;
+            }
+
+            .studio :global(.preview-image-area),
+            .studio :global(.is-selected .preview-image-area) {
+              height: 280px;
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .studio :global(.result-image),
+            .studio :global(.preview-card) {
+              transition: none;
+            }
+          }
+          /* Reserve space so the enlarged card cannot push other content. */
+          .studio :global(.result-gallery),
+          .studio :global(.result-gallery.selected-original),
+          .studio :global(.result-gallery.selected-overlay),
+          .studio :global(.result-gallery.selected-mask) {
+            position: relative;
+            isolation: isolate;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: stretch;
+            gap: 24px;
+            padding: 32px 18px;
+            overflow: visible;
+            transition: none;
+          }
+
+          /* Animate the entire card instead of changing its layout dimensions. */
+          .studio :global(.result-gallery .preview-card) {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            min-width: 0;
+
+            /* Remove the previous entrance animation that controls transform. */
+            animation: none;
+            transform: scale(0.94);
+            transform-origin: center center;
+
+            transition:
+              transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 240ms ease,
+              box-shadow 360ms ease;
+          }
+
+          /* Selected card moves visually in front of its neighbours. */
+          .studio :global(.result-gallery .preview-card.is-selected) {
+            z-index: 5;
+            transform: translateY(-6px) scale(1.06);
+            border-color: var(--studio-accent);
+
+            box-shadow:
+              0 22px 45px var(--studio-shadow),
+              0 0 0 2px
+                color-mix(
+                  in srgb,
+                  var(--studio-accent) 22%,
+                  transparent
+                );
+          }
+
+          .studio :global(.result-gallery .preview-card:focus-visible) {
+            outline: 2px solid var(--ring);
+            outline-offset: 5px;
+          }
+
+          /* Keep the photograph centred; the parent card handles enlargement. */
+          .studio :global(.result-gallery .result-image),
+          .studio :global(.result-gallery .is-selected .result-image) {
+            display: block;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            margin: auto;
+            object-fit: contain;
+            object-position: center;
+            transform: none;
+            transition: none;
+          }
+
+          .studio :global(.result-gallery .preview-image-area),
+          .studio :global(.result-gallery .is-selected .preview-image-area) {
+            width: 100%;
+            align-self: stretch;
+            height: 310px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: none;
+          }
+
+          @media (max-width: 1000px) {
+            .studio :global(.result-gallery .preview-image-area),
+            .studio :global(.result-gallery .is-selected .preview-image-area) {
+              height: 240px;
+            }
+          }
+
+          @media (max-width: 700px) {
+            .studio :global(.result-gallery),
+            .studio :global(.result-gallery.selected-original),
+            .studio :global(.result-gallery.selected-overlay),
+            .studio :global(.result-gallery.selected-mask) {
+              grid-template-columns: 1fr;
+              gap: 24px;
+              padding: 20px 12px;
+            }
+
+            .studio :global(.result-gallery .preview-card) {
+              transform: scale(0.97);
+            }
+
+            .studio :global(.result-gallery .preview-card.is-selected) {
+              transform: translateY(-3px) scale(1.02);
+            }
+
+            .studio :global(.result-gallery .preview-image-area),
+            .studio :global(.result-gallery .is-selected .preview-image-area) {
+              height: 280px;
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .studio :global(.result-gallery .preview-card) {
+              transition: none;
+            }
+          }
+      /* Bring the upload box and illustration closer together. */
+          @media (min-width: 701px) {
+            .studio :global(.upload-layout) {
+              grid-template-columns: minmax(0, 440px) minmax(0, 520px);
+              justify-content: center;
+              align-items: center;
+              gap: 28px;
+            }
+
+            .studio :global(.scene-column) {
+              width: 100%;
+              min-width: 0;
+            }
+
+            .studio :global(.solar-scene) {
+              width: 100%;
+              max-width: 520px;
+              margin: -38px 0 -28px;
+            }
+          }
+          /* Compact header on both upload and result screens. */
+            .studio {
+              padding-top: 0;
+            }
+
+            .studio :global(.studio-header) {
+              align-items: center;
+              gap: 12px;
+              margin-bottom: 14px;
+            }
+
+            .studio :global(.eyebrow) {
+              font-size: 10px;
+              letter-spacing: 0.13em;
+            }
+
+            .studio :global(.page-title) {
+              margin-top: 6px;
+              font-size: clamp(25px, 2.3vw, 32px);
+              line-height: 1.15;
+            }
+
+            .studio :global(.page-description) {
+              margin-top: 7px;
+              font-size: 13px;
+              line-height: 1.6;
+            }
+
+            .studio :global(.result-heading) {
+              margin-bottom: 4px;
+            }
+
+            /* Keep enough room for the selected card to scale forward. */
+            .studio :global(.result-gallery),
+            .studio :global(.result-gallery.selected-original),
+            .studio :global(.result-gallery.selected-overlay),
+            .studio :global(.result-gallery.selected-mask) {
+              padding-top: 24px;
+              padding-bottom: 24px;
+            }
+
+        /* Wider upload box with less unused space around the content. */
+        @media (min-width: 701px) {
+          .studio :global(.upload-layout) {
+            grid-template-columns:
+              minmax(0, 1fr)
+              minmax(0, 1fr);
+            max-width: 1100px;
+            margin: 0 auto;
+            gap: 24px;
+            min-height: 0;
+            align-items: center;
+          }
+
+          .studio :global(.upload-column) {
+            width: 100%;
+            padding: 0;
+          }
+
+          .studio :global(.upload-card) {
+            padding: 24px;
+          }
+
+          .studio :global(.drop-area) {
+            min-height: 250px;
+            padding: 24px;
+          }
+
+          .studio :global(.solar-scene) {
+            width: 100%;
+            max-width: 500px;
+            margin: -45px auto -30px;
+          }
+        }
+
+        @media (max-width: 700px) {
+          .studio :global(.studio-header) {
+            align-items: flex-start;
+            margin-bottom: 16px;
+          }
+
+          .studio :global(.page-title) {
+            font-size: 26px;
+          }
+
+          .studio :global(.upload-card) {
+            padding: 18px;
+          }
+
+          .studio :global(.drop-area) {
+            min-height: 220px;
+            padding: 20px;
+          }
+        }
+                  /* Keep the caption separate from the illustration. */
+          .studio :global(.scene-column .solar-scene) {
+            margin-bottom: 0;
+          }
+
+          .studio :global(.scene-column .scene-caption) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+            padding: 0 12px;
+            line-height: 1.5;
+          }
+
+          @media (max-width: 700px) {
+            .studio :global(.scene-column .scene-caption) {
+              margin-top: 16px;
+            }
+          }
