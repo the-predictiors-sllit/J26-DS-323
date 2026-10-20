@@ -8,25 +8,25 @@ import { cn } from "@/lib/utils";
 const features = [
   {
     title: "Panel Health",
-    img: "https://images.pexels.com/photos/33379364/pexels-photo-33379364.jpeg",
+    img: "feature/PanelHealth.webp",
     description: "Assess panel condition and explore maintenance guidance.",
     url: "/features/panelhealth",
   },
   {
     title: "Solar Setup",
-    img: "https://images.pexels.com/photos/34641328/pexels-photo-34641328.jpeg",
+    img: "feature/SolarSetup.webp",
     description: "Explore panel placement, tilt, and orientation.",
     url: "/features/solarsetup",
   },
   {
     title: "Smart Scheduling",
-    img: "https://images.pexels.com/photos/9800029/pexels-photo-9800029.jpeg",
+    img: "feature/SmartScheduling.webp",
     description: "Schedule appliances around available solar energy.",
     url: "/features/smartscheduling/scheduler",
   },
   {
     title: "Energy Resilience",
-    img: "https://images.pexels.com/photos/39057090/pexels-photo-39057090.jpeg",
+    img: "feature/EnergyResilience.webp",
     description: "Plan solar and battery energy use for power outages.",
     url: "/features/energyresilience",
   },
