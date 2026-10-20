@@ -2,7 +2,7 @@ name: Next.js CI Build
 
 on:
   push:
-    branches: [development]
+    branches: [deployment]
 
 permissions:
   contents: read
