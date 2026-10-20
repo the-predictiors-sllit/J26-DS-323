@@ -1,7 +1,9 @@
 import type { AutoPlan, Evaluation, Forecast, OutageEvt, Settings, WeatherEvt } from "./types";
 
-// Where the Component 4 FastAPI server runs. Change it in Application/frontend/.env.local if needed.
+// Where the backend runs. Change it in Application/frontend/.env.local if needed.
 export const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// The Energy Resilience router is registered in the backend under this prefix (Application/Backend/app/main.py).
+export const ER_API = `${API_BASE}/api/v1/energyresilience`;
 
 export async function planAuto(s: Settings, weather: WeatherEvt[], outages: OutageEvt[]): Promise<AutoPlan> {
   const body = {
@@ -23,13 +25,13 @@ export async function planAuto(s: Settings, weather: WeatherEvt[], outages: Outa
   };
   let res: Response;
   try {
-    res = await fetch(`${API_BASE}/plan/auto`, {
+    res = await fetch(`${ER_API}/plan/auto`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
   } catch {
-    throw new Error(`Cannot reach the planner at ${API_BASE}. Start it with: python -m uvicorn api.main:app --reload`);
+    throw new Error(`Cannot reach the backend at ${API_BASE}. Start the backend from Application/Backend.`);
   }
   if (!res.ok) {
     const detail = await res.json().catch(() => ({ detail: res.statusText }));
@@ -39,7 +41,7 @@ export async function planAuto(s: Settings, weather: WeatherEvt[], outages: Outa
 }
 
 export async function getEvaluation(): Promise<Evaluation> {
-  const res = await fetch(`${API_BASE}/evaluation`).catch(() => null);
+  const res = await fetch(`${ER_API}/evaluation`).catch(() => null);
   if (!res || !res.ok) throw new Error(`Cannot load the one-year results from ${API_BASE}.`);
   return (await res.json()) as Evaluation;
 }
@@ -47,9 +49,9 @@ export async function getEvaluation(): Promise<Evaluation> {
 export async function getForecast(lat: number, lon: number, startHour: number): Promise<Forecast> {
   let res: Response;
   try {
-    res = await fetch(`${API_BASE}/weather/forecast?lat=${lat}&lon=${lon}&start_hour=${startHour}`);
+    res = await fetch(`${ER_API}/weather/forecast?lat=${lat}&lon=${lon}&start_hour=${startHour}`);
   } catch {
-    throw new Error(`Cannot reach the planner at ${API_BASE}.`);
+    throw new Error(`Cannot reach the backend at ${API_BASE}.`);
   }
   if (!res.ok) {
     const d = await res.json().catch(() => ({ detail: "" }));
