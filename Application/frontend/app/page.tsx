@@ -12,91 +12,91 @@ export default function Home() {
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (1).jpg",
+      image: "/solar/solar (1).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (2).jpg",
+      image: "/solar/solar (2).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (3).jpg",
+      image: "/solar/solar (3).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (4).jpg",
+      image: "/solar/solar (4).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (5).jpg",
+      image: "/solar/solar (5).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (6).jpg",
+      image: "/solar/solar (6).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (7).jpg",
+      image: "/solar/solar (7).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (8).jpg",
+      image: "/solar/solar (8).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (9).jpg",
+      image: "/solar/solar (9).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (10).jpg",
+      image: "/solar/solar (10).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (11).jpg",
+      image: "/solar/solar (11).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (12).jpg",
+      image: "/solar/solar (12).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (13).jpg",
+      image: "/solar/solar (13).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
