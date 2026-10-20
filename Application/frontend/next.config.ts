@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [{ source: "/api/v1/:path*", destination: `${BACKEND_URL}/api/v1/:path*` }];
   },
+  allowedDevOrigins: ['52.63.49.88']
 };
 
 export default nextConfig;

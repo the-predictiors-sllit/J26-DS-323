@@ -4,7 +4,7 @@ import { RailItem } from "../components/sidebar_interfaces"
 
 
 export const NAV: RailItem[] = [
-  { id: "overview", label: "Overview", icon: <LayoutDashboardIcon aria-hidden="true" />, link: "#" },
+  // { id: "overview", label: "Overview", icon: <LayoutDashboardIcon aria-hidden="true" />, link: "#" },
   { id: "solar_prediction", label: "Manual Solar Prediction", icon: <Sparkles aria-hidden="true" />, link: "/features/smartscheduling/manualsolarpredition" },
   { id: "solar_scheduler", label: "Solar Scheduler", icon: <Sparkles aria-hidden="true" />, link: "/features/smartscheduling/scheduler", },
   // { id: "inbox", label: "Inbox", badge: 12, icon: <InboxIcon aria-hidden="true" />, link: "#" },

@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
 import { ChevronRight, CircleAlert, CloudSun, Crop, RefreshCw, Upload } from "lucide-react"
 import AnalysisResult from "./components/AnalysisResult"
 import PanelCornerPicker from "./components/PanelCornerPicker"
+import PanelHero from "./components/PanelHero"
 import { analyzePanel, previewCrop } from "./helpers/api"
 import type { PanelReport } from "./helpers/api"
 import { prepareUpload } from "./helpers/prepareUpload"
@@ -113,16 +114,7 @@ export default function PanelHealthPage() {
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 pb-8">
-      <section>
-        <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-          <span className="size-2 rounded-full bg-emerald-500" />
-          Vision-based assessment
-        </div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Panel health check</h1>
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Upload a photo of one panel and mark its corners. You get a health score, an expected output range and a clear recommendation.
-        </p>
-      </section>
+      <PanelHero />
 
       <section>
         <form onSubmit={handleAnalyze} className="rounded-xl border bg-card p-5 shadow-sm sm:p-6">
