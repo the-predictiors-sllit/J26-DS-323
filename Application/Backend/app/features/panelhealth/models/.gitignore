@@ -1,3 +1,4 @@
 # The trained model is large and is not committed. It is copied here by
 # experiments/lakhitha/PanelScan/src/sync_to_backend.py --with-model
-*.pt
+
+
