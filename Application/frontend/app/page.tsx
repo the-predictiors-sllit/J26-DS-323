@@ -68,35 +68,7 @@ export default function Home() {
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (9).webp",
-      link: "/home",
-      title: "Smarter Solar for Every Home",
-      description:
-        "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
-    },
-    {
-      image: "/solar/solar (10).webp",
-      link: "/home",
-      title: "Smarter Solar for Every Home",
-      description:
-        "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
-    },
-    {
-      image: "/solar/solar (11).webp",
-      link: "/home",
-      title: "Smarter Solar for Every Home",
-      description:
-        "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
-    },
-    {
       image: "/solar/solar (12).webp",
-      link: "/home",
-      title: "Smarter Solar for Every Home",
-      description:
-        "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
-    },
-    {
-      image: "/solar/solar (13).webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:

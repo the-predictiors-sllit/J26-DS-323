@@ -1,8 +1,18 @@
 "use client";
 import Logo from "@/assets/logo/logo";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
 import { ThemeToggler } from "@/components/velora/theme-toggler";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, TextAlignJustify } from "lucide-react";
@@ -29,7 +39,7 @@ const navigationData: NavigationSection[] = [
   },
   {
     title: "Smart Scheduling",
-    href: "/features/smartscheduling",
+    href: "/features/smartscheduling/scheduler",
   },
   {
     title: "Energy Resilience",
@@ -38,7 +48,12 @@ const navigationData: NavigationSection[] = [
 ];
 
 const CollaborateButton = ({ className }: { className?: string }) => (
-  <Button className={cn("relative text-sm font-medium rounded-full h-10 p-1 ps-4 pe-12 group transition-all duration-500 hover:ps-12 hover:pe-4 w-fit overflow-hidden hover:bg-primary/80", className)}>
+  <Button
+    className={cn(
+      "relative text-sm font-medium rounded-full h-10 p-1 ps-4 pe-12 group transition-all duration-500 hover:ps-12 hover:pe-4 w-fit overflow-hidden hover:bg-primary/80",
+      className,
+    )}
+  >
     <span className="relative z-10 transition-all duration-500 hover:cursor-pointer">
       Let's Collaborate
     </span>
@@ -57,9 +72,6 @@ const Navbar = () => {
     setTheme(isDark ? "light" : "dark");
   };
 
-
-
-  
   const [sticky, setSticky] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const handleScroll = useCallback(() => {
@@ -89,7 +101,7 @@ const Navbar = () => {
               "w-full flex items-center h-fit justify-between gap-3.5 lg:gap-6 transition-all duration-500",
               sticky
                 ? "p-2.5 bg-background/60 backdrop-blur-lg border border-border/40 shadow-2xl shadow-primary/5 rounded-full"
-                : "bg-transparent border-transparent"
+                : "bg-transparent border-transparent",
             )}
           >
             <a href="/home">
@@ -113,10 +125,7 @@ const Navbar = () => {
             </div>
             <div className="hidden lg:flex">
               <CollaborateButton />
-              <ThemeToggler
-                isDark={isDark}
-                onToggle={handleThemeToggle}
-              />
+              <ThemeToggler isDark={isDark} onToggle={handleThemeToggle} />
             </div>
 
             <div className="lg:hidden">
@@ -126,13 +135,15 @@ const Navbar = () => {
                   <span className="sr-only">Menu</span>
                 </DropdownMenuTrigger>
 
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56 mt-2"
-                >
+                <DropdownMenuContent align="end" className="w-56 mt-2">
                   {navigationData.map((item) => (
                     <DropdownMenuItem key={item.title}>
-                      <a href={item.href} className="w-full cursor-pointer text-sm font-medium hover:text-primary">{item.title}</a>
+                      <a
+                        href={item.href}
+                        className="w-full cursor-pointer text-sm font-medium hover:text-primary"
+                      >
+                        {item.title}
+                      </a>
                     </DropdownMenuItem>
                   ))}
                 </DropdownMenuContent>
