@@ -2,8 +2,9 @@ import type { AutoPlan, Evaluation, Forecast, OutageEvt, Settings, WeatherEvt } 
 
 // Where the backend runs. Change it in Application/frontend/.env.local if needed.
 export const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-// The Energy Resilience router is registered in the backend under this prefix (Application/Backend/app/main.py).
-export const ER_API = `${API_BASE}/api/v1/energyresilience`;
+// The browser calls our own small proxy (app/features/energyresilience/api/[...path]/route.ts), which forwards
+// to the backend at /api/v1/energyresilience. This avoids the CORS block because the backend main.py has no CORS setup.
+export const ER_API = "/features/energyresilience/api";
 
 export async function planAuto(s: Settings, weather: WeatherEvt[], outages: OutageEvt[]): Promise<AutoPlan> {
   const body = {
