@@ -9,3 +9,4 @@ requests
 # stable-baselines3
 fastapi
 uvicorn
+tzdata

@@ -32,3 +32,9 @@ See docs/assumptions_log.md for every assumption.
 - `python src/make_pv_profiles.py` rebuilds `data/processed/pv_profiles_per_kwp.csv` from the raw weather file (only needed if the weather changes).
 - Test: `python tests_api.py`
 - The pages live in `Application/frontend/app/features/energyresilience`. They call the API at `http://localhost:8000` (change with `NEXT_PUBLIC_API_URL`).
+
+## Live forecast (new)
+- `GET /weather/forecast?lat=&lon=&start_hour=` returns the next 24 hours from Open-Meteo with expected solar per kWp.
+- `POST /plan/auto` accepts `use_forecast`, `lat`, `lon`. If the forecast fails it falls back to the typical day.
+- Check it on your own computer (needs internet): `python check_open_meteo.py`
+- The test file `tests_api.py` uses a fake forecast so it runs without internet.

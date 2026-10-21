@@ -17,6 +17,10 @@ const DEFAULTS: Settings = {
   month: 10,
   startHour: 8,
   isWeekend: false,
+  place: "Weligama",
+  lat: 5.974,
+  lon: 80.43,
+  useForecast: false,
 };
 
 interface Saved {
@@ -131,7 +135,7 @@ export function EnergyProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const loadDemo = useCallback(() => {
-    setSettings((p) => ({ ...p, socPct: 25, startHour: 15, batteryKwh: 5, pvKwp: 3.1, dailyKwh: 9, profile: "balanced" }));
+    setSettings((p) => ({ ...p, socPct: 25, startHour: 15, batteryKwh: 5, pvKwp: 3.1, dailyKwh: 9, profile: "balanced", useForecast: false }));
     setWeather([{ startIn: 0, duration: 3, condition: "rainy" }]);
     setOutages([{ startIn: 4, duration: 5 }]);
   }, []);

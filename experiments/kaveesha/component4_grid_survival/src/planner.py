@@ -43,16 +43,21 @@ def make_cfg(base, battery_kwh=None, pv_kwp=None):
     return cfg
 
 
-def build_forecasts(month, start_hour, pv_kwp, daily_kwh, is_weekend=False, weather_events=None, horizon=24):
+def build_forecasts(month, start_hour, pv_kwp, daily_kwh, is_weekend=False, weather_events=None, horizon=24,
+                    pv_per_kwp=None):
     """Return (hour_of_day, pv_kwh, load_kwh) lists for the next `horizon` hours starting at start_hour.
     weather_events: list of {start_in_hours, duration_hours, condition} using WEATHER_FACTOR words.
-    Without events the solar forecast is the normal (average) day for that month."""
+    Without events the solar forecast is the normal (average) day for that month, or pv_per_kwp (24 values from a live
+    forecast) when given. Weather events always override the hours they cover (the user knows best)."""
     tab = _pv_table()
     tab = tab[tab.month == month].set_index("hour")
     lt = _load_table()["weekend_kwh" if is_weekend else "weekday_kwh"]
     scale = daily_kwh / float(lt.sum())
     hrs = [(start_hour + t) % 24 for t in range(horizon)]
-    pv = [float(tab.loc[h, "normal_kwh"]) * pv_kwp for h in hrs]
+    if pv_per_kwp is not None:
+        pv = [float(x) * pv_kwp for x in pv_per_kwp[:horizon]]
+    else:
+        pv = [float(tab.loc[h, "normal_kwh"]) * pv_kwp for h in hrs]
     for ev in weather_events or []:
         f = WEATHER_FACTOR[ev["condition"]]
         for t in range(max(0, int(ev["start_in_hours"])), min(horizon, int(ev["start_in_hours"] + ev["duration_hours"]))):
@@ -94,11 +99,12 @@ def compare_controllers(profile, cfg, soc_pct, pv, load, outage, buy, sell):
 
 
 def plan_for_user(profile, buy, sell, soc_pct, battery_kwh, pv_kwp, daily_kwh, month, start_hour,
-                  is_weekend=False, weather_events=None, outage_events=None, cfg=None):
+                  is_weekend=False, weather_events=None, outage_events=None, cfg=None, pv_per_kwp=None, solar_source=None):
     """Everything the app needs in one call: forecasts used, MPC plan, comparison, plain-English notes."""
     base = cfg or load_config()
     c = make_cfg(base, battery_kwh, pv_kwp)
-    hrs, pv, load = build_forecasts(month, start_hour, pv_kwp or c["pv"]["system_kwp"], daily_kwh, is_weekend, weather_events)
+    hrs, pv, load = build_forecasts(month, start_hour, pv_kwp or c["pv"]["system_kwp"], daily_kwh, is_weekend, weather_events,
+                                 pv_per_kwp=pv_per_kwp)
     outage = build_outage(outage_events)
     plan = get_plan(profile, buy, sell, soc_pct, pv, load, outage, c)
     cmp_ = compare_controllers(profile, c, soc_pct, pv, load, outage, buy, sell)
@@ -106,6 +112,8 @@ def plan_for_user(profile, buy, sell, soc_pct, battery_kwh, pv_kwp, daily_kwh, m
     if any(outage):
         first = outage.index(1)
         notes.append(f"Grid outage expected from hour {hrs[first]:02d}:00 for {sum(outage)} h. The plan prepares the battery before it.")
+    if solar_source:
+        notes.append(solar_source)
     if weather_events:
         notes.append("Solar forecast adjusted for your weather outlook.")
     if cmp_["plain_rule"]["unserved_critical_kwh"] > cmp_["mpc"]["unserved_critical_kwh"]:
@@ -113,4 +121,5 @@ def plan_for_user(profile, buy, sell, soc_pct, battery_kwh, pv_kwp, daily_kwh, m
         notes.append(f"The planner keeps {d:.2f} kWh more critical power than a normal battery rule.")
     return {"profile": profile, "hour_of_day": hrs, "pv_forecast_kwh": pv, "load_forecast_kwh": load,
             "outage_forecast": outage, "battery_kwh": c["battery"]["capacity_kwh"], "pv_kwp": c["pv"]["system_kwp"],
-            "plan": plan, "comparison": cmp_, "notes": notes}
+            "plan": plan, "comparison": cmp_, "notes": notes,
+            "weather_source": "open-meteo" if pv_per_kwp is not None else "typical"}

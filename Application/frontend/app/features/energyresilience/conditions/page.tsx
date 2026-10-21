@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HourStrip } from "../_components/charts";
 import { Button, Card, Field, Heading, inputCls, Notice } from "../_components/ui";
-import { CONDITION_LABEL, hh } from "../_lib/format";
+import { getForecast } from "../_lib/api";
+import { CONDITION_LABEL, hh, MONTHS } from "../_lib/format";
 import { useEnergy } from "../_lib/store";
-import type { Condition, OutageEvt, WeatherEvt } from "../_lib/types";
+import type { Condition, Forecast, OutageEvt, WeatherEvt } from "../_lib/types";
 
 const range = (n: number, from = 0) => Array.from({ length: n }, (_, i) => i + from);
 
@@ -19,14 +20,45 @@ function Num({ value, onChange, options, suffix }: { value: number; onChange: (v
 }
 
 export default function ConditionsPage() {
-  const { settings, update, applyClock, weather, setWeather, outages, setOutages, runPlan, loading, error, loadDemo, clearConditions } = useEnergy();
+  const { settings, update, applyClock, hydrated, weather, setWeather, outages, setOutages, runPlan, loading, error, loadDemo, clearConditions } = useEnergy();
   const router = useRouter();
   const [remaining, setRemaining] = useState(2);
+  const [fc, setFc] = useState<Forecast | null>(null);
+  const [fcBusy, setFcBusy] = useState(false);
+  const [fcError, setFcError] = useState<string | null>(null);
+
+  const loadForecast = async () => {
+    setFcBusy(true);
+    setFcError(null);
+    try {
+      setFc(await getForecast(settings.lat, settings.lon, settings.startHour));
+      update({ useForecast: true });
+    } catch (e) {
+      setFc(null);
+      update({ useForecast: false });
+      setFcError(e instanceof Error ? e.message : "Live forecast unavailable.");
+    } finally {
+      setFcBusy(false);
+    }
+  };
+
+  // When live forecast is switched on (also after a reload), keep the preview in step with the place and hour.
+  useEffect(() => {
+    if (!hydrated || !settings.useForecast) { setFc(null); return; }
+    let live = true;
+    setFcBusy(true);
+    getForecast(settings.lat, settings.lon, settings.startHour)
+      .then((f) => { if (live) { setFc(f); setFcError(null); } })
+      .catch((e) => { if (live) { setFc(null); setFcError(e instanceof Error ? e.message : "Live forecast unavailable."); } })
+      .finally(() => { if (live) setFcBusy(false); });
+    return () => { live = false; };
+  }, [hydrated, settings.useForecast, settings.lat, settings.lon, settings.startHour]);
 
   const strip = (n: number) => {
     const out = new Array<number>(24).fill(0);
     outages.forEach((o) => { for (let t = o.startIn; t < Math.min(24, o.startIn + o.duration); t++) out[t] = 1; });
     const wx = new Array<Condition | null>(24).fill(null);
+    if (settings.useForecast && fc) fc.hours.forEach((h, t) => { wx[t] = h.ghi_wm2 < 5 && h.label === "sunny" ? null : h.label; });   // night is not coloured
     weather.forEach((w) => { for (let t = w.startIn; t < Math.min(24, w.startIn + w.duration); t++) wx[t] = w.condition; });
     return { out: out.slice(0, n), wx: wx.slice(0, n) };
   };
@@ -67,6 +99,29 @@ export default function ConditionsPage() {
         </div>
       </Card>
 
+      <Card>
+        <Heading title="Live weather forecast" hint={`Fetched from Open-Meteo for ${settings.place}. It replaces typing the weather by hand.`} />
+        <div className="flex flex-wrap items-center gap-3">
+          {!settings.useForecast ? (
+            <Button onClick={() => void loadForecast()} disabled={fcBusy}>{fcBusy ? "Fetching..." : "Use live forecast"}</Button>
+          ) : (
+            <Button variant="outline" onClick={() => update({ useForecast: false })}>Switch to a typical day</Button>
+          )}
+          <span className="text-sm text-muted-foreground">
+            {settings.useForecast
+              ? fcBusy ? "Fetching the forecast..." : fc ? `On. Expected solar over 24 hours: ${fc.hours.reduce((a, h) => a + h.pv_kwh_per_kwp, 0).toFixed(1)} kWh for each kWp of panels.` : "On, but the forecast could not be loaded. The planner will use a typical day."
+              : `Off. The planner uses an average day for ${MONTHS[settings.month - 1]}.`}
+          </span>
+        </div>
+        {fcError && <div className="mt-3"><Notice tone="warn">{fcError} The planner will use a typical day instead.</Notice></div>}
+        {settings.useForecast && fc && (
+          <p className="mt-3 text-xs text-muted-foreground">
+            Rain expected in {fc.hours.filter((h) => h.label === "rainy").length} of the next 24 hours, cloud in {fc.hours.filter((h) => h.label === "cloudy").length}.
+            You can still add your own weather below. It overrides the forecast for those hours.
+          </p>
+        )}
+      </Card>
+
       <Card className="border-destructive/40">
         <Heading title="Power just went off?" hint="Enter how long CEB says it will last. The planner switches to outage mode now." />
         <div className="flex flex-wrap items-end gap-3">
@@ -95,8 +150,8 @@ export default function ConditionsPage() {
       </Card>
 
       <Card>
-        <Heading title="Weather outlook" hint="For example: heavy rain for the next 3 hours. Solar output is lowered for those hours." />
-        {weather.length === 0 && <p className="mb-3 text-sm text-muted-foreground">None added. The planner uses an average day for this month.</p>}
+        <Heading title="Your own weather knowledge (optional)" hint="For example: heavy rain for the next 3 hours. Solar output is lowered for those hours and this overrides the forecast." />
+        {weather.length === 0 && <p className="mb-3 text-sm text-muted-foreground">None added. The planner uses the live forecast if it is on, otherwise an average day for this month.</p>}
         <div className="space-y-3">
           {weather.map((w, i) => (
             <div key={i} className="flex flex-wrap items-end gap-3">
@@ -117,7 +172,7 @@ export default function ConditionsPage() {
       </Card>
 
       <Card>
-        <Heading title="What the planner will see" />
+        <Heading title="What the planner will see" hint="Top row: weather from the forecast and your own entries. Bottom row: power cuts." />
         <HourStrip hours={hours} outage={out} weather={wx} />
       </Card>
 

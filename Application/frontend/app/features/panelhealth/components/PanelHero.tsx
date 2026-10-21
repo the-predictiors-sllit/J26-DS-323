@@ -44,7 +44,6 @@ export default function PanelHero() {
           <HeroScene paused={paused} />
         </div>
         <div className="mt-2 flex items-center justify-center gap-3 text-xs text-muted-foreground">
-          <span>Illustrative example</span>
           <button
             type="button"
             onClick={() => setPaused((value) => !value)}
