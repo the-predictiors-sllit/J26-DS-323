@@ -1,8 +1,19 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import InfiniteMenu from "@/components/react-bits/InfiniteMenu-TS-TW";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const items = [
     {
       image: "/solar/solarhouse1.webp",
@@ -75,6 +86,9 @@ export default function Home() {
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
   ];
+
+  const currentTheme = mounted && resolvedTheme === "dark" ? "dark" : "light";
+
   return (
     <div className="">
       <div className="h-screen">
@@ -92,16 +106,10 @@ export default function Home() {
           dim={0.5}
           intro
           showInfo
-          // theme="light"
+          theme={currentTheme}
           accentColor="var(--primary)"
         />
       </div>
     </div>
   );
 }
-
-// {/* <Link href="/home" >
-//   <Button>
-//     Home
-//   </Button>
-// </Link> */}
