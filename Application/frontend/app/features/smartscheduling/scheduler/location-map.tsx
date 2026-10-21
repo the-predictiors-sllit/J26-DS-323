@@ -57,11 +57,7 @@ function MapInteractions({
         Math.abs(current.lat - latitude) > 0.000001 ||
         Math.abs(current.lng - longitude) > 0.000001
       ) {
-        map.setView(
-          [latitude, longitude],
-          map.getZoom(),
-          { animate: false },
-        );
+        map.setView([latitude, longitude], map.getZoom(), { animate: false });
       }
     }, 250);
 
