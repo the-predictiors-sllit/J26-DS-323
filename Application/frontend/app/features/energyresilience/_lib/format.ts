@@ -37,3 +37,14 @@ export function reasonFor(view: ActionView, outageIn: number | null): string {
 }
 
 export const lkr = (n: number) => `${n < 0 ? "-" : ""}LKR ${Math.abs(Math.round(n)).toLocaleString("en-US")}`;
+
+// Places the user can pick for the live forecast (latitude, longitude).
+export const PLACES: Record<string, { lat: number; lon: number }> = {
+  Weligama: { lat: 5.974, lon: 80.43 },
+  Colombo: { lat: 6.9271, lon: 79.8612 },
+  Galle: { lat: 6.0535, lon: 80.221 },
+  Kandy: { lat: 7.2906, lon: 80.6337 },
+  Kurunegala: { lat: 7.4863, lon: 80.3623 },
+  Anuradhapura: { lat: 8.3114, lon: 80.4037 },
+  Jaffna: { lat: 9.6615, lon: 80.0255 },
+};

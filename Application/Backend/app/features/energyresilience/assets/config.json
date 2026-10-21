@@ -1,0 +1,59 @@
+{
+  "battery": {
+    "capacity_kwh": 5.0,
+    "min_soc_pct": 20,
+    "max_soc_pct": 100,
+    "max_charge_kw": 2.7,
+    "max_discharge_kw": 3.0,
+    "round_trip_efficiency": 0.95,
+    "init_soc_pct": 80
+  },
+  "pv": {
+    "system_kwp": 3.1,
+    "inverter_kw": 5.0,
+    "tilt_deg": 10,
+    "azimuth_deg": 180,
+    "lat": 5.974,
+    "lon": 80.43,
+    "temp_coeff_per_c": -0.0035,
+    "system_loss_factor": 0.86
+  },
+  "tariff": {
+    "buy_lkr_per_kwh": 35.0,
+    "sell_lkr_per_kwh": 22.0
+  },
+  "household": {
+    "critical_load_fraction": 0.4,
+    "site": "small"
+  },
+  "profiles": {
+    "savings": {
+      "unserved_penalty_lkr_per_kwh": 40,
+      "reserve_pct": 20
+    },
+    "balanced": {
+      "unserved_penalty_lkr_per_kwh": 200,
+      "reserve_pct": 40
+    },
+    "resilience": {
+      "unserved_penalty_lkr_per_kwh": 1000,
+      "reserve_pct": 70
+    }
+  },
+  "degradation_lkr_per_kwh_throughput": 2.0,
+  "mpc": {
+    "horizon_hours": 24
+  },
+  "households": {
+    "small": {
+      "load_site": "weligama",
+      "pv_kwp": 3.1,
+      "note": "Weligama log: ~9 kWh/day load, PV calibrated to real July log"
+    },
+    "large": {
+      "load_site": "crn14037",
+      "pv_kwp": 6.3,
+      "note": "CRN14037 log: ~28 kWh/day load, PV calibrated to real July log"
+    }
+  }
+}
