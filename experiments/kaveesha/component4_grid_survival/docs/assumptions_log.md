@@ -21,3 +21,13 @@
 - When the user picks a different battery size, charge and discharge power limits scale with it (same C-rate as the 5 kWh reference battery). ASSUMPTION.
 - The day comparison runs three controllers (normal rule, rule with the preference's reserve, MPC) over the same 24 hours with the same physics.
 - Year results shown in the app are read from results/evaluation_summary.csv and results/rule_reserve_baselines.csv. Outage years are synthetic scenarios.
+
+## Live weather forecast (Open-Meteo)
+- Source: Open-Meteo forecast API, hourly values for the chosen place. No key needed for non-commercial use. Commercial use needs a paid plan.
+- Variables used: shortwave_radiation, direct_normal_irradiance, diffuse_radiation, temperature_2m, wind_speed_10m, cloud_cover, precipitation.
+- Open-Meteo values are the mean of the PRECEDING hour, so plan hour [h, h+1) uses the value stamped h+1.
+- Sunlight is turned into solar energy per kWp with the same pvlib steps used for the typical-day profiles (tilt 10, azimuth 180, temperature loss, 0.86 system loss).
+- Hour label: rainy if rain at least 0.3 mm, cloudy if cloud cover at least 60 percent, else sunny. Labels are for display only. The solar numbers come from the sunlight values.
+- Manual weather entries override the forecast for the hours they cover.
+- If Open-Meteo cannot be reached the planner uses the typical day and says so in the plan notes.
+- Results are cached for 15 minutes per place. Load profile and typical day still come from the Weligama data.

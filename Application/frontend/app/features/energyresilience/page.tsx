@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card, Field, Heading, Notice, inputCls } from "./_components/ui";
-import { MONTHS, PROFILE_INFO } from "./_lib/format";
+import { MONTHS, PLACES, PROFILE_INFO } from "./_lib/format";
 import { useEnergy } from "./_lib/store";
 import type { Profile } from "./_lib/types";
 
@@ -77,6 +77,11 @@ export default function SetupPage() {
           </Field>
           <Field label="Battery level now (%)" hint="Read it from your inverter app.">
             <NumberInput value={s.socPct} min={0} max={100} step={1} onChange={(v) => update({ socPct: v })} />
+          </Field>
+          <Field label="Where is your home?" hint="Used to fetch the live weather forecast for your area.">
+            <select className={inputCls} value={s.place} onChange={(e) => update({ place: e.target.value, ...PLACES[e.target.value] })}>
+              {Object.keys(PLACES).map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
           </Field>
         </div>
       </Card>

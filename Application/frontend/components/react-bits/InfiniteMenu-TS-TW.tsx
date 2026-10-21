@@ -79,9 +79,8 @@ void main() {
 
 const FRAGMENT = `#version 300 es
 precision highp float;
-uniform sampler2D uAtlas;
-uniform float uCells;
-uniform float uInset;
+uniform sampler2D uImage;
+uniform float uImageAspect;
 uniform float uRoundness;
 uniform float uGrayscale;
 uniform float uDim;
@@ -101,9 +100,10 @@ void main() {
   float mask = 1.0 - smoothstep(-aa, aa, d);
   float alpha = mask * smoothstep(0.02, 0.4, vFront) * uReveal;
   if (alpha < 0.002) discard;
-  vec2 cell = vec2(mod(vItem, uCells), floor(vItem / uCells));
   vec2 local = vec2(vUv.x, -vUv.y) * 0.5 + 0.5;
-  vec4 sampled = texture(uAtlas, (cell + uInset + local * (1.0 - 2.0 * uInset)) / uCells);
+  // Cover the square with the original image, without resizing its texture.
+  vec2 cover = vec2(min(1.0, 1.0 / uImageAspect), min(1.0, uImageAspect));
+  vec4 sampled = texture(uImage, (local - 0.5) * cover + 0.5);
   vec3 color = mix(uPlaceholder, sampled.rgb, sampled.a);
   float focus = smoothstep(0.93, 0.997, vFront);
   float gray = dot(color, vec3(0.2126, 0.7152, 0.0722));
@@ -213,8 +213,8 @@ const InfiniteMenu = ({
   stretch = 0.6,
   inertia = 0.6,
   autoplay = 3,
-  grayscale = true,
-  dim = 0.5,
+  grayscale = false,
+  dim = 0,
   intro = true,
   showInfo = true,
   renderInfo,
@@ -279,9 +279,8 @@ const InfiniteMenu = ({
       'uSpin',
       'uStretch',
       'uShift',
-      'uAtlas',
-      'uCells',
-      'uInset',
+      'uImage',
+      'uImageAspect',
       'uRoundness',
       'uGrayscale',
       'uDim',
@@ -323,24 +322,20 @@ const InfiniteMenu = ({
     gl.vertexAttribDivisor(tileLocation, 1);
     gl.bindVertexArray(null);
 
-    const atlasTexture = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, atlasTexture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
-    gl.uniform1i(uniforms.uAtlas, 0);
+    // Each source gets a separate full-resolution texture. No atlas resizing.
+    const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) as number;
+    let textures: { texture: WebGLTexture; aspect: number }[] = [];
+    let imageRequest = 0;
+    gl.uniform1i(uniforms.uImage, 0);
 
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    const atlas = { canvas: document.createElement('canvas'), cells: 1, cell: 512, request: 0, dirty: false };
     const drag = { active: false, id: -1, x: 0, y: 0, dx: 0, dy: 0, moved: 0, start: 0 };
     const state = {
       width: 1,
       height: 1,
       tiles: [] as number[][],
       assign: [] as number[],
+      batches: [] as { item: number; offset: number; count: number }[],
       count: 0,
       orientation: quatNormalize([0.08, -0.3, 0, 1]),
       axis: [0, 1, 0],
@@ -390,8 +385,18 @@ const InfiniteMenu = ({
         state.assign[i] = pick;
         usage[pick] += 1;
       });
+      // Group instances by image so each original texture needs only one draw call.
+      const order = state.tiles.map((_, i) => i).sort((a, b) => state.assign[a] - state.assign[b]);
       const data = new Float32Array(s.count * 4);
-      state.tiles.forEach((tile, i) => data.set([tile[0], tile[1], tile[2], state.assign[i]], i * 4));
+      state.batches = [];
+      order.forEach((tileIndex, instance) => {
+        const tile = state.tiles[tileIndex];
+        const item = state.assign[tileIndex];
+        data.set([tile[0], tile[1], tile[2], item], instance * 4);
+        const batch = state.batches[state.batches.length - 1];
+        if (batch && batch.item === item) batch.count += 1;
+        else state.batches.push({ item, offset: instance, count: 1 });
+      });
       gl.bindBuffer(gl.ARRAY_BUFFER, tileBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
       let first = -1;
@@ -406,60 +411,73 @@ const InfiniteMenu = ({
       state.target = first;
     };
 
-    const uploadAtlas = () => {
-      atlas.dirty = false;
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, atlasTexture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, atlas.canvas);
-      gl.generateMipmap(gl.TEXTURE_2D);
-    };
-
     const loadItems = (list: InfiniteMenuItem[]) => {
-      const request = ++atlas.request;
-      const total = Math.max(1, list.length);
-      atlas.cells = Math.ceil(Math.sqrt(total));
-      atlas.cell = clamp(Math.floor(4096 / atlas.cells), 64, 512);
-      atlas.canvas.width = atlas.cells * atlas.cell;
-      atlas.canvas.height = atlas.cells * atlas.cell;
-      const ctx = atlas.canvas.getContext('2d');
-      ctx?.clearRect(0, 0, atlas.canvas.width, atlas.canvas.height);
-      uploadAtlas();
+      const request = ++imageRequest;
+      textures.forEach(({ texture }) => gl.deleteTexture(texture));
+      textures = [];
+      state.started = false;
+      state.shown = -1;
+      let pending = list.length;
+
+      // Transparent textures provide placeholders while the originals load.
+      for (let index = 0; index < Math.max(1, list.length); index++) {
+        const texture = gl.createTexture();
+        if (!texture) throw new Error('InfiniteMenu: unable to allocate an image texture.');
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA,
+          gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
+        gl.generateMipmap(gl.TEXTURE_2D);
+        textures.push({ texture, aspect: 1 });
+      }
       state.count = 0;
       layout();
-      let pending = list.length;
       if (!pending) state.started = true;
+      const done = () => {
+        pending -= 1;
+        if (pending <= 0) state.started = true;
+        wake();
+      };
+
       list.forEach((item, index) => {
         const image = new Image();
         image.crossOrigin = 'anonymous';
         image.decoding = 'async';
-        const done = () => {
-          pending -= 1;
-          if (pending <= 0) state.started = true;
-          wake();
-        };
         image.onload = () => {
-          if (!alive || request !== atlas.request || !ctx) return;
-          const size = atlas.cell;
-          const scale = Math.max(size / image.naturalWidth, size / image.naturalHeight);
-          const width = image.naturalWidth * scale;
-          const height = image.naturalHeight * scale;
-          const x = (index % atlas.cells) * size;
-          const y = Math.floor(index / atlas.cells) * size;
-          ctx.save();
-          ctx.beginPath();
-          ctx.rect(x, y, size, size);
-          ctx.clip();
-          ctx.drawImage(image, x + (size - width) / 2, y + (size - height) / 2, width, height);
-          ctx.restore();
-          atlas.dirty = true;
-          done();
+          if (!alive || request !== imageRequest) return;
+          try {
+            if (image.naturalWidth > maxTextureSize || image.naturalHeight > maxTextureSize) {
+              throw new Error(`Image ${index} is ${image.naturalWidth} x ${image.naturalHeight}; ` +
+                `this GPU supports at most ${maxTextureSize} pixels per texture dimension.`);
+            }
+            const entry = textures[index];
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, entry.texture);
+            // Upload the source directly: no intermediate canvas or downsampling.
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+            gl.generateMipmap(gl.TEXTURE_2D);
+            const error = gl.getError();
+            if (error !== gl.NO_ERROR) {
+              throw new Error(`GPU image upload failed (WebGL error ${error}).`);
+            }
+            entry.aspect = image.naturalWidth / image.naturalHeight;
+          } catch (error) {
+            console.error('InfiniteMenu: could not load the original-resolution image.', error);
+          } finally {
+            done();
+          }
         };
         image.onerror = () => {
-          if (!alive || request !== atlas.request) return;
+          if (!alive || request !== imageRequest) return;
+          console.error(`InfiniteMenu: image ${index} failed to load. Check its URL and CORS headers.`);
           done();
         };
         image.src = item?.image ?? '';
       });
+      wake();
     };
 
     const tileRadius = () =>
@@ -572,7 +590,7 @@ const InfiniteMenu = ({
       if (!state.moving && index !== state.shown) {
         state.shown = index;
         setActive(index);
-        callbacksRef.current.onActiveChange?.(list[index], index);
+        if (list[index]) callbacksRef.current.onActiveChange?.(list[index], index);
       }
     };
 
@@ -583,7 +601,6 @@ const InfiniteMenu = ({
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
       last = now;
       layout();
-      if (atlas.dirty) uploadAtlas();
       if (state.started) state.reveal = Math.min(1, state.reveal + dt / (reduce ? 0.01 : 0.7));
       const minSide = Math.min(state.width, state.height);
 
@@ -662,7 +679,6 @@ const InfiniteMenu = ({
         Math.abs((state.layout === 'stacked' ? Math.min(0.3, 72 / state.height) : 0) - state.shift) > 0.0005 ||
         Math.abs((moving ? 0 : 1) - state.settle) > 0.002 ||
         state.reveal < 1 ||
-        atlas.dirty ||
         !state.started;
       if (busy) raf = requestAnimationFrame(frame);
       else {
@@ -714,8 +730,6 @@ const InfiniteMenu = ({
       gl.uniform4f(uniforms.uSpin, state.axis[0], state.axis[1], state.axis[2], reduce ? 0 : state.speed);
       gl.uniform1f(uniforms.uStretch, s.stretch);
       gl.uniform1f(uniforms.uShift, state.shift);
-      gl.uniform1f(uniforms.uCells, atlas.cells);
-      gl.uniform1f(uniforms.uInset, 2 / atlas.cell);
       gl.uniform1f(uniforms.uRoundness, s.roundness);
       gl.uniform1f(uniforms.uGrayscale, s.grayscale ? 1 : 0);
       gl.uniform1f(uniforms.uDim, s.dim * (0.45 + 0.55 * state.settle));
@@ -728,9 +742,16 @@ const InfiniteMenu = ({
         gl.uniform3f(uniforms.uTone, 0.04, 0.035, 0.05);
       }
       gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, atlasTexture);
       gl.bindVertexArray(vao);
-      gl.drawElementsInstanced(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0, state.tiles.length);
+      gl.bindBuffer(gl.ARRAY_BUFFER, tileBuffer);
+      for (const batch of state.batches) {
+        const entry = textures[batch.item];
+        if (!entry) continue;
+        gl.bindTexture(gl.TEXTURE_2D, entry.texture);
+        gl.uniform1f(uniforms.uImageAspect, entry.aspect);
+        gl.vertexAttribPointer(tileLocation, 4, gl.FLOAT, false, 0, batch.offset * 4 * Float32Array.BYTES_PER_ELEMENT);
+        gl.drawElementsInstanced(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0, batch.count);
+      }
       gl.bindVertexArray(null);
     };
 
@@ -812,7 +833,7 @@ const InfiniteMenu = ({
     };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = window.devicePixelRatio || 1;
       state.width = Math.max(1, root.clientWidth);
       state.height = Math.max(1, root.clientHeight);
       canvas.width = Math.round(state.width * dpr);
@@ -861,7 +882,8 @@ const InfiniteMenu = ({
       root.removeEventListener('focusout', onFocusOut);
       resizeObserver.disconnect();
       visibility.disconnect();
-      gl.deleteTexture(atlasTexture);
+      imageRequest += 1;
+      textures.forEach(({ texture }) => gl.deleteTexture(texture));
       gl.deleteBuffer(cornerBuffer);
       gl.deleteBuffer(indexBuffer);
       gl.deleteBuffer(tileBuffer);
