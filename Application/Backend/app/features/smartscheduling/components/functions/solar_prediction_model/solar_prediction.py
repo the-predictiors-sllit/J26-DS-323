@@ -17,9 +17,7 @@ def load_prediction_model(interval_minutes=15):
     metadata_path = result_folder / "training_metadata.json"
 
     if not model_path.is_file() or not metadata_path.is_file():
-        raise FileNotFoundError(
-            "Solar prediction model files are not installed."
-        )
+        raise FileNotFoundError("Solar prediction model files are not installed.")
 
     with metadata_path.open("r", encoding="utf-8") as file:
         metadata = json.load(file)
@@ -27,6 +25,7 @@ def load_prediction_model(interval_minutes=15):
     model = joblib.load(model_path)
 
     return model, metadata["features"]
+
 
 LOCAL_TIMEZONE = "Asia/Colombo"
 
@@ -60,9 +59,7 @@ def prepare_features(row: dict) -> dict:
     daily_angle = 2 * np.pi * minutes_of_day / 1440
 
     days_in_year = 366 if local_time.is_leap_year else 365
-    yearly_angle = (
-        2 * np.pi * (local_time.dayofyear - 1) / days_in_year
-    )
+    yearly_angle = 2 * np.pi * (local_time.dayofyear - 1) / days_in_year
 
     features["time_of_day_sin"] = float(np.sin(daily_angle))
     features["time_of_day_cos"] = float(np.cos(daily_angle))
@@ -78,19 +75,11 @@ def prepare_features(row: dict) -> dict:
         method="nrel_numpy",
     )
 
-    azimuth_radians = np.deg2rad(
-        float(position["azimuth"].iloc[0])
-    )
+    azimuth_radians = np.deg2rad(float(position["azimuth"].iloc[0]))
 
-    features["sun_elevation_deg"] = float(
-        position["elevation"].iloc[0]
-    )
-    features["sun_azimuth_sin"] = float(
-        np.sin(azimuth_radians)
-    )
-    features["sun_azimuth_cos"] = float(
-        np.cos(azimuth_radians)
-    )
+    features["sun_elevation_deg"] = float(position["elevation"].iloc[0])
+    features["sun_azimuth_sin"] = float(np.sin(azimuth_radians))
+    features["sun_azimuth_cos"] = float(np.cos(azimuth_radians))
 
     return features
 
@@ -105,11 +94,7 @@ def predict_solar_power(feature_values, *, interval_minutes=15):
     Return one prediction row per input.
     """
     saved_model, FEATURE_COLUMNS = load_prediction_model(interval_minutes)
-    rows = (
-        [feature_values]
-        if isinstance(feature_values, dict)
-        else feature_values
-    )
+    rows = [feature_values] if isinstance(feature_values, dict) else feature_values
 
     if not isinstance(rows, list) or not rows:
         raise ValueError(
@@ -125,42 +110,27 @@ def predict_solar_power(feature_values, *, interval_minutes=15):
         try:
             features = prepare_features(row)
         except (KeyError, TypeError, ValueError) as exc:
-            raise ValueError(
-                f"Invalid input row {index}: {exc}"
-            ) from exc
+            raise ValueError(f"Invalid input row {index}: {exc}") from exc
 
-        missing = [
-            name for name in FEATURE_COLUMNS
-            if name not in features
-        ]
+        missing = [name for name in FEATURE_COLUMNS if name not in features]
 
         if missing:
-            raise ValueError(
-                f"Input row {index} is missing features: {missing}"
-            )
+            raise ValueError(f"Input row {index} is missing features: {missing}")
 
         # Arrange values in the exact saved training order.
-        prepared_rows.append([
-            features[name] for name in FEATURE_COLUMNS
-        ])
+        prepared_rows.append([features[name] for name in FEATURE_COLUMNS])
 
     values = np.asarray(prepared_rows, dtype=float)
 
     if np.isinf(values).any():
-        raise ValueError(
-            "Inputs contain infinity. Use np.nan for missing features."
-        )
+        raise ValueError("Inputs contain infinity. Use np.nan for missing features.")
 
     inputs = pd.DataFrame(values, columns=FEATURE_COLUMNS)
 
     capacities = inputs["pv_capacity_kwp"].to_numpy()
 
-    if (
-        ~np.isfinite(capacities) | (capacities <= 0)
-    ).any():
-        raise ValueError(
-            "pv_capacity_kwp must be a finite positive number."
-        )
+    if (~np.isfinite(capacities) | (capacities <= 0)).any():
+        raise ValueError("pv_capacity_kwp must be a finite positive number.")
 
     predictions = np.asarray(
         saved_model.predict(inputs),
@@ -175,9 +145,11 @@ def predict_solar_power(feature_values, *, interval_minutes=15):
 
     predictions = np.maximum(predictions, 0)
 
-    return pd.DataFrame({
-        "predicted_W_per_kWp": predictions,
-        "pv_capacity_kwp": capacities,
-        "predicted_W": predictions * capacities,
-        "predicted_power_kw": predictions * capacities / 1000,
-    })
+    return pd.DataFrame(
+        {
+            "predicted_W_per_kWp": predictions,
+            "pv_capacity_kwp": capacities,
+            "predicted_W": predictions * capacities,
+            "predicted_power_kw": predictions * capacities / 1000,
+        }
+    )
