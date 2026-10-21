@@ -17,7 +17,6 @@ from urllib.request import Request, urlopen
 import numpy as np
 import pandas as pd
 
-
 TIMEZONE = "Asia/Colombo"
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
 HISTORICAL_URL = "https://archive-api.open-meteo.com/v1/archive"
@@ -51,9 +50,9 @@ def _today() -> date:
 
 
 def _is_date_only(value: DateInput) -> bool:
-    return (
-        isinstance(value, date) and not isinstance(value, datetime)
-    ) or (isinstance(value, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", value) is not None)
+    return (isinstance(value, date) and not isinstance(value, datetime)) or (
+        isinstance(value, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", value) is not None
+    )
 
 
 def _local_timestamp(value: DateInput) -> pd.Timestamp:
@@ -70,7 +69,9 @@ def _local_timestamp(value: DateInput) -> pd.Timestamp:
         raise ValueError(f"Invalid date or timestamp: {value!r}") from exc
 
 
-def _targets(start: DateInput, end: DateInput | None, interval: int, daytime_only: bool) -> pd.DatetimeIndex:
+def _targets(
+    start: DateInput, end: DateInput | None, interval: int, daytime_only: bool
+) -> pd.DatetimeIndex:
     if isinstance(interval, bool) or interval not in (5, 15, 60):
         raise ValueError("interval_minutes must be 5, 15, or 60.")
     if not isinstance(daytime_only, bool):
@@ -89,15 +90,24 @@ def _targets(start: DateInput, end: DateInput | None, interval: int, daytime_onl
         raise ValueError("start must be at or before end.")
 
     for name, timestamp in (("start", first), ("end", last)):
-        if timestamp.second or timestamp.microsecond or timestamp.nanosecond or timestamp.minute % interval:
-            raise ValueError(f"{name} must align to a {interval}-minute step with zero seconds.")
+        if (
+            timestamp.second
+            or timestamp.microsecond
+            or timestamp.nanosecond
+            or timestamp.minute % interval
+        ):
+            raise ValueError(
+                f"{name} must align to a {interval}-minute step with zero seconds."
+            )
 
     times = pd.date_range(first, last, freq=f"{interval}min")
     if daytime_only:
         minutes = times.hour * 60 + times.minute
         times = times[(minutes >= 360) & (minutes <= 1140)]
     if times.empty:
-        raise ValueError("The requested range contains no times between 06:00 and 19:00.")
+        raise ValueError(
+            "The requested range contains no times between 06:00 and 19:00."
+        )
     return times.as_unit("ns")
 
 
@@ -140,7 +150,11 @@ def _request_hourly(url: str, params: dict, timeout: float) -> dict:
 
 def _hourly_frame(payload: dict) -> pd.DataFrame:
     hourly = payload.get("hourly")
-    if not isinstance(hourly, dict) or not isinstance(hourly.get("time"), list) or not hourly["time"]:
+    if (
+        not isinstance(hourly, dict)
+        or not isinstance(hourly.get("time"), list)
+        or not hourly["time"]
+    ):
         raise OpenMeteoError("Open-Meteo returned no hourly data.")
     count = len(hourly["time"])
     for name in WEATHER_COLUMNS:
@@ -152,10 +166,14 @@ def _hourly_frame(payload: dict) -> pd.DataFrame:
         if times.isna().any():
             raise ValueError("Missing timestamps.")
         frame = pd.DataFrame({name: hourly[name] for name in WEATHER_COLUMNS})
-        frame = frame.apply(pd.to_numeric, errors="raise").rename(columns=WEATHER_COLUMNS)
+        frame = frame.apply(pd.to_numeric, errors="raise").rename(
+            columns=WEATHER_COLUMNS
+        )
         frame.insert(0, "_weather_timestamp", times.tz_convert(TIMEZONE).as_unit("ns"))
     except (ValueError, TypeError, OverflowError) as exc:
-        raise OpenMeteoError("Open-Meteo returned invalid weather values or timestamps.") from exc
+        raise OpenMeteoError(
+            "Open-Meteo returned invalid weather values or timestamps."
+        ) from exc
     if frame["_weather_timestamp"].duplicated().any():
         raise OpenMeteoError("Open-Meteo returned duplicate hourly timestamps.")
     return frame.sort_values("_weather_timestamp")
@@ -169,7 +187,11 @@ def _fetch_weather(
     historical: bool,
     timeout: float,
 ) -> pd.DataFrame:
-    if not isinstance(timeout, (int, float)) or not math.isfinite(timeout) or timeout <= 0:
+    if (
+        not isinstance(timeout, (int, float))
+        or not math.isfinite(timeout)
+        or timeout <= 0
+    ):
         raise ValueError("timeout must be a finite positive number of seconds.")
 
     # A buffer supports the backward join even at local midnight, including
@@ -197,14 +219,20 @@ def _fetch_weather(
             "wind_speed_unit": "ms",
             "precipitation_unit": "mm",
         }
-        frames.append(_hourly_frame(_request_hourly(
-            HISTORICAL_URL if historical else FORECAST_URL, params, timeout
-        )))
+        frames.append(
+            _hourly_frame(
+                _request_hourly(
+                    HISTORICAL_URL if historical else FORECAST_URL, params, timeout
+                )
+            )
+        )
         cursor = stop + timedelta(days=1)
 
     hourly = pd.concat(frames, ignore_index=True).sort_values("_weather_timestamp")
     if hourly["_weather_timestamp"].duplicated().any():
-        raise OpenMeteoError("Open-Meteo returned overlapping hourly data across batches.")
+        raise OpenMeteoError(
+            "Open-Meteo returned overlapping hourly data across batches."
+        )
     aligned = pd.merge_asof(
         pd.DataFrame({"timestamp": times}),
         hourly,
@@ -215,7 +243,9 @@ def _fetch_weather(
         tolerance=pd.Timedelta("59min 59s"),
     )
 
-    missing = ~np.isfinite(aligned[list(WEATHER_COLUMNS.values())].to_numpy(dtype=float))
+    missing = ~np.isfinite(
+        aligned[list(WEATHER_COLUMNS.values())].to_numpy(dtype=float)
+    )
     if missing.any():
         first_bad_row = int(np.flatnonzero(missing.any(axis=1))[0])
         raise OpenMeteoError(
@@ -227,15 +257,21 @@ def _fetch_weather(
     # Keep alignment diagnostics in attrs, not in prediction input columns.
     weather_timestamps = aligned.pop("_weather_timestamp")
     aligned["timestamp"] = aligned["timestamp"].map(lambda value: value.isoformat())
-    aligned.attrs.update({
-        "source": "Open-Meteo Historical Weather API" if historical else "Open-Meteo Forecast API",
-        "timezone": TIMEZONE,
-        "weather_resolution": "hourly",
-        "alignment": "latest hourly weather at or before each timestamp; no interpolation",
-        "weather_timestamps": [value.isoformat() for value in weather_timestamps],
-        "requested_latitude": latitude,
-        "requested_longitude": longitude,
-    })
+    aligned.attrs.update(
+        {
+            "source": (
+                "Open-Meteo Historical Weather API"
+                if historical
+                else "Open-Meteo Forecast API"
+            ),
+            "timezone": TIMEZONE,
+            "weather_resolution": "hourly",
+            "alignment": "latest hourly weather at or before each timestamp; no interpolation",
+            "weather_timestamps": [value.isoformat() for value in weather_timestamps],
+            "requested_latitude": latitude,
+            "requested_longitude": longitude,
+        }
+    )
     return aligned
 
 
@@ -292,7 +328,11 @@ def get_historical_weather(
     latitude, longitude = _coordinates(latitude, longitude)
     times = _targets(start, end, interval_minutes, daytime_only)
     if times[0].date() < date(1940, 1, 1):
-        raise ValueError("Historical weather requests must start on or after 1940-01-01.")
+        raise ValueError(
+            "Historical weather requests must start on or after 1940-01-01."
+        )
     if times[-1].date() > _today():
-        raise ValueError("Historical weather cannot include future dates. Use forecast weather.")
+        raise ValueError(
+            "Historical weather cannot include future dates. Use forecast weather."
+        )
     return _fetch_weather(latitude, longitude, times, historical=True, timeout=timeout)
