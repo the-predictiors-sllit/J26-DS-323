@@ -13,10 +13,20 @@ export const NAV: RailItem[] = [
   { id: "settings", label: "Settings", icon: <SettingsIcon aria-hidden="true" />, link: "#" },
 ]*/
 
-import { ScanLine, Sun, Activity } from 'lucide-react';
-import type { RailItem } from '../components/sidebar_interfaces';
+import { ScanLine, Sun } from "lucide-react";
+import type { RailItem } from "../components/sidebar_interfaces";
+
 export const NAV: RailItem[] = [
-  { id: 'analysis', label: 'Site analysis', icon: <ScanLine aria-hidden />, link: '#analysis' },
-  { id: 'orientation', label: 'Solar orientation', icon: <Sun aria-hidden />, link: '#orientation' },
-  { id: 'evaluation', label: 'Model evaluation', icon: <Activity aria-hidden />, link: '#evaluation' },
+  {
+    id: "analysis",
+    label: "Site analysis",
+    icon: <ScanLine aria-hidden />,
+    link: "#analysis",
+  },
+  {
+    id: "orientation",
+    label: "Solar orientation",
+    icon: <Sun aria-hidden />,
+    link: "#orientation",
+  },
 ];
