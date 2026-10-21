@@ -11,15 +11,13 @@ import {
   ScanLine,
   Upload,
 } from "lucide-react";
-import { Button, buttonStyles, Card } from "./_components/primitives";
+import { Button, buttonStyles } from "./_components/primitives";
 import { OrientationPanel } from "./_components/orientation-panel";
 import {
   getHealth,
   segmentPhoto,
-  parseTestReport,
   type Health,
   type SegmentationResult,
-  type TestReport,
 } from "./_lib/api";
 
 type Preview = "original" | "overlay" | "mask";
@@ -60,11 +58,8 @@ export default function SolarSetup() {
   const [view, setView] = useState<Preview>("mask");
   const [dragging, setDragging] = useState(false);
   const [sunMotion, setSunMotion] = useState(true);
-  const [report, setReport] = useState<TestReport | null>(null);
-  const [reportError, setReportError] = useState("");
 
   const photoInput = useRef<HTMLInputElement>(null);
-  const reportInput = useRef<HTMLInputElement>(null);
 
   const setTab = (value: Section) => {
     window.location.hash = value;
@@ -140,21 +135,6 @@ export default function SolarSetup() {
     }
   }
 
-  async function readReport(reportFile?: File) {
-    if (!reportFile) return;
-
-    setReportError("");
-
-    try {
-      setReport(parseTestReport(await reportFile.text()));
-    } catch {
-      setReport(null);
-      setReportError(
-        "Choose a valid test_metrics.json exported after evaluation.",
-      );
-    }
-  }
-
   function previewSource(option: Preview) {
     return option === "original" ? url : result?.[option] ?? "";
   }
@@ -177,10 +157,8 @@ export default function SolarSetup() {
                     Plan with a <span>clearer view.</span>
                   </>
                 )
-              ) : tab === "orientation" ? (
-                "Find your solar orientation"
               ) : (
-                "Model evaluation"
+                "Find your solar orientation"
               )}
             </h1>
 
@@ -189,9 +167,7 @@ export default function SolarSetup() {
                 ? result
                   ? "Compare your photograph with the predicted sky and obstacles."
                   : "A clearer view of the sky is the first step towards planning your solar setup."
-                : tab === "orientation"
-                  ? "Choose your site, check the sun path and explore the best panel direction."
-                  : "Inspect measured results from the held-out reference test set."}
+                : "Choose your site, check the sun path and explore the best panel direction."}
             </p>
           </div>
 
@@ -624,93 +600,7 @@ export default function SolarSetup() {
               )}
             </div>
           </section>
-        ) : tab === "orientation" ? null : (
-          <div className="space-y-5">
-            <Card className="space-y-5">
-              <h2 className="text-lg font-semibold">
-                Held-out test report
-              </h2>
-
-              <p className="text-sm text-muted-foreground">
-                Load the actual <code>test_metrics.json</code> produced
-                after evaluation. No example scores are displayed.
-              </p>
-
-              <input
-                ref={reportInput}
-                className="hidden"
-                type="file"
-                accept="application/json,.json"
-                aria-label="Test metrics JSON"
-                onChange={(e) => {
-                  void readReport(e.target.files?.[0]);
-                  e.target.value = "";
-                }}
-              />
-
-              <Button onClick={() => reportInput.current?.click()}>
-                <Upload size={18} />
-                Choose test report
-              </Button>
-
-              {reportError && (
-                <p role="alert" className="text-sm text-destructive">
-                  {reportError}
-                </p>
-              )}
-
-              {report ? (
-                <>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {[
-                      ["Mean IoU", report.test_metrics.miou],
-                      ["Sky IoU", report.test_metrics.sky_iou],
-                      ["Obstacle IoU", report.test_metrics.obstacle_iou],
-                      [
-                        "Pixel accuracy",
-                        report.test_metrics.pixel_accuracy,
-                      ],
-                    ].map(([label, value]) => (
-                      <div
-                        key={String(label)}
-                        className="rounded-xl bg-muted/50 p-5"
-                      >
-                        <p className="text-sm text-muted-foreground">
-                          {label}
-                        </p>
-                        <p className="mt-2 text-3xl font-semibold">
-                          {(Number(value) * 100).toFixed(2)}%
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <p className="text-sm text-muted-foreground">
-                    Evaluated at {report.evaluation_resolution} px inside
-                    the reference dataset’s circular valid region. These
-                    scores do not measure local-site, optimal-angle or
-                    electricity-generation accuracy.
-                  </p>
-                </>
-              ) : (
-                <p className="rounded-xl bg-muted/40 p-8 text-center text-muted-foreground">
-                  No test report loaded.
-                </p>
-              )}
-            </Card>
-
-            <Card>
-              <h2 className="font-semibold">
-                Reference experiment split
-              </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                80 training pairs · 21 validation pairs · 21 test pairs.
-                These are the recorded experiment counts; an uploaded
-                metrics file does not verify a dataset split.
-              </p>
-            </Card>
-          </div>
-        )}
+        ) : null}
 
         <footer className="studio-footer">
           Solar Setup · Shading-aware orientation planning
