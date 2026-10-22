@@ -116,7 +116,12 @@ export default function ConditionsPage() {
         {fcError && <div className="mt-3"><Notice tone="warn">{fcError} The planner will use a typical day instead.</Notice></div>}
         {settings.useForecast && fc && (
           <p className="mt-3 text-xs text-muted-foreground">
-            Rain expected in {fc.hours.filter((h) => h.label === "rainy").length} of the next 24 hours, cloud in {fc.hours.filter((h) => h.label === "cloudy").length}.
+            {(() => {
+              const rainy = fc.hours.filter((h) => h.label === "rainy").length;
+              const cloudy = fc.hours.filter((h) => h.label === "cloudy").length;
+              const rainText = rainy === 24 ? "Rain expected all day" : rainy === 0 ? "No rain expected in the next 24 hours" : `Rain expected in ${rainy} of the next 24 hours`;
+              return `${rainText}${cloudy > 0 ? `, cloud in ${cloudy}` : ""}.`;
+            })()}
             You can still add your own weather below. It overrides the forecast for those hours.
           </p>
         )}
