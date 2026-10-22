@@ -1,8 +1,19 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import InfiniteMenu from "@/components/react-bits/InfiniteMenu-TS-TW";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const items = [
     {
       image: "/solar/solarhouse1.webp",
@@ -12,69 +23,72 @@ export default function Home() {
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (1).webp",
+      image: "/solar/solar1.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (2).webp",
+      image: "/solar/solar2.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (3).webp",
+      image: "/solar/solar3.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (4).webp",
+      image: "/solar/solar4.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (5).webp",
+      image: "/solar/solar5.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (6).webp",
+      image: "/solar/solar6.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (7).webp",
+      image: "/solar/solar7.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (8).webp",
+      image: "/solar/solar8.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
     {
-      image: "/solar/solar (12).webp",
+      image: "/solar/solar12.webp",
       link: "/home",
       title: "Smarter Solar for Every Home",
       description:
         "Plan your solar setup, schedule appliances, check panel health, and prepare for power outages.",
     },
   ];
+
+  const currentTheme = mounted && resolvedTheme === "dark" ? "dark" : "light";
+
   return (
     <div className="">
       <div className="h-screen">
@@ -92,16 +106,10 @@ export default function Home() {
           dim={0.5}
           intro
           showInfo
-          // theme="light"
+          theme={currentTheme}
           accentColor="var(--primary)"
         />
       </div>
     </div>
   );
 }
-
-// {/* <Link href="/home" >
-//   <Button>
-//     Home
-//   </Button>
-// </Link> */}

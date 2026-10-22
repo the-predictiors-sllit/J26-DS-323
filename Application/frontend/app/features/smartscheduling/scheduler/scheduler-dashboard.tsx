@@ -184,19 +184,19 @@ export function SchedulerDashboard() {
                   {numeric("longitude", "Longitude", -180, 180)}
                 </FieldGroup>
                 <LocationPicker
-  latitude={store.settings.latitude}
-  longitude={store.settings.longitude}
-  disabled={busy || !store.ready}
-  onChange={({ latitude, longitude }) => {
-    store.update({
-      settings: {
-        ...store.settings,
-        latitude,
-        longitude,
-      },
-    });
-  }}
-/>
+                  latitude={store.settings.latitude}
+                  longitude={store.settings.longitude}
+                  disabled={busy || !store.ready}
+                  onChange={({ latitude, longitude }) => {
+                    store.update({
+                      settings: {
+                        ...store.settings,
+                        latitude,
+                        longitude,
+                      },
+                    });
+                  }}
+                />
                 {numeric(
                   "pv_capacity_kwp",
                   "Installed capacity (kWp)",
@@ -511,7 +511,7 @@ export function SchedulerDashboard() {
               )}
             </>
           )}
-          <div className="rounded-2xl bg-secondary/60 p-5">
+          {/* <div className="rounded-2xl bg-secondary/60 p-5">
             <p className="text-sm font-medium">
               Next research phase: deviation-driven rescheduling
             </p>
@@ -521,7 +521,7 @@ export function SchedulerDashboard() {
               reschedule only eligible future work. This version creates plans
               only.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </main>
