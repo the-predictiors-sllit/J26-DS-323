@@ -15,10 +15,12 @@ def tier_from_severity(sev):
 
 
 def make_pred_frame(test_df, reg_pred, soil_prob, train_df):
-    """One row per held-out photo: the truth, the model's prediction and a simple baseline.
+    """One row per held-out photo: the truth, the model's prediction and two trivial baselines.
 
-    The baseline always predicts the average of the TRAINING sites (and the majority soiling
-    class), so the model has to beat "no photo at all" to be worth anything.
+    Both baselines ignore the photo. One predicts the AVERAGE of the TRAINING sites, the other their
+    MEDIAN (both with the majority soiling class). With skewed data (most panels healthy, a few very
+    low) the median has the lower error, so it is the fairer number to beat: a model that only learns
+    to guess the typical value beats the average without having learned anything from the photo.
     """
     out = test_df[["Photo_Filename", "Site_ID", "Rated_Capacity_W", "Recent_Max_Output_W",
                    "Severity_Score_0_100"]].reset_index(drop=True).copy()
@@ -31,9 +33,28 @@ def make_pred_frame(test_df, reg_pred, soil_prob, train_df):
     out["base_health_score"] = train_df.Health_Score_0_100.mean()
     out["base_output_pct"] = train_df.Health_Percentage.mean()
     out["base_soiling"] = int(train_df.Soiling_Target.mean() >= 0.5)
+    out["median_health_score"] = train_df.Health_Score_0_100.median()
+    out["median_output_pct"] = train_df.Health_Percentage.median()
     out["pred_watts"] = out.pred_output_pct / 100 * out.Rated_Capacity_W
     out["base_watts"] = out.base_output_pct / 100 * out.Rated_Capacity_W
+    out["median_watts"] = out.median_output_pct / 100 * out.Rated_Capacity_W
     return out
+
+
+def ensure_median_columns(p):
+    """Older prediction files have no median baseline. When every site was held out once (a full run), the training
+    sites' truth for each held-out site is simply the other sites' rows in the same file, so it can be rebuilt."""
+    p = p.copy()
+    if "median_health_score" in p.columns:
+        return p
+    med_h, med_o = pd.Series(index=p.index, dtype=float), pd.Series(index=p.index, dtype=float)
+    for site, g in p.groupby("Site_ID"):
+        other = p[p.Site_ID != site]
+        med_h.loc[g.index] = other.true_health_score.median() if len(other) else float("nan")
+        med_o.loc[g.index] = other.true_output_pct.median() if len(other) else float("nan")
+    p["median_health_score"], p["median_output_pct"] = med_h, med_o
+    p["median_watts"] = p.median_output_pct / 100 * p.Rated_Capacity_W
+    return p
 
 
 def _mae(a, b):
@@ -53,7 +74,7 @@ def _r(a, b):
 
 def summarize(p, prefix=None):
     """Print and (optionally) save the overall and per-site results."""
-    p = p.copy()
+    p = ensure_median_columns(p)
     p["pred_soiling"] = (p.pred_soiling_prob >= 0.5).astype(int)
     pred_sev = 100 - p.pred_health_score
     p["pred_tier"] = pred_sev.map(tier_from_severity)
@@ -62,16 +83,16 @@ def summarize(p, prefix=None):
     # --- overall (all held-out photos pooled) ---
     overall = pd.DataFrame([
         ("Health score error, MAE (points of 100)", _mae(p.pred_health_score, p.true_health_score),
-         _mae(p.base_health_score, p.true_health_score)),
+         _mae(p.base_health_score, p.true_health_score), _mae(p.median_health_score, p.true_health_score)),
         ("Health score error, RMSE (points of 100)", _rmse(p.pred_health_score, p.true_health_score),
-         _rmse(p.base_health_score, p.true_health_score)),
+         _rmse(p.base_health_score, p.true_health_score), _rmse(p.median_health_score, p.true_health_score)),
         ("Output percent error, MAE (points of 100)", _mae(p.pred_output_pct, p.true_output_pct),
-         _mae(p.base_output_pct, p.true_output_pct)),
+         _mae(p.base_output_pct, p.true_output_pct), _mae(p.median_output_pct, p.true_output_pct)),
         ("Output error in watts, MAE", _mae(p.pred_watts, p.Recent_Max_Output_W),
-         _mae(p.base_watts, p.Recent_Max_Output_W)),
+         _mae(p.base_watts, p.Recent_Max_Output_W), _mae(p.median_watts, p.Recent_Max_Output_W)),
         ("Soiling flag accuracy (0-1)", float((p.pred_soiling == p.true_soiling).mean()),
-         float((p.base_soiling == p.true_soiling).mean())),
-    ], columns=["metric", "model", "baseline (training average)"])
+         float((p.base_soiling == p.true_soiling).mean()), float((p.base_soiling == p.true_soiling).mean())),
+    ], columns=["metric", "model", "baseline (training average)", "baseline (training median)"])
 
     # correlation of the predicted score with real measured output
     site_mean = lambda col: p.groupby("Site_ID")[col].transform("mean")
@@ -91,6 +112,7 @@ def summarize(p, prefix=None):
             "true_score_mean": g.true_health_score.mean(), "pred_score_mean": g.pred_health_score.mean(),
             "score_MAE": _mae(g.pred_health_score, g.true_health_score),
             "score_MAE_baseline": _mae(g.base_health_score, g.true_health_score),
+            "score_MAE_median_baseline": _mae(g.median_health_score, g.true_health_score),
             "output_pct_MAE": _mae(g.pred_output_pct, g.true_output_pct),
             "soiling_acc": float((g.pred_soiling == g.true_soiling).mean()),
             "soiling_acc_baseline": float((g.base_soiling == g.true_soiling).mean()),
