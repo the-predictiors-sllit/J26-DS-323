@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
-import { SolarPredictionForm } from "./prediction-form";
+import { SolarPredictionForm } from "../_solar_prediction/components/prediction-form";
 
 export const metadata: Metadata = {
   title: "Solar prediction | SOLAI",
