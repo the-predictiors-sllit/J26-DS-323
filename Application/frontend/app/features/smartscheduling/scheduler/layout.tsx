@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { connection } from "next/server";
 import { Button } from "@/components/ui/button";
-import { SchedulerProvider } from "./store";
+import { SchedulerProvider } from "../_milp/state/store";
 
 export default async function SchedulerLayout({
   children,
