@@ -38,7 +38,7 @@ import {
 import { Choice } from "./controls";
 import { CSV_COLUMNS, downloadCsv, importAppliances } from "../utils/csv";
 import { useScheduler } from "../state/store";
-import { addDays, validateAppliance } from "../utils/appliances";
+import { addDays, createApplianceId, validateAppliance } from "../utils/appliances";
 import { HOURS, WEEKDAYS } from "../config";
 import { type Appliance } from "../types";
 
@@ -92,7 +92,7 @@ export function ApplianceManager() {
     event.preventDefault();
     const candidate = {
       ...form,
-      id: editing ?? `appliance_${crypto.randomUUID().slice(0, 8)}`,
+      id: editing ?? createApplianceId(),
       name: form.name.trim(),
     };
     const issue = validateAppliance(candidate);

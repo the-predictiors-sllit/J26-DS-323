@@ -73,3 +73,11 @@ export function validateAppliance(value: Appliance): string | null {
     return "Choose a valid date for a one-time job.";
   return null;
 }
+
+// getRandomValues is available on HTTP origins where randomUUID is unavailable.
+export function createApplianceId(): string {
+  const bytes = new Uint8Array(16);
+  globalThis.crypto.getRandomValues(bytes);
+  const suffix = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+  return `appliance_${suffix}`;
+}
