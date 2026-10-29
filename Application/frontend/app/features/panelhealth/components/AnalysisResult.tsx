@@ -21,6 +21,11 @@ const TIER_LABEL: Record<Tier, string> = {
   Severe: "Severe degradation",
 }
 
+// How the condition is decided. Keep it in sync with OUTPUT_CUTS in advice.py (75 / 60 / 40).
+const CONDITION_RULE =
+  "The condition is based on the predicted output compared with the panel's rated capacity: Healthy 75% or more; " +
+  "Early degradation 60% to under 75%; Moderate degradation 40% to under 60%; Severe degradation under 40%."
+
 // Same visual language as the rest of the page: soft tinted pill, bar, and recommendation box per tier.
 const TIER_STYLE: Record<Tier, { pill: string; bar: string; box: string; icon: string; text: string }> = {
   Healthy: {
@@ -116,7 +121,7 @@ export default function AnalysisResult({ report, photoName, ageYears, cropUrl, o
 
       <div className="grid gap-5 py-5 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="rounded-lg bg-foreground p-5 text-background">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/60">Health score</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-background/60">Visual health score</p>
           <div className="mt-3 flex items-end gap-2">
             <span className="text-5xl font-semibold">{Math.round(score)}</span>
             <span className="mb-1 text-lg text-background/60">/ 100</span>
@@ -172,8 +177,8 @@ export default function AnalysisResult({ report, photoName, ageYears, cropUrl, o
         <div className="rounded-lg border p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">How to read this</p>
           <p className="mt-2 text-xs leading-5 text-muted-foreground">
-            The score reflects overall condition seen in the photo, including dirt. The range is the output expected at good sunlight for a
-            panel that looks like this. {report.note}
+            The health score is the visual score from the photo, including dirt. {CONDITION_RULE} The range is the output expected at good
+            sunlight for a panel that looks like this. {report.note}
           </p>
         </div>
       </div>

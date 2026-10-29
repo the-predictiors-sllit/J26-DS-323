@@ -17,6 +17,11 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import List, Optional, Tuple
 
+try:
+    from .ml.advice import OUTPUT_CUTS            # the same cut-offs the condition is decided with (see advice.py)
+except ImportError:                               # report.py used on its own
+    OUTPUT_CUTS = (75.0, 60.0, 40.0)
+
 # Sri Lanka has no daylight saving, so a fixed offset is always right
 SL_TZ = timezone(timedelta(hours=5, minutes=30))
 
@@ -39,6 +44,11 @@ LIMITS = [
     "Real output also depends on sunlight, temperature and shade. Ask a qualified installer before replacing or "
     "removing panels.",
 ]
+
+_healthy_min, _early_min, _moderate_min = OUTPUT_CUTS
+CONDITION_RULE = (f"The condition is based on the predicted output compared with the panel's rated capacity: "
+                  f"Healthy {_healthy_min:g}% or more; Early degradation {_early_min:g}% to under {_healthy_min:g}%; "
+                  f"Moderate degradation {_moderate_min:g}% to under {_early_min:g}%; Severe degradation under {_moderate_min:g}%.")
 
 MAX_TEXT = 700          # longest text accepted for any one field
 MAX_IMAGE_PIXELS = 4000 * 4000
@@ -233,7 +243,7 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pdf.set_xy(X0 + 6, y + 5)
     pdf.set_font("Helvetica", "B", 7.5)
     pdf.set_text_color(148, 163, 184)
-    pdf.cell(card_w - 12, 4, "HEALTH SCORE")
+    pdf.cell(card_w - 12, 4, "VISUAL HEALTH SCORE")
     shown = f"{round(score)}"
     pdf.set_font("Helvetica", "B", 38)
     # measured with the big font
@@ -358,8 +368,8 @@ def build_pdf(*, health_score: float, tier: str, recommendation: str, deposit: b
     pdf.set_y(ry + box + 4)
 
     # ------------------------------------------------------------------ how to read this
-    read = _t("The score reflects the overall condition seen in the photo, including dirt. The range is the output expected at "
-              "good sunlight for a panel that looks like this. " + (note or ""))
+    read = _t("The health score is the visual score from the photo, including dirt. " + CONDITION_RULE + " The range is the "
+              "output expected at good sunlight for a panel that looks like this. " + (note or ""))
     read_lines = lines(W, read, 8.5)
     need(10 + 4 * len(read_lines))
     heading("How to read this")
