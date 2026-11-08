@@ -8,7 +8,7 @@ import pandas as pd
 
 from .config import LOCAL_TZ
 from .inference import load_prediction_model, predict_solar_power
-from .weather import get_forecast_weather
+from .weather import get_forecast_weather, get_historical_weather
 
 
 def prepare_forecast_slots(
@@ -18,13 +18,17 @@ def prepare_forecast_slots(
     pv_capacity_kwp: float,
     start_date: date,
     prediction_model_minutes: int,
+    weather_mode: str = "forecast",
     progress: Callable[[int, str], None] = lambda *_: None,
 ) -> pd.DataFrame:
     # Check model availability before performing the external request.
     load_prediction_model(prediction_model_minutes)
     end = start_date + timedelta(days=13)
-    progress(2, "Fetching 14 days of forecast weather")
-    weather = get_forecast_weather(
+    if weather_mode not in ("forecast", "historical"):
+        raise ValueError("Unknown weather mode.")
+    progress(2, f"Fetching 14 days of {weather_mode} weather")
+    weather_provider = get_historical_weather if weather_mode == "historical" else get_forecast_weather
+    weather = weather_provider(
         latitude,
         longitude,
         start_date.isoformat(),

@@ -17,6 +17,7 @@ export type Settings = {
   longitude: number;
   pv_capacity_kwp: number;
   start_date: string;
+  weather_mode: "forecast" | "historical";
   prediction_model_minutes: 5 | 15;
   solar_safety_factor: number;
   background_load_kw: number;
@@ -40,10 +41,11 @@ export type Slot = {
 };
 export type Day = {
   date: string;
-  status: "optimal" | "infeasible" | "not_proven_optimal" | "idle";
+  status: "optimal" | "partial" | "infeasible" | "not_proven_optimal" | "idle";
   reason?: string;
   appliance_count: number;
   schedule: Run[];
+  unscheduled?: { appliance_id: string; name: string; reason: string }[];
   slots: Slot[];
   metrics?: {
     valid: boolean;
@@ -64,5 +66,6 @@ export type Job = {
     days: Day[];
     notes: string[];
     aggregation: string;
+    weather_mode?: "forecast" | "historical";
   };
 };

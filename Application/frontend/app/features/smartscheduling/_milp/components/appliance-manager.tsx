@@ -22,7 +22,6 @@ import {
   FieldDescription,
   FieldError,
   FieldGroup,
-  FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -38,6 +37,7 @@ import {
 import { Choice } from "./controls";
 import { CSV_COLUMNS, downloadCsv, importAppliances } from "../utils/csv";
 import { useScheduler } from "../state/store";
+import { HelpLabel } from "../../_shared/components/help-label";
 import { addDays, createApplianceId, validateAppliance } from "../utils/appliances";
 import { HOURS, WEEKDAYS } from "../config";
 import { type Appliance } from "../types";
@@ -123,7 +123,7 @@ export function ApplianceManager() {
   ) {
     return (
       <Field>
-        <FieldLabel htmlFor={key}>{title}</FieldLabel>
+        <HelpLabel htmlFor={key} label={title} help={key === "power_kw" ? "The appliance's assumed power while it runs. For example, 500 W is 0.5 kW. Use a measured value or the device specification." : "How long the appliance runs continuously. For example, enter 60 for one hour. Use a multiple of 15 minutes."} />
         <Input
           id={key}
           type="number"
@@ -148,8 +148,8 @@ export function ApplianceManager() {
             Give every appliance a plan.
           </h1>
           <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-            Set power, runtime, availability, and repeat rules. Every enabled
-            job is mandatory on the dates you choose.
+            Set power, runtime, availability, and repeat rules. If all enabled
+            jobs cannot fit, higher-priority jobs are favored and the rest are listed.
           </p>
         </div>
         <Button
@@ -398,7 +398,7 @@ export function ApplianceManager() {
             <form onSubmit={save} className="space-y-5">
               <fieldset disabled={!store.ready} className="space-y-5">
                 <Field>
-                  <FieldLabel htmlFor="appliance-name">Name</FieldLabel>
+                  <HelpLabel htmlFor="appliance-name" label="Name" help="A name that identifies the appliance in the schedule, for example Washing machine." />
                   <Input
                     id="appliance-name"
                     value={form.name}
@@ -420,7 +420,7 @@ export function ApplianceManager() {
                   ] as const
                 ).map(([key, title]) => (
                   <Field key={key}>
-                    <FieldLabel htmlFor={key}>{title}</FieldLabel>
+                    <HelpLabel htmlFor={key} label={title} help={{ earliest_start: "The earliest time this appliance may start. For example, 09:00 prevents a start before 9 a.m.", latest_finish: "The latest time the full run must finish. For example, a 60-minute job with a 12:00 deadline must start by 11:00.", preferred_start: "The time you would like the appliance to start. The scheduler tries to stay close to it while meeting the other constraints." }[key]} />
                     <Choice
                       id={key}
                       value={form[key]}
@@ -430,7 +430,7 @@ export function ApplianceManager() {
                   </Field>
                 ))}
                 <Field>
-                  <FieldLabel htmlFor="priority">Priority</FieldLabel>
+                  <HelpLabel htmlFor="priority" label="Priority" help="Higher priorities are selected first when not every appliance fits. Among selected appliances, priority also weights the preference for a start time. For example, priority 5 is favored over priority 1." />
                   <Choice
                     id="priority"
                     value={String(form.priority)}
@@ -442,11 +442,12 @@ export function ApplianceManager() {
                   />
                   <FieldDescription className="text-xs">
                     Higher priority gives more weight to preserving the
-                    preferred start. No enabled job can be skipped.
+                    preferred start and, when jobs compete for limited solar,
+                    whether the appliance can be scheduled.
                   </FieldDescription>
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="recurrence">Repeat</FieldLabel>
+                  <HelpLabel htmlFor="recurrence" label="Repeat" help="Choose which dates the appliance should run: every day, selected weekdays, or once. For example, choose selected weekdays and Monday for a weekly run." />
                   <Choice
                     id="recurrence"
                     value={form.recurrence}
@@ -462,7 +463,7 @@ export function ApplianceManager() {
                 </Field>
                 {form.recurrence === "weekdays" && (
                   <Field>
-                    <FieldLabel>Run on</FieldLabel>
+                    <HelpLabel label="Run on" help="Select the weekdays on which the appliance should run. For example, Monday and Thursday create a run on each of those days in the schedule." />
                     <div className="flex flex-wrap gap-3">
                       {WEEKDAYS.map((day, index) => (
                         <label
@@ -490,7 +491,7 @@ export function ApplianceManager() {
                 )}
                 {form.recurrence === "once" && (
                   <Field>
-                    <FieldLabel htmlFor="run-date">Run date</FieldLabel>
+                    <HelpLabel htmlFor="run-date" label="Run date" help="The date for a one-time appliance run. For example, choose 17 August 2024 to include it in a replay for that date. The date must be within the scheduler's selected 14-day window." />
                     <Input
                       id="run-date"
                       type="date"

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useTransition } from "react";
 import { LocationPicker } from "../../_shared/components/location-picker";
+import { HelpLabel } from "../../_shared/components/help-label";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -23,7 +24,6 @@ import {
   FieldDescription,
   FieldError,
   FieldGroup,
-  FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
@@ -37,6 +37,21 @@ import { ScheduleTimeline } from "./schedule-timeline";
 import { PowerChart } from "./power-chart";
 
 export function SchedulerDashboard() {
+  const settingHelp = {
+    latitude: "The site's north–south position. For example, Meepe is approximately 5.9977° north. You can also select the location on the map.",
+    longitude: "The site's east–west position. For example, Meepe is approximately 80.2958° east. You can also select the location on the map.",
+    pv_capacity_kwp: "The installed peak rating of the solar panels, in kWp. For example, ten 0.5 kWp panels have a combined rating of 5 kWp.",
+    solar_safety_factor: "The fraction of predicted solar available to the scheduler. For example, 0.9 reserves 10%, so 2 kW predicted gives 1.8 kW usable.",
+    background_load_kw: "A constant allowance for devices outside the appliance schedule. For example, 0.3 kW leaves 1.5 kW for scheduled appliances when usable solar is 1.8 kW. Do not count the same appliance twice.",
+  };
+  const resultHelp: Record<string, string> = {
+    "Optimal days": "Days for which the solver proved an optimal schedule under the model's rules. For example, 12 means 12 of the 14 days were optimal.",
+    "Need attention": "Days that were infeasible or for which the solver did not prove an optimum. Check the day's status and reason.",
+    "Idle days": "Days with no enabled appliance runs requested. For example, Sunday is idle if no appliance is set to run that day.",
+    "Peak planned load": "The largest combined planned power of appliances and other household load during this day. For example, 1.5 kW is the highest planned slot load.",
+    "Planned load energy": "The estimated energy of the planned load over the scheduling slots. For example, 1 kW for one hour is 1 kWh; other household load is included.",
+    "Weighted start shift": "The sum of each appliance's start-time difference from its preferred time, in minutes, multiplied by its priority. For example, a 15-minute shift at priority 2 contributes 30.",
+  };
   const store = useScheduler();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState("");
@@ -125,7 +140,7 @@ export function SchedulerDashboard() {
   ) {
     return (
       <Field>
-        <FieldLabel htmlFor={key}>{label}</FieldLabel>
+        <HelpLabel htmlFor={key} label={label} help={settingHelp[key]} />
         <Input
           id={key}
           type="number"
@@ -151,8 +166,8 @@ export function SchedulerDashboard() {
             Make room for the sun.
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-            A 14-day solar-only plan for your appliances. Forecast weather
-            becomes solar predictions, then a constrained schedule for each day.
+            A 14-day solar-only plan for your appliances using forecast or
+            historical weather and a constrained schedule for each day.
           </p>
         </div>
         <Button
@@ -205,15 +220,32 @@ export function SchedulerDashboard() {
                   1000,
                 )}
                 <Field>
-                  <FieldLabel htmlFor="start_date">
-                    First forecast date
-                  </FieldLabel>
+                  <HelpLabel htmlFor="weather-mode" label="Weather data" help="Choose a forecast for future planning or historical weather for a past-date experiment. Historical reanalysis was reconstructed later; it is not the forecast issued at the time." />
+                  <Choice
+                    id="weather-mode"
+                    value={store.settings.weather_mode}
+                    disabled={busy || !store.ready}
+                    options={[
+                      { value: "forecast", label: "Forecast (future)" },
+                      { value: "historical", label: "Historical weather" },
+                    ]}
+                    onChange={(value) => {
+                      const weather_mode = value as Settings["weather_mode"];
+                      store.update({ settings: { ...store.settings, weather_mode, start_date: weather_mode === "historical" ? addDays(store.today, -14) : addDays(store.today, 1) } });
+                    }}
+                  />
+                  {store.settings.weather_mode === "historical" && (
+                    <FieldDescription>Historical weather is retrospective reanalysis, not a forecast issued on that date. Use for testing, not as proof of day-ahead forecast performance.</FieldDescription>
+                  )}
+                </Field>
+                <Field>
+                  <HelpLabel htmlFor="start_date" label={store.settings.weather_mode === "historical" ? "First historical date" : "First forecast date"} help="The first date of the 14-day schedule. For example, 17 August produces a plan through 30 August. In historical mode all 14 dates must be in the past." />
                   <Input
                     id="start_date"
                     type="date"
                     required
-                    min={store.today}
-                    max={addDays(store.today, 2)}
+                    min={store.settings.weather_mode === "historical" ? "1940-01-01" : store.today}
+                    max={store.settings.weather_mode === "historical" ? addDays(store.today, -14) : addDays(store.today, 2)}
                     value={store.settings.start_date}
                     onChange={(event) => set("start_date", event.target.value)}
                     className="h-11 rounded-xl"
@@ -222,14 +254,13 @@ export function SchedulerDashboard() {
                     {store.settings.start_date
                       ? `${store.settings.start_date} through ${addDays(store.settings.start_date, 13)}`
                       : "Choose a date"}
-                    . Tomorrow is the default so every operating slot is in the
-                    future.
+                    {store.settings.weather_mode === "historical"
+                      ? ". All 14 days must be in the past; availability depends on Open-Meteo."
+                      : ". Tomorrow is the default so every operating slot is in the future."}
                   </FieldDescription>
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="prediction-model">
-                    Solar prediction model
-                  </FieldLabel>
+                  <HelpLabel htmlFor="prediction-model" label="Solar prediction model" help="Choose the trained model used to predict solar power. For the 5-minute model, the scheduler uses the lowest of three predictions for each 15-minute scheduling slot. The 15-minute model supplies one prediction per slot." />
                   <Choice
                     id="prediction-model"
                     value={String(store.settings.prediction_model_minutes)}
@@ -267,9 +298,7 @@ export function SchedulerDashboard() {
                       0,
                     )}
                     <Field>
-                      <FieldLabel htmlFor="household-limit">
-                        Household limit (kW, optional)
-                      </FieldLabel>
+                      <HelpLabel htmlFor="household-limit" label="Household limit (kW, optional)" help="An optional ceiling on scheduled appliances plus other household load. For example, a 3 kW limit prevents their combined planned power from exceeding 3 kW. Leave it blank if you do not need a limit." />
                       <Input
                         id="household-limit"
                         type="number"
@@ -324,8 +353,8 @@ export function SchedulerDashboard() {
               </div>
             )}
             <p className="mt-4 text-xs leading-5 text-muted-foreground">
-              No grid supply or home battery. If all jobs cannot fit, the day is
-              marked infeasible. Forecast-based planning cannot guarantee zero
+              No grid supply or home battery. Jobs that do not fit are listed as
+              unscheduled. Forecast-based planning cannot guarantee zero
               real grid import.
             </p>
           </CardContent>
@@ -375,7 +404,7 @@ export function SchedulerDashboard() {
                   [
                     "Need attention",
                     days.filter((item) =>
-                      ["infeasible", "not_proven_optimal"].includes(
+                        ["partial", "infeasible", "not_proven_optimal"].includes(
                         item.status,
                       ),
                     ).length,
@@ -387,7 +416,7 @@ export function SchedulerDashboard() {
                 ].map(([label, value]) => (
                   <Card key={label}>
                     <CardContent>
-                      <p className="text-xs text-muted-foreground">{label}</p>
+                      <HelpLabel label={String(label)} help={resultHelp[String(label)]} />
                       <p className="mt-2 text-3xl font-semibold tabular-nums">
                         {value}
                       </p>
@@ -417,9 +446,8 @@ export function SchedulerDashboard() {
                             "power_kw",
                             "energy_kwh",
                           ],
-                          ...days.flatMap((item) =>
-                            item.schedule.length
-                              ? item.schedule.map((run) => [
+                          ...days.flatMap((item) => {
+                            const scheduled = item.schedule.map((run) => [
                                   item.date,
                                   item.status,
                                   run.appliance_id,
@@ -428,8 +456,9 @@ export function SchedulerDashboard() {
                                   run.finish_exclusive,
                                   run.power_kw,
                                   run.energy_kwh,
-                                ])
-                              : [
+                                ]);
+                            const unscheduled = (item.unscheduled ?? []).map((run) => [item.date, "unscheduled", run.appliance_id, run.name, "", "", "", ""]);
+                            return scheduled.length || unscheduled.length ? [...scheduled, ...unscheduled] : [
                                   [
                                     item.date,
                                     item.status,
@@ -440,8 +469,8 @@ export function SchedulerDashboard() {
                                     "",
                                     "",
                                   ],
-                                ],
-                          ),
+                                ];
+                          }),
                         ])
                       }
                     >
@@ -473,12 +502,13 @@ export function SchedulerDashboard() {
               </Card>
               {day && (
                 <>
+                  {!!day.unscheduled?.length && <Card><CardHeader><CardTitle>Appliances not scheduled</CardTitle><CardDescription>These runs could not be included in this day’s priority-based plan. They do not automatically move to another day.</CardDescription></CardHeader><CardContent><ul className="space-y-2">{day.unscheduled.map((item) => <li key={item.appliance_id} className="rounded-lg border p-3 text-sm"><strong>{item.name}</strong><p className="text-muted-foreground">{item.reason}</p></li>)}</ul></CardContent></Card>}
                   <ScheduleTimeline
                     day={day}
                     days={days}
                     onDateChange={setSelected}
                   />
-                  <PowerChart day={day} />
+                  <PowerChart day={day} weatherMode={store.job?.result?.weather_mode} />
                   {day.metrics && (
                     <div className="grid gap-3 sm:grid-cols-3">
                       {[
@@ -497,9 +527,7 @@ export function SchedulerDashboard() {
                       ].map(([label, value]) => (
                         <Card key={label}>
                           <CardContent>
-                            <p className="text-xs text-muted-foreground">
-                              {label}
-                            </p>
+                            <HelpLabel label={String(label)} help={resultHelp[String(label)]} />
                             <p className="mt-2 text-xl font-semibold">
                               {value}
                             </p>

@@ -24,7 +24,7 @@ const config = {
     color: "var(--chart-3)",
   },
 } satisfies ChartConfig;
-export function PowerChart({ day }: { day: Day }) {
+export function PowerChart({ day, weatherMode = "forecast" }: { day: Day; weatherMode?: "forecast" | "historical" }) {
   if (!day.slots.length) return null;
   return (
     <Card>
@@ -81,8 +81,7 @@ export function PowerChart({ day }: { day: Day }) {
           </LineChart>
         </ChartContainer>
         <p className="mt-2 text-xs text-muted-foreground">
-          These are forecast-based slot estimates. Actual solar availability can
-          differ.
+          {weatherMode === "historical" ? "These predictions use historical reanalysis, not forecasts issued on that date." : "These are forecast-based slot estimates. Actual solar availability can differ."}
         </p>
       </CardContent>
     </Card>

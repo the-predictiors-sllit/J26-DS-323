@@ -1,0 +1,13 @@
+{
+  "python": "3.12.13",
+  "numpy": "2.5.4",
+  "pandas": "3.0.6",
+  "scope": "synthetic controlled scenarios; actual curve is an artificial shortfall, not measured data",
+  "interval_minutes": 15,
+  "jobs": "same three jobs for each scenario",
+  "solar_safety_factors": [
+    0.7,
+    0.9,
+    1.0
+  ]
+}

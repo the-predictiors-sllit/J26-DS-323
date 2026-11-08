@@ -39,6 +39,7 @@ export function SchedulerProvider({
       longitude: 80.055,
       pv_capacity_kwp: 15,
       start_date: addDays(today, 1),
+      weather_mode: "forecast",
       prediction_model_minutes: 15,
       solar_safety_factor: 0.9,
       background_load_kw: 0,
@@ -64,11 +65,16 @@ export function SchedulerProvider({
         typeof saved.settings.start_date === "string"
       ) {
         const settings = { ...defaults.settings, ...saved.settings };
-        if (
+        if (settings.weather_mode !== "historical" && settings.weather_mode !== "forecast") settings.weather_mode = "forecast";
+        if (settings.weather_mode === "forecast" && (
           settings.start_date < today ||
           settings.start_date > addDays(today, 2)
-        )
+        ))
           settings.start_date = addDays(today, 1);
+        if (settings.weather_mode === "historical" && (settings.start_date < "1940-01-01" || settings.start_date > addDays(today, -14)))
+          settings.start_date = addDays(today, -14);
+        // Restore browser-only storage after hydration; server rendering cannot read it.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSnapshot({
           appliances: saved.appliances,
           settings,
@@ -89,6 +95,8 @@ export function SchedulerProvider({
     if (!ready) return;
     try {
       localStorage.setItem(KEY, JSON.stringify(snapshot));
+      // Clear a previous storage failure once saving succeeds again.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStorageError("");
     } catch {
       setStorageError(

@@ -79,6 +79,7 @@ class SchedulerRequest(InputModel):
     longitude: float = Field(ge=-180, le=180)
     pv_capacity_kwp: float = Field(gt=0, le=1000)
     start_date: date
+    weather_mode: Literal["forecast", "historical"] = "forecast"
     prediction_model_minutes: Literal[5, 15] = 15
     solar_safety_factor: float = Field(gt=0, le=1, default=0.9)
     background_load_kw: float = Field(ge=0, default=0)
@@ -88,10 +89,12 @@ class SchedulerRequest(InputModel):
     @model_validator(mode="after")
     def validate_request(self):
         today = datetime.now(TZ).date()
-        if not today <= self.start_date <= today + timedelta(days=2):
+        if self.weather_mode == "forecast" and not today <= self.start_date <= today + timedelta(days=2):
             raise ValueError(
                 "Start today, tomorrow, or the next date so all 14 dates fit the 16-day forecast window."
             )
+        if self.weather_mode == "historical" and not date(1940, 1, 1) <= self.start_date <= today - timedelta(days=14):
+            raise ValueError("Historical schedules need 14 past dates, starting on or after 1940-01-01.")
         if len({item.id for item in self.appliances}) != len(self.appliances):
             raise ValueError("Appliance IDs must be unique.")
         if not any(item.enabled for item in self.appliances):
