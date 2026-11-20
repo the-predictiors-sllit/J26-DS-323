@@ -123,6 +123,7 @@ def evaluate_schedule(
     interval_minutes: int,
     *,
     household_limit_kw: float | None = None,
+    allow_unscheduled: bool = False,
 ):
     """Independent power, energy, deadline and solar-only constraint checks."""
     load = frame["base_load_kw"].to_numpy(dtype=float).copy()
@@ -136,7 +137,8 @@ def evaluate_schedule(
         start = starts.get(job.job_id)
         duration = job.duration_minutes // interval_minutes
         if start is None:
-            violations.append(f"Missing job: {job.job_id}")
+            if not allow_unscheduled:
+                violations.append(f"Missing job: {job.job_id}")
             continue
         if start < 0 or start + duration > len(frame):
             violations.append(f"Out-of-horizon job: {job.job_id}")
@@ -203,19 +205,20 @@ def solve_solar_only(
     safety_factor=0.9,
     household_limit_kw=None,
     time_limit_seconds=30,
+    allow_partial=False,
 ):
     """Lexicographic objective: preserve preferred starts, then reduce peak load.
 
-    Every job is mandatory and noninterruptible. There is no battery, grid,
-    export credit, tariff, or load-dropping variable. Two solves avoid mixing
-    incomparable objective units with an arbitrary penalty coefficient.
+    Jobs are noninterruptible. By default all are mandatory; `allow_partial`
+    first maximizes jobs in strict priority order, then minimizes weighted start
+    shift and peak. There is no battery, grid, export credit or tariff.
     """
     frame, start_minutes, candidates, durations = prepare(
         solar, jobs, interval_minutes, safety_factor, household_limit_kw
     )
     start_clock = time.perf_counter()
     missing = [job.job_id for job in jobs if not candidates[job.job_id]]
-    if missing:
+    if missing and not allow_partial:
         return {
             "status": "infeasible",
             "reason": f"No time window long enough for {missing}",
@@ -231,14 +234,21 @@ def solve_solar_only(
     job_by_id = {job.job_id: job for job in jobs}
     model = pyo.ConcreteModel()
     pairs = [(job.job_id, start) for job in jobs for start in candidates[job.job_id]]
+    if allow_partial and not pairs:
+        evaluation = evaluate_schedule(frame, jobs, {}, interval_minutes, household_limit_kw=household_limit_kw, allow_unscheduled=True)
+        if not evaluation["valid"]:
+            return {"status": "infeasible", "reason": "; ".join(evaluation["violations"]), "solve_seconds": time.perf_counter() - start_clock}
+        return {"status": "optimal", "primary_objective": 0.0, "secondary_objective": evaluation["peak_load_kw"],
+                "solve_seconds": time.perf_counter() - start_clock, "binary_variables": 0, "starts": {},
+                "unscheduled": [job.job_id for job in jobs], **evaluation}
     model.starts = pyo.Set(dimen=2, initialize=pairs)
     model.choose = pyo.Var(model.starts, domain=pyo.Binary)
     model.once = pyo.ConstraintList()
     for job in jobs:
-        model.once.add(
-            sum(model.choose[job.job_id, start] for start in candidates[job.job_id])
-            == 1
-        )
+        if not candidates[job.job_id]:
+            continue
+        chosen = sum(model.choose[job.job_id, start] for start in candidates[job.job_id])
+        model.once.add(chosen <= 1 if allow_partial else chosen == 1)
     # Start variables imply contiguous running; a job cannot be split or paused.
     model.total_load = pyo.Expression(
         range(len(frame)),
@@ -271,11 +281,30 @@ def solve_solar_only(
             for job_id, start in pairs
         )
     )
-    model.objective = pyo.Objective(expr=model.discomfort)
+    # With partial plans, higher priority levels strictly dominate all lower
+    # levels. The base exceeds the number of jobs, so one priority-5 run is
+    # preferred over any combination of lower-priority runs.
+    base = len(jobs) + 1
+    model.scheduled_value = pyo.Expression(expr=sum(
+        base ** (job_by_id[job_id].priority - 1) * model.choose[job_id, start]
+        for job_id, start in pairs
+    ))
+    model.objective = pyo.Objective(expr=model.scheduled_value if allow_partial else model.discomfort,
+                                    sense=pyo.maximize if allow_partial else pyo.minimize)
     solver = Highs()
     solver.config.load_solution = False
     solver.config.time_limit = time_limit_seconds
     solver.config.mip_gap = 0.0
+    if allow_partial:
+        selection = solver.solve(model)
+        if selection.termination_condition != TerminationCondition.optimal:
+            return {"status": "infeasible" if selection.termination_condition == TerminationCondition.infeasible else "not_proven_optimal",
+                    "termination": str(selection.termination_condition), "solve_seconds": time.perf_counter() - start_clock}
+        solver.load_vars()
+        best_value = float(pyo.value(model.scheduled_value))
+        model.keep_scheduled_value = pyo.Constraint(expr=model.scheduled_value >= best_value - 1e-6)
+        model.objective.set_sense(pyo.minimize)
+        model.objective.set_value(model.discomfort)
     first = solver.solve(model)
     if first.termination_condition != TerminationCondition.optimal:
         return {
@@ -307,7 +336,8 @@ def solve_solar_only(
         if pyo.value(model.choose[job_id, start]) > 0.5
     }
     evaluation = evaluate_schedule(
-        frame, jobs, starts, interval_minutes, household_limit_kw=household_limit_kw
+        frame, jobs, starts, interval_minutes, household_limit_kw=household_limit_kw,
+        allow_unscheduled=allow_partial,
     )
     if not evaluation["valid"]:
         raise RuntimeError(
@@ -320,5 +350,6 @@ def solve_solar_only(
         "solve_seconds": time.perf_counter() - start_clock,
         "binary_variables": len(pairs),
         "starts": starts,
+        "unscheduled": [job.job_id for job in jobs if job.job_id not in starts],
         **evaluation,
     }

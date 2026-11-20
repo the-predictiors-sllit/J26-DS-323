@@ -17,6 +17,7 @@ def generate_schedule(
         pv_capacity_kwp=request.pv_capacity_kwp,
         start_date=request.start_date,
         prediction_model_minutes=request.prediction_model_minutes,
+        weather_mode=request.weather_mode,
         progress=progress,
     )
     now = pd.Timestamp.now(tz="Asia/Colombo")
@@ -78,6 +79,7 @@ def generate_schedule(
             safety_factor=request.solar_safety_factor,
             household_limit_kw=request.max_household_power_kw,
             time_limit_seconds=8,
+            allow_partial=True,
         )
         if result["status"] != "optimal":
             days.append(
@@ -101,6 +103,11 @@ def generate_schedule(
             )
             continue
         names = {item.id: item.name for item in active}
+        unscheduled = [
+            {"appliance_id": job_id, "name": names[job_id],
+             "reason": "Not selected within the available solar, time-window and competing appliance constraints."}
+            for job_id in result["unscheduled"]
+        ]
         schedule = [
             {**item, "appliance_id": item["job_id"], "name": names[item["job_id"]]}
             for item in result["schedule"]
@@ -108,8 +115,9 @@ def generate_schedule(
         days.append(
             {
                 **base,
-                "status": "optimal",
+                "status": "partial" if unscheduled else "optimal",
                 "schedule": schedule,
+                "unscheduled": unscheduled,
                 "slots": result["trace"].to_dict(orient="records"),
                 "metrics": {
                     key: result[key]
@@ -134,11 +142,12 @@ def generate_schedule(
             if request.prediction_model_minutes == 5
             else "15-minute point prediction"
         ),
-        "forecast_source": "Open-Meteo",
+        "forecast_source": ("Open-Meteo historical reanalysis" if request.weather_mode == "historical" else "Open-Meteo forecast"),
+        "weather_mode": request.weather_mode,
         "generated_at": datetime.now(TZ).isoformat(),
         "days": days,
         "notes": [
-            "Forecast-based plan; not proof of actual solar-only operation.",
+            ("Retrospective historical weather; this is not a forecast issued on the scheduled date." if request.weather_mode == "historical" else "Forecast-based plan; not proof of actual solar-only operation."),
             "No grid, home battery, or export credits modeled.",
             "Deviation-driven monitoring and rescheduling is TODO.",
         ],

@@ -45,6 +45,7 @@ const HOURS = Array.from({ length: 14 }, (_, index) => START + index * 60);
 const statusLabel = (status: Day["status"]) =>
   ({
     optimal: "Scheduled",
+    partial: "Partially scheduled",
     idle: "No jobs",
     infeasible: "Infeasible",
     not_proven_optimal: "Unresolved",
@@ -54,10 +55,12 @@ export function ScheduleTimeline({
   day,
   days,
   onDateChange,
+  changedIds = [],
 }: {
   day: Day;
   days?: Day[];
   onDateChange?: (date: string) => void;
+  changedIds?: string[];
 }) {
   const available = useMemo(
     () =>
@@ -67,13 +70,11 @@ export function ScheduleTimeline({
     [days, day],
   );
   const [view, setView] = useState("week");
-  const [cursor, setCursor] = useState(day.date);
+  const [selection, setSelection] = useState({ date: day.date, anchor: day.date });
+  const cursor = selection.anchor === day.date ? selection.date : day.date;
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Run | null>(null);
   const [now, setNow] = useState<ReturnType<typeof colomboClock> | null>(null);
-  useEffect(() => {
-    setCursor(day.date);
-  }, [day.date]);
   useEffect(() => {
     const update = () => setNow(colomboClock(new Date()));
     update();
@@ -90,7 +91,7 @@ export function ScheduleTimeline({
   const visible = available.slice(first, first + count);
   const last = first + visible.length - 1;
   const go = (date: string) => {
-    setCursor(date);
+    setSelection({ date, anchor: day.date });
     onDateChange?.(date);
   };
   const previous = () => go(available[Math.max(0, first - count)].date);
@@ -316,15 +317,16 @@ export function ScheduleTimeline({
                     </div>
                   )}
                   {runs.map(({ run, start, end, lane, lanes }) => {
-                    const color = applianceColor(run.appliance_id);
+                    const changed = changedIds.includes(run.appliance_id);
+                    const color = changed ? "var(--primary)" : changedIds.length ? "var(--muted-foreground)" : applianceColor(run.appliance_id);
                     const compact = end - start < 30;
                     return (
                       <button
                         key={`${run.appliance_id}-${run.start}`}
                         type="button"
                         onClick={() => setSelected(run)}
-                        aria-label={`${run.name}, ${clock(start)} to ${clock(end)}, ${run.power_kw} kilowatts. Show details.`}
-                        title={`${run.name} · ${clock(start)}–${clock(end)} · ${run.power_kw} kW`}
+                        aria-label={`${run.name}${changed ? ", rescheduled" : ""}, ${clock(start)} to ${clock(end)}, ${run.power_kw} kilowatts. Show details.`}
+                        title={`${run.name}${changed ? " · Rescheduled" : ""} · ${clock(start)}–${clock(end)} · ${run.power_kw} kW`}
                         className="absolute z-10 flex flex-col items-start justify-start overflow-hidden rounded-lg border-l-[3px] px-2 py-1 text-left shadow-sm outline-none transition-shadow hover:z-20 hover:shadow-md focus-visible:z-20 focus-visible:ring-2 focus-visible:ring-ring"
                         style={{
                           top: y(start) + 1,
@@ -337,8 +339,9 @@ export function ScheduleTimeline({
                         }}
                       >
                         <p className="w-full truncate text-[11px] font-semibold">
-                          {run.name}
+                          {changed ? "↻ " : ""}{run.name}
                         </p>
+                        {changed && !compact && <span className="mt-0.5 max-w-full truncate rounded bg-primary/15 px-1 text-[10px] font-semibold text-foreground">Rescheduled</span>}
                         {!compact && (
                           <p className="mt-0.5 truncate text-[10px] text-muted-foreground">
                             {clock(start)}–{clock(end)}
@@ -388,6 +391,7 @@ export function ScheduleTimeline({
           </DialogHeader>
           {selected && (
             <div className="space-y-4">
+              {changedIds.includes(selected.appliance_id) && <p className="w-fit rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold">↻ Rescheduled</p>}
               <div className="rounded-2xl bg-secondary p-4">
                 <p className="text-sm text-muted-foreground">
                   {dateLabel(colomboClock(new Date(selected.start)).date, {

@@ -4,9 +4,13 @@ from fastapi import APIRouter
 
 from .milp.router import router as milp_router
 from .solar_prediction.router import router as solar_prediction_router
+from .dynamic.router import router as dynamic_router
+from .live.router import router as live_router
 
 router = APIRouter(tags=["smartscheduling"])
 router.include_router(milp_router)
+router.include_router(dynamic_router)
+router.include_router(live_router)
 
 
 @router.get("")

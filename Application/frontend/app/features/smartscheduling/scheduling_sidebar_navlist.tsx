@@ -14,4 +14,16 @@ export const NAV: RailItem[] = [
     icon: <Sparkles aria-hidden="true" />,
     link: "/features/smartscheduling/scheduler",
   },
+  {
+    id: "dynamic_replay",
+    label: "Dynamic Replay",
+    icon: <Sparkles aria-hidden="true" />,
+    link: "/features/smartscheduling/dynamic-replay",
+  },
+  {
+    id: "live_monitoring",
+    label: "Live Monitoring",
+    icon: <Sparkles aria-hidden="true" />,
+    link: "/features/smartscheduling/live-monitoring",
+  },
 ];
