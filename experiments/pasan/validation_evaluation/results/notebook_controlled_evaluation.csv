@@ -1,0 +1,19 @@
+scenario,safety_factor,method,status,solve_seconds,valid,violations,weighted_shift_min,peak_kw,realized_deficit_kwh,realized_deficit_slots,load_kwh,solar_used_kwh
+sunny,0.7,MILP,optimal,0.08461099999840371,True,,0,0.9,0.0,0,1.95,1.95
+sunny,0.7,preferred start,scheduled,0.0,True,,0,0.9,0.0,0,1.95,1.95
+sunny,0.9,MILP,optimal,0.07541889999993145,True,,0,0.9,0.0,0,1.95,1.95
+sunny,0.9,preferred start,scheduled,0.0,True,,0,0.9,0.0,0,1.95,1.95
+sunny,1.0,MILP,optimal,0.07366460000048392,True,,0,0.9,0.0,0,1.95,1.95
+sunny,1.0,preferred start,scheduled,0.0,True,,0,0.9,0.0,0,1.95,1.95
+mixed,0.7,MILP,optimal,0.07108160000643693,True,,0,0.9,0.08354489488314423,4,1.95,1.8664551051168556
+mixed,0.7,preferred start,scheduled,0.0,True,,0,0.9,0.08354489488314423,4,1.95,1.8664551051168556
+mixed,0.9,MILP,optimal,0.06535640000947751,True,,0,0.9,0.08354489488314423,4,1.95,1.8664551051168556
+mixed,0.9,preferred start,scheduled,0.0,True,,0,0.9,0.08354489488314423,4,1.95,1.8664551051168556
+mixed,1.0,MILP,optimal,0.06465270000626333,True,,0,0.9,0.08354489488314423,4,1.95,1.8664551051168556
+mixed,1.0,preferred start,scheduled,0.0,True,,0,0.9,0.08354489488314423,4,1.95,1.8664551051168556
+cloudy,0.7,MILP,optimal,0.07141070000943728,True,,135,0.9,0.4527630861333872,6,1.9500000000000002,1.4972369138666126
+cloudy,0.7,preferred start,scheduled,0.0,False,forecast solar limit,0,0.9,0.3701269369298865,4,1.95,1.5798730630701134
+cloudy,0.9,MILP,optimal,0.07636010000715032,True,,0,0.9,0.3701269369298865,4,1.95,1.5798730630701134
+cloudy,0.9,preferred start,scheduled,0.0,True,,0,0.9,0.3701269369298865,4,1.95,1.5798730630701134
+cloudy,1.0,MILP,optimal,0.07313829998020083,True,,0,0.9,0.3701269369298865,4,1.95,1.5798730630701134
+cloudy,1.0,preferred start,scheduled,0.0,True,,0,0.9,0.3701269369298865,4,1.95,1.5798730630701134
